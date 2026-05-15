@@ -68,15 +68,19 @@ Accepted values (mapped to the API's `facType`):
 | `"large_fccs"` | 810 | Family Child Care Home (Large) |
 | `"infant_centers"` | 830 | Child Care - Infant Center |
 | `"school_age_centers"` | 840 | School Age Child Care Center |
-| `"centers"` | 845 | Child Care Center |
-| `"preschools"` | 850 | Child Care Center Preschool |
+| `"preschools"` | 850 | Child Care Center Preschool (the main "center" bucket) |
 | `"single_licensed_centers"` | 860 | Single Licensed Child Care Center |
 
 **Input validation:** `match.arg(type, choices)` does the work and supports partial matching. Anything else raises `cli::cli_abort()` with the valid options listed.
 
-**Pagination:** the FacilitySearch endpoint caps at 250 results per call, so the function walks the 17 Alameda cities under the hood, unions the results, dedupes by `facility_number`. The caller sees one function call; the package handles the cost (~17 requests + 0.5s delay = ~10 seconds, cached after first run).
+**Pagination:** the FacilitySearch endpoint caps at 250 results per call. The function walks the 17 Alameda cities under the hood (each city has well under 250 facilities of any type), unions the results, dedupes by `facility_number`. The caller sees one function call; the package handles the cost (~17 requests + 0.5s delay ≈ 10 seconds, cached after first run). The function emits `cli::cli_warn()` if any single city hits the 250-cap, since that would imply missed rows.
 
-**Notable absence:** `type = "small_fccs"` is deliberately not offered. The API blocks `facType=0` searches entirely. The function's documentation routes users to `chekos/ccld-open-data-snapshot/data/homes.csv` instead.
+**Filter combinatorics gotcha (codified in the implementation):** the API silently returns 0 results when `city` and `county` filter parameters are populated together. The package uses `city` alone — the 17 ALAMEDA_CITIES are all in Alameda, so no downstream filter is needed.
+
+**Two deliberate absences:**
+
+- `type = "small_fccs"` — the API blocks `facType=0` searches entirely. Routed to the CKAN snapshot (`chekos/ccld-open-data-snapshot/data/homes.csv`).
+- `type = "centers"` — `facType=845` ("Child Care Center") has only 4 records statewide in the API; the bulk of what people call "centers" live in `facType=850` (Preschool). Users wanting "Day Care Centers" should pass `"preschools"`; the error message explains.
 
 Return shape matches `ccld_verify()` (same 12 columns).
 
@@ -186,7 +190,7 @@ No tidyverse-as-a-whole dep. Users can pipe results into dplyr without the packa
 |----------|--------|-------|
 | R&R reconciliation | Manual CDSS website search per flagged license | One `ccld_verify(rr$license)` call, joins straight into the discrepancy report |
 | AP voucher matching | Trust the AP feed's license # blindly | Sanity-check against CCLD before joining |
-| Quarterly Alameda snapshot for D&E | Wait for next CKAN refresh (up to 2 weeks lag) | `ccld_alameda("centers")` gives current state in 10 seconds |
+| Quarterly Alameda snapshot for D&E | Wait for next CKAN refresh (up to 2 weeks lag) | `ccld_alameda("preschools")` gives current state in ~10 seconds |
 | Site-level closure audit | Pull CSV, scan manually | `ccld_facility()` returns visit/complaint counts and last visit date |
 
 ## References
