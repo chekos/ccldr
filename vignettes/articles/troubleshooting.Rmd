@@ -1,0 +1,105 @@
+---
+title: "Troubleshooting and FAQ"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+## Why did my license become 9 digits?
+
+CCLD's Transparency API expects facility numbers in a 9-digit form. Many public
+or local data files store the same number as 8 digits. `ccld_pad()` adds the
+leading zero so requests use the API's canonical form.
+
+```{r}
+ccld_pad("13423996")
+```
+
+## Why does `ccld_verify()` return `found = FALSE`?
+
+`ccld_verify()` keeps every input row. When the API does not return facility
+detail for a license, the row stays in the result with `found = FALSE` and
+missing facility fields. This makes failed matches visible after joins.
+
+## Why did `ccld_pad()` error?
+
+License inputs must contain only digits and must be 9 digits or fewer.
+
+```{r}
+ccld_pad("13423996")
+ccld_pad(13423996)
+```
+
+Values such as `"ABC123"` or `"0123456789"` are rejected with a
+`ccldr_invalid_input` error.
+
+## Why are `"small_fccs"` and `"centers"` unsupported?
+
+`ccld_alameda()` intentionally supports only API routes that return useful data:
+
+- `"small_fccs"` is blocked by the API route used by the Transparency search.
+- `"centers"` maps to a sparse legacy API bucket.
+
+For small FCC enumeration, use the CKAN snapshot in
+[`chekos/ccld-open-data-snapshot`](https://github.com/chekos/ccld-open-data-snapshot).
+For center workflows, use `"preschools"`.
+
+## What does the 250-result cap warning mean?
+
+The CCLD search endpoint can cap individual responses at 250 records. To reduce
+that risk, `ccld_alameda()` queries each Alameda city separately. If a city still
+reports 250 or more results, the function warns because additional facilities
+may be hidden by the API response cap.
+
+## How do I force fresh data?
+
+Use `cache = FALSE` for one call:
+
+```{r}
+ccld_verify("13423996", cache = FALSE)
+```
+
+Clear the whole cache before a reproducibility run:
+
+```{r}
+ccld_cache_clear()
+```
+
+Inspect cached responses:
+
+```{r}
+ccld_cache_info()
+```
+
+## How do I see API requests?
+
+Set verbose mode before running a workflow:
+
+```{r}
+options(ccldr.verbose = TRUE)
+```
+
+Slow down batch requests when running larger jobs:
+
+```{r}
+options(ccldr.delay = 1)
+```
+
+## How should I run documentation checks locally?
+
+Run the same core checks used for this package:
+
+```r
+roxygen2::roxygenise()
+testthat::test_local(reporter = "summary")
+pkgdown::build_site()
+devtools::check(error_on = "never")
+```
+
+If a check fails only while executing live API examples, move that example into
+a website-only article or make the chunk conditional.

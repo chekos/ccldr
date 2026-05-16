@@ -14,12 +14,19 @@ Division's undocumented Transparency API.
 
 
 \describe{
-\item{\code{ccldr.delay}}{Seconds between requests in batch mode. Default 0.5.}
-\item{\code{ccldr.cache_ttl_seconds}}{Cache TTL in seconds. Default 86400 (24h).}
+\item{\code{ccldr.delay}}{Seconds between requests in batch mode. Default \code{0.5}.}
+\item{\code{ccldr.cache_ttl_seconds}}{Cache TTL in seconds. Default \code{86400} (24 hours).}
 \item{\code{ccldr.verbose}}{If \code{TRUE}, log one line per HTTP request. Default \code{FALSE}.}
 }
 }
 
+\seealso{
+\itemize{
+\item \code{\link[=ccld_verify]{ccld_verify()}} to verify many license numbers.
+\item \code{\link[=ccld_facility]{ccld_facility()}} to fetch full detail for one license.
+\item \code{\link[=ccld_alameda]{ccld_alameda()}} to build live Alameda facility snapshots.
+}
+}
 \author{
 \strong{Maintainer}: Sergio Sanchez \email{sergio.sanchez@first5alameda.org}
 

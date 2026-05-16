@@ -4,9 +4,14 @@
 #' with leading zeros to exactly 9 digits. CDSS-side data usually stores the
 #' 8-digit form. `ccld_pad()` makes the conversion explicit and vectorised.
 #'
-#' @param facnums Character or numeric vector of license numbers.
+#' `NA` values are preserved. Non-digit inputs and values longer than 9 digits
+#' raise a `ccldr_invalid_input` error.
+#'
+#' @param facnums Character or numeric vector of license numbers. Numeric inputs
+#'   are converted without scientific notation before padding.
 #' @return Character vector of 9-digit zero-padded license numbers. `NA` inputs
 #'   return `NA_character_`.
+#' @family license helpers
 #' @export
 #' @examples
 #' ccld_pad("13423996")

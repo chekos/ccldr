@@ -4,6 +4,8 @@ Version: 0.2.0
 Authors@R: person("Sergio", "Sanchez", email = "sergio.sanchez@first5alameda.org", role = c("aut", "cre"))
 Description: Verify license numbers, pull facility detail, and snapshot Alameda child-care facilities via the California CCLD Transparency API.
 License: MIT + file LICENSE
+URL: https://chekos.github.io/ccldr/, https://github.com/chekos/ccldr
+BugReports: https://github.com/chekos/ccldr/issues
 Depends:
     R (>= 4.1.0)
 Encoding: UTF-8
@@ -19,6 +21,7 @@ Suggests:
     httptest2,
     jsonlite,
     knitr,
+    pkgdown,
     readr,
     rmarkdown,
     testthat (>= 3.0.0),

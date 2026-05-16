@@ -10,5 +10,15 @@ ccld_cache_clear()
 Invisibly, the number of cache files removed.
 }
 \description{
-Removes every cached response from the on-disk ccldr cache.
+Removes every cached response from the on-disk \code{ccldr} cache. This is useful
+before a reproducibility run or when you want to force subsequent calls to
+re-query the live CCLD Transparency API.
 }
+\examples{
+ccld_cache_clear()
+}
+\seealso{
+Other cache management:
+\code{\link[=ccld_cache_info]{ccld_cache_info()}}
+}
+\concept{cache management}

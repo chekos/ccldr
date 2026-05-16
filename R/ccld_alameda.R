@@ -61,13 +61,20 @@ alameda_search_city <- function(factype, city, cache = TRUE) {
 #' `facType = 845` bucket only contains a few legacy records statewide. For the
 #' center workflow, use `"preschools"` (`facType = 850`).
 #'
+#' If any city query reports 250 or more results, `ccld_alameda()` warns that
+#' the API cap may have hidden additional facilities. The returned rows are
+#' deduplicated by `facility_number`.
+#'
 #' @param type One of `"large_fccs"`, `"infant_centers"`,
 #'   `"school_age_centers"`, `"preschools"`, or
 #'   `"single_licensed_centers"`. Partial matching via [match.arg()] is
 #'   supported.
-#' @param cache If `TRUE` (default), use the on-disk response cache.
+#' @param cache Logical value (default `TRUE`) controlling whether the on-disk
+#'   response cache is used.
 #'
 #' @return A 12-column slim tibble, matching [ccld_verify()].
+#' @family Alameda snapshots
+#' @seealso [ccld_verify()] for the shared slim return schema.
 #' @export
 #' @examples
 #' \dontrun{
