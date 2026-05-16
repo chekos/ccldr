@@ -1,0 +1,29 @@
+test_that("parse_slim_row handles a licensed FCC", {
+  body <- load_fixture("facility_detail_known.json")
+  row <- parse_slim_row(body, input = "13423996")
+  expect_equal(row$input, "13423996")
+  expect_equal(row$facility_number, "013423996")
+  expect_true(row$found)
+  expect_equal(row$facility_name, "JOHNSON III, JOHNNY")
+  expect_equal(row$facility_type, "FAMILY DAY CARE HOME")
+  expect_equal(row$status, "Licensed")
+  expect_equal(row$city, "OAKLAND")
+  expect_s3_class(row$license_effective_date, "Date")
+})
+
+test_that("parse_slim_row handles a closed facility", {
+  body <- load_fixture("facility_detail_closed.json")
+  row <- parse_slim_row(body, input = "13423958")
+  expect_true(row$found)
+  expect_equal(row$status, "Closed, Licensee Initiated")
+})
+
+test_that("parse_slim_row returns found=FALSE for unknown licenses", {
+  body <- load_fixture("facility_detail_unknown.json")
+  row <- parse_slim_row(body, input = "99999999")
+  expect_equal(row$input, "99999999")
+  expect_equal(row$facility_number, "099999999")
+  expect_false(row$found)
+  expect_true(is.na(row$facility_name))
+  expect_true(is.na(row$status))
+})
