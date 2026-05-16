@@ -1,5 +1,7 @@
 # ccldr
 
+![ccldr logo](reference/figures/logo.png)
+
 `ccldr` is a small R client for the [California Community Care Licensing
 Division (CCLD) Transparency
 API](https://www.ccld.dss.ca.gov/carefacilitysearch/).
