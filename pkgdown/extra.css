@@ -1,0 +1,7 @@
+.template-home .ccldr-readme-logo {
+  display: none;
+}
+
+.template-home main#main > p:has(.ccldr-readme-logo) {
+  display: none;
+}

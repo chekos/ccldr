@@ -1,3 +1,5 @@
+<img class="ccldr-readme-logo" src="man/figures/logo.png" align="right" alt="ccldr logo" width="160" />
+
 # ccldr
 
 <!-- badges: start -->

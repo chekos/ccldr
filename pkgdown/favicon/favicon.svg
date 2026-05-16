@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc" width="512" height="512"><metadata><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"><rdf:Description><dc:creator>RealFaviconGenerator</dc:creator><dc:source>https://realfavicongenerator.net</dc:source></rdf:Description></rdf:RDF></metadata><title id="title">ccldr logo</title><desc id="desc">A hex sticker logo showing a tidy facility record with a verification check mark for the ccldr R package.</desc><defs>
+    <linearGradient id="hex-fill" x1="84" y1="78" x2="428" y2="434" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F8FBFF"></stop>
+      <stop offset="1" stop-color="#EAF3F8"></stop>
+    </linearGradient>
+    <linearGradient id="brand-bar" x1="137" y1="126" x2="375" y2="126" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1F77B4"></stop>
+      <stop offset="1" stop-color="#3AA6A1"></stop>
+    </linearGradient>
+    <filter id="card-shadow" x="88" y="93" width="336" height="298" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#28425E" flood-opacity=".18"></feDropShadow>
+    </filter>
+  </defs><path d="M256 18 462 137v238L256 494 50 375V137L256 18Z" fill="url(#hex-fill)" stroke="#1F77B4" stroke-width="18" stroke-linejoin="round"></path><g filter="url(#card-shadow)">
+    <rect x="116" y="108" width="280" height="236" rx="26" fill="#FFFFFF"></rect>
+    <rect x="116" y="108" width="280" height="236" rx="26" fill="none" stroke="#C9D8E3" stroke-width="5"></rect>
+    <path d="M142 108h228a26 26 0 0 1 26 26v38H116v-38a26 26 0 0 1 26-26Z" fill="url(#brand-bar)"></path>
+    <circle cx="151" cy="140" r="9" fill="#D8F2F0"></circle>
+    <circle cx="179" cy="140" r="9" fill="#D8F2F0"></circle>
+    <circle cx="207" cy="140" r="9" fill="#D8F2F0"></circle>
+
+    <g fill="none" stroke-linecap="round">
+      <path d="M154 208h58" stroke="#1F77B4" stroke-width="16"></path>
+      <path d="M236 208h91" stroke="#8EA7B8" stroke-width="16"></path>
+      <path d="M154 250h58" stroke="#1F77B4" stroke-width="16"></path>
+      <path d="M236 250h112" stroke="#8EA7B8" stroke-width="16"></path>
+      <path d="M154 292h58" stroke="#1F77B4" stroke-width="16"></path>
+      <path d="M236 292h76" stroke="#8EA7B8" stroke-width="16"></path>
+    </g>
+
+    <path d="M311 268c24-27 38-61 38-101" fill="none" stroke="#F5A623" stroke-width="11" stroke-linecap="round" stroke-dasharray="4 20"></path>
+    <circle cx="349" cy="168" r="17" fill="#F5A623"></circle>
+    <circle cx="349" cy="168" r="7" fill="#FFFFFF"></circle>
+  </g><path d="m213 279 38 38 82-94" fill="none" stroke="#18A058" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"></path><text x="247" y="398" text-anchor="end" font-family="Inter, Avenir, Helvetica, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="0" fill="#213547">ccld</text><text x="251" y="398" font-family="Inter, Avenir, Helvetica, Arial, sans-serif" font-size="72" font-weight="800" letter-spacing="0" fill="#1F77B4">r</text></svg>
