@@ -16,7 +16,11 @@ ccld_pad <- function(facnums) {
     return(character(0))
   }
 
-  chr <- as.character(facnums)
+  chr <- if (is.numeric(facnums)) {
+    format(facnums, scientific = FALSE, trim = TRUE)
+  } else {
+    as.character(facnums)
+  }
   is_na <- is.na(chr)
 
   bad <- !is_na & !grepl("^[0-9]+$", chr)

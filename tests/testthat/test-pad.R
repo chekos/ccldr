@@ -4,6 +4,7 @@ test_that("ccld_pad pads 8-digit char to 9", {
 
 test_that("ccld_pad accepts numeric input", {
   expect_equal(ccld_pad(13423996), "013423996")
+  expect_equal(ccld_pad(100000000), "100000000")
 })
 
 test_that("ccld_pad is vectorized", {
