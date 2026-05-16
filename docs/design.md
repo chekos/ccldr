@@ -92,7 +92,7 @@ Trivial helper exposed because users will want to pad license columns before joi
 
 ### Caching
 
-On by default. File-backed using `qs::qsave()` for speed, stored in `tools::R_user_dir("ccldr", "cache")`. Keyed by `endpoint + facility_number` (or `endpoint + query-params-hash` for FacilitySearch). Default TTL 24 hours (86400 seconds).
+On by default. File-backed using `qs2::qs_save()` for speed, stored in `tools::R_user_dir("ccldr", "cache")`. Keyed by `endpoint + facility_number` (or `endpoint + query-params-hash` for FacilitySearch). Default TTL 24 hours (86400 seconds).
 
 Caller-facing controls:
 
@@ -121,14 +121,14 @@ Standard R package layout, `usethis::create_package()`-shaped:
 
 ```
 ccldr/
-├── DESCRIPTION              # Package metadata, deps: tibble, httr2, qs, cli
+├── DESCRIPTION              # Package metadata, deps: tibble, httr2, qs2, cli
 ├── NAMESPACE                # roxygen-generated
 ├── R/
 │   ├── ccld_verify.R        # bulk verifier + slim-tibble shaping
 │   ├── ccld_facility.R      # rich-detail fetcher + nested cols
 │   ├── ccld_alameda.R       # type-arg dispatcher + ZIP-walk implementation
 │   ├── ccld_pad.R           # padding helper
-│   ├── cache.R              # qs-backed cache layer
+│   ├── cache.R              # qs2-backed cache layer
 │   ├── http.R               # httr2 wrapper, retry, rate limit
 │   └── ccldr-package.R      # package docs + .onLoad option defaults
 ├── man/                     # roxygen-generated .Rd files
@@ -169,7 +169,7 @@ Minimal:
 
 - `tibble` — return type
 - `httr2` — HTTP (modern, well-maintained)
-- `qs` — cache serialization (fast)
+- `qs2` — cache serialization (fast; successor to archived `qs` on R 4.6+)
 - `cli` — error/progress messages
 - `rlang` — `abort()`/`inform()` machinery (transitively via cli, but explicit)
 

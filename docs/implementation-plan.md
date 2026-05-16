@@ -1,12 +1,12 @@
 # ccldr Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build a tidyverse-native R package wrapping the CCLD Transparency API so the F5 data team can verify license numbers, pull facility detail, and pull live Alameda snapshots from inside `.R` scripts. See [`docs/design.md`](design.md) for the design.
 
-**Architecture:** Standard `usethis::create_package()` layout. Four exported functions (`ccld_verify`, `ccld_facility`, `ccld_alameda`, `ccld_pad`) backed by two internal modules: an `httr2`-based request layer with retry and rate limit, and a `qs`-backed file cache. Tests use `testthat` for assertions and `httptest2` for HTTP record/replay so the suite never depends on the live CCLD site.
+**Architecture:** Standard `usethis::create_package()` layout. Four exported functions (`ccld_verify`, `ccld_facility`, `ccld_alameda`, `ccld_pad`) backed by two internal modules: an `httr2`-based request layer with retry and rate limit, and a `qs2`-backed file cache. Tests use `testthat` for assertions and `httptest2` for HTTP record/replay so the suite never depends on the live CCLD site.
 
-**Tech Stack:** R ≥ 4.1, `tibble`, `httr2`, `qs`, `cli`, `rlang`. Dev-time: `usethis`, `devtools`, `testthat`, `httptest2`, `roxygen2`. CI via GitHub Actions (`r-lib/actions`).
+**Tech Stack:** R ≥ 4.1, `tibble`, `httr2`, `qs2`, `cli`, `rlang`. Dev-time: `usethis`, `devtools`, `testthat`, `httptest2`, `roxygen2`. CI via GitHub Actions (`r-lib/actions`).
 
 **Prerequisites:** R ≥ 4.1 installed, `usethis::create_package()` available, working directory at the cloned `chekos/ccldr` repo (currently holding only `README.md`, `docs/design.md`, `docs/implementation-plan.md`, `.gitignore`).
 
@@ -19,7 +19,7 @@
 **Files:**
 - Create: `DESCRIPTION`, `NAMESPACE`, `R/ccldr-package.R`, `man/ccldr-package.Rd`, `.Rbuildignore`
 
-- [ ] **Step 1: Initialize the package in-place**
+- [x] **Step 1: Initialize the package in-place**
 
 In an R session at the repo root:
 
@@ -37,7 +37,7 @@ usethis::create_package(".", fields = list(
 
 This writes `DESCRIPTION`, `NAMESPACE`, `R/ccldr-package.R`, `man/ccldr-package.Rd`, `.Rbuildignore`, `ccldr.Rproj`. Don't worry about `ccldr.Rproj` — it's harmless and `.Rbuildignore`'d.
 
-- [ ] **Step 2: Add the LICENSE file**
+- [x] **Step 2: Add the LICENSE file**
 
 ```r
 usethis::use_mit_license("Sergio Sanchez")
@@ -45,17 +45,17 @@ usethis::use_mit_license("Sergio Sanchez")
 
 Writes `LICENSE` and `LICENSE.md` and registers them in `.Rbuildignore`.
 
-- [ ] **Step 3: Declare runtime dependencies**
+- [x] **Step 3: Declare runtime dependencies**
 
 ```r
 usethis::use_package("tibble", "Imports")
 usethis::use_package("httr2", "Imports")
-usethis::use_package("qs", "Imports")
+usethis::use_package("qs2", "Imports")
 usethis::use_package("cli", "Imports")
 usethis::use_package("rlang", "Imports")
 ```
 
-- [ ] **Step 4: Declare dev dependencies**
+- [x] **Step 4: Declare dev dependencies**
 
 ```r
 usethis::use_package("testthat", "Suggests")
@@ -63,7 +63,7 @@ usethis::use_package("httptest2", "Suggests")
 usethis::use_package("withr", "Suggests")
 ```
 
-- [ ] **Step 5: Set up testthat**
+- [x] **Step 5: Set up testthat**
 
 ```r
 usethis::use_testthat(3)
@@ -71,7 +71,7 @@ usethis::use_testthat(3)
 
 Creates `tests/testthat/`, `tests/testthat.R`, and adds `Config/testthat/edition: 3` to `DESCRIPTION`.
 
-- [ ] **Step 6: Add roxygen2 config to DESCRIPTION**
+- [x] **Step 6: Add roxygen2 config to DESCRIPTION**
 
 Open `DESCRIPTION` and add this line near the bottom:
 
@@ -80,7 +80,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 ```
 
-- [ ] **Step 7: Replace the auto-generated package doc**
+- [x] **Step 7: Replace the auto-generated package doc**
 
 Overwrite `R/ccldr-package.R`:
 
@@ -103,7 +103,7 @@ Overwrite `R/ccldr-package.R`:
 "_PACKAGE"
 ```
 
-- [ ] **Step 8: Regenerate documentation**
+- [x] **Step 8: Regenerate documentation**
 
 ```r
 devtools::document()
@@ -111,7 +111,7 @@ devtools::document()
 
 Updates `NAMESPACE` and `man/ccldr-package.Rd`.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add DESCRIPTION NAMESPACE LICENSE LICENSE.md R/ccldr-package.R man/ccldr-package.Rd .Rbuildignore tests/
@@ -130,7 +130,7 @@ The simplest exported function. A good warmup for the TDD rhythm.
 - Create: `R/ccld_pad.R`
 - Create: `tests/testthat/test-pad.R`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/testthat/test-pad.R`:
 
@@ -168,7 +168,7 @@ test_that("ccld_pad errors on inputs > 9 digits", {
 })
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "pad")
@@ -176,7 +176,7 @@ devtools::test(filter = "pad")
 
 Expected: all tests FAIL because `ccld_pad` doesn't exist yet.
 
-- [ ] **Step 3: Implement `ccld_pad`**
+- [x] **Step 3: Implement `ccld_pad`**
 
 Create `R/ccld_pad.R`:
 
@@ -223,7 +223,7 @@ ccld_pad <- function(facnums) {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```r
 devtools::document()
@@ -232,7 +232,7 @@ devtools::test(filter = "pad")
 
 Expected: all 7 tests PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add R/ccld_pad.R tests/testthat/test-pad.R man/ccld_pad.Rd NAMESPACE
@@ -251,7 +251,7 @@ The thin layer over `httr2` that every fetching function uses. Handles base URL,
 - Create: `tests/testthat/fixtures/facility_detail_known.json`
 - Create: `tests/testthat/fixtures/facility_detail_unknown.json`
 
-- [ ] **Step 1: Capture two fixtures from the live API**
+- [x] **Step 1: Capture two fixtures from the live API**
 
 These are committed so tests don't hit the network. In a shell:
 
@@ -275,7 +275,7 @@ jq . tests/testthat/fixtures/facility_detail_unknown.json > /dev/null
 
 Expected: both commands exit 0 silently.
 
-- [ ] **Step 2: Write failing tests**
+- [x] **Step 2: Write failing tests**
 
 Create `tests/testthat/test-http.R`:
 
@@ -323,7 +323,7 @@ test_that("ccldr_fetch_json applies the configured delay between calls", {
 })
 ```
 
-- [ ] **Step 3: Run tests to verify they fail**
+- [x] **Step 3: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "http")
@@ -331,7 +331,7 @@ devtools::test(filter = "http")
 
 Expected: tests FAIL with "could not find function" errors.
 
-- [ ] **Step 4: Implement the HTTP layer**
+- [x] **Step 4: Implement the HTTP layer**
 
 Create `R/http.R`:
 
@@ -391,7 +391,7 @@ ccldr_fetch_json <- function(path) {
 }
 ```
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 ```r
 devtools::test(filter = "http")
@@ -399,7 +399,7 @@ devtools::test(filter = "http")
 
 Expected: all 3 tests PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add R/http.R tests/testthat/test-http.R tests/testthat/fixtures/
@@ -416,7 +416,7 @@ File-backed cache keyed on endpoint path + 24h TTL.
 - Create: `R/cache.R`
 - Create: `tests/testthat/test-cache.R`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/testthat/test-cache.R`:
 
@@ -472,7 +472,7 @@ test_that("ccld_cache_info returns a tibble with rows for each entry", {
 })
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "cache")
@@ -480,7 +480,7 @@ devtools::test(filter = "cache")
 
 Expected: failures with "could not find function".
 
-- [ ] **Step 3: Implement the cache layer**
+- [x] **Step 3: Implement the cache layer**
 
 Create `R/cache.R`:
 
@@ -506,13 +506,13 @@ cache_get <- function(key) {
   ttl <- getOption("ccldr.cache_ttl_seconds", 86400)
   age <- as.numeric(Sys.time()) - file.info(p)$mtime
   if (age > ttl) return(NULL)
-  tryCatch(qs::qread(p, nthreads = 1), error = function(e) NULL)
+  tryCatch(qs2::qs_read(p, nthreads = 1), error = function(e) NULL)
 }
 
 #' Write a value to the cache
 #' @noRd
 cache_set <- function(key, value) {
-  qs::qsave(value, cache_path(key), preset = "fast", nthreads = 1)
+  qs2::qs_save(value, cache_path(key), compress_level = 1, nthreads = 1)
   invisible(value)
 }
 
@@ -546,7 +546,7 @@ ccld_cache_info <- function() {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```r
 devtools::document()
@@ -555,11 +555,11 @@ devtools::test(filter = "cache")
 
 Expected: all 6 tests PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add R/cache.R tests/testthat/test-cache.R man/ccld_cache_clear.Rd man/ccld_cache_info.Rd NAMESPACE
-git commit -m "feat(cache): add qs-backed file cache with TTL"
+git commit -m "feat(cache): add qs2-backed file cache with TTL"
 ```
 
 ---
@@ -572,7 +572,7 @@ git commit -m "feat(cache): add qs-backed file cache with TTL"
 - Modify: `R/http.R`
 - Modify: `tests/testthat/test-http.R`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Append to `tests/testthat/test-http.R`:
 
@@ -616,7 +616,7 @@ test_that("ccldr_fetch_json writes to cache after a fresh fetch", {
 })
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "http")
@@ -624,7 +624,7 @@ devtools::test(filter = "http")
 
 Expected: the three new tests fail.
 
-- [ ] **Step 3: Wire caching into `ccldr_fetch_json`**
+- [x] **Step 3: Wire caching into `ccldr_fetch_json`**
 
 Replace the `ccldr_fetch_json` function in `R/http.R` with:
 
@@ -661,7 +661,7 @@ ccldr_fetch_json <- function(path, cache = TRUE) {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```r
 devtools::test(filter = "http")
@@ -669,7 +669,7 @@ devtools::test(filter = "http")
 
 Expected: all http tests PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add R/http.R tests/testthat/test-http.R
@@ -689,7 +689,7 @@ Pure transformation from one `FacilityDetail` JSON object to the slim 12-column 
 - Create: `tests/testthat/test-parse.R`
 - Create: `tests/testthat/fixtures/facility_detail_closed.json`
 
-- [ ] **Step 1: Capture a third fixture (closed facility)**
+- [x] **Step 1: Capture a third fixture (closed facility)**
 
 ```bash
 curl -s -H "User-Agent: ccldr/0.0.0" \
@@ -697,7 +697,7 @@ curl -s -H "User-Agent: ccldr/0.0.0" \
   > tests/testthat/fixtures/facility_detail_closed.json
 ```
 
-- [ ] **Step 2: Write failing tests**
+- [x] **Step 2: Write failing tests**
 
 Create `tests/testthat/test-parse.R`:
 
@@ -743,7 +743,7 @@ You also need to add `jsonlite` to Suggests:
 usethis::use_package("jsonlite", "Suggests")
 ```
 
-- [ ] **Step 3: Run tests to verify they fail**
+- [x] **Step 3: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "parse")
@@ -751,7 +751,7 @@ devtools::test(filter = "parse")
 
 Expected: tests FAIL ("could not find function parse_slim_row").
 
-- [ ] **Step 4: Implement the parser**
+- [x] **Step 4: Implement the parser**
 
 Create `R/parse.R`:
 
@@ -792,7 +792,7 @@ parse_slim_row <- function(body, input) {
 `%||%` <- function(a, b) if (is.null(a)) b else a
 ```
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 ```r
 devtools::test(filter = "parse")
@@ -800,7 +800,7 @@ devtools::test(filter = "parse")
 
 Expected: 3 tests PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add R/parse.R tests/testthat/test-parse.R tests/testthat/fixtures/facility_detail_closed.json DESCRIPTION
@@ -817,7 +817,7 @@ Now wire the parser to the HTTP layer for the one-license case. Batch handling c
 - Create: `R/ccld_verify.R`
 - Create: `tests/testthat/test-verify.R`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/testthat/test-verify.R`:
 
@@ -870,7 +870,7 @@ test_that("ccld_verify accepts numeric input", {
 })
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "verify")
@@ -878,7 +878,7 @@ devtools::test(filter = "verify")
 
 Expected: FAIL ("could not find function ccld_verify").
 
-- [ ] **Step 3: Implement `ccld_verify` for the scalar case**
+- [x] **Step 3: Implement `ccld_verify` for the scalar case**
 
 Create `R/ccld_verify.R`:
 
@@ -930,7 +930,7 @@ empty_slim_tibble <- function() {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```r
 devtools::document()
@@ -939,7 +939,7 @@ devtools::test(filter = "verify")
 
 Expected: 3 tests PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add R/ccld_verify.R tests/testthat/test-verify.R man/ccld_verify.Rd NAMESPACE
@@ -956,7 +956,7 @@ Handle vector input efficiently: dedupe before fetching, show a `cli::cli_progre
 - Modify: `R/ccld_verify.R`
 - Modify: `tests/testthat/test-verify.R`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Append to `tests/testthat/test-verify.R`:
 
@@ -1022,7 +1022,7 @@ test_that("ccld_verify handles NA inputs without making requests", {
 })
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "verify")
@@ -1030,7 +1030,7 @@ devtools::test(filter = "verify")
 
 Expected: dedupe + order tests fail (the existing scalar tests still pass).
 
-- [ ] **Step 3: Rewrite `ccld_verify` with dedupe + progress bar**
+- [x] **Step 3: Rewrite `ccld_verify` with dedupe + progress bar**
 
 Replace the body of `ccld_verify` in `R/ccld_verify.R` with:
 
@@ -1066,7 +1066,7 @@ ccld_verify <- function(facnums, cache = TRUE) {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```r
 devtools::test(filter = "verify")
@@ -1074,7 +1074,7 @@ devtools::test(filter = "verify")
 
 Expected: all 7 verify tests PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add R/ccld_verify.R tests/testthat/test-verify.R
@@ -1094,7 +1094,7 @@ A second parser that returns the full 54-field record + nested `reports` / `comp
 - Create: `tests/testthat/test-facility.R`
 - Create: `tests/testthat/fixtures/facility_reports_known.json`
 
-- [ ] **Step 1: Capture the reports fixture**
+- [x] **Step 1: Capture the reports fixture**
 
 ```bash
 curl -s -H "User-Agent: ccldr/0.0.0" \
@@ -1102,7 +1102,7 @@ curl -s -H "User-Agent: ccldr/0.0.0" \
   > tests/testthat/fixtures/facility_reports_known.json
 ```
 
-- [ ] **Step 2: Write failing tests**
+- [x] **Step 2: Write failing tests**
 
 Create `tests/testthat/test-facility.R`:
 
@@ -1143,7 +1143,7 @@ test_that("ccld_facility errors with class ccldr_not_found for unknown license",
 })
 ```
 
-- [ ] **Step 3: Run tests to verify they fail**
+- [x] **Step 3: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "facility")
@@ -1151,7 +1151,7 @@ devtools::test(filter = "facility")
 
 Expected: FAIL ("could not find function ccld_facility").
 
-- [ ] **Step 4: Add `parse_full_row` + `parse_reports` helpers**
+- [x] **Step 4: Add `parse_full_row` + `parse_reports` helpers**
 
 Append to `R/parse.R`:
 
@@ -1245,7 +1245,7 @@ parse_full_row <- function(detail_body, reports_body, input) {
 }
 ```
 
-- [ ] **Step 5: Create `R/ccld_facility.R`**
+- [x] **Step 5: Create `R/ccld_facility.R`**
 
 ```r
 #' Pull the full CCLD facility detail for one license
@@ -1282,7 +1282,7 @@ ccld_facility <- function(facnum, cache = TRUE) {
 }
 ```
 
-- [ ] **Step 6: Run tests to verify they pass**
+- [x] **Step 6: Run tests to verify they pass**
 
 ```r
 devtools::document()
@@ -1291,7 +1291,7 @@ devtools::test(filter = "facility")
 
 Expected: 2 tests PASS.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add R/ccld_facility.R R/parse.R tests/testthat/test-facility.R tests/testthat/fixtures/facility_reports_known.json man/ccld_facility.Rd NAMESPACE
@@ -1304,11 +1304,11 @@ git commit -m "feat(facility): add ccld_facility() with nested reports and compl
 
 A working slice ships: `ccld_verify` + `ccld_facility` + `ccld_pad` + cache helpers.
 
-- [ ] **Step 1: Update DESCRIPTION version**
+- [x] **Step 1: Update DESCRIPTION version**
 
 Change `Version: 0.0.0.9000` to `Version: 0.1.0` in `DESCRIPTION`.
 
-- [ ] **Step 2: Add a brief NEWS.md**
+- [x] **Step 2: Add a brief NEWS.md**
 
 Create `NEWS.md`:
 
@@ -1326,7 +1326,7 @@ Initial release.
   on-disk response cache.
 ```
 
-- [ ] **Step 3: Run a full check before tagging**
+- [x] **Step 3: Run a full check before tagging**
 
 ```r
 devtools::check()
@@ -1334,7 +1334,7 @@ devtools::check()
 
 Expected: 0 errors, 0 warnings, 0 notes (or only the standard "checking CRAN incoming feasibility" note that we don't care about).
 
-- [ ] **Step 4: Commit and tag**
+- [x] **Step 4: Commit and tag**
 
 ```bash
 git add DESCRIPTION NEWS.md
@@ -1357,7 +1357,7 @@ Pure dispatcher, no I/O.
 - Create: `R/ccld_alameda.R` (stub the public function and a private mapper)
 - Create: `tests/testthat/test-alameda.R`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Create `tests/testthat/test-alameda.R`:
 
@@ -1382,7 +1382,7 @@ test_that("alameda_factype_for rejects unknown types with valid options listed",
 })
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "alameda")
@@ -1390,7 +1390,7 @@ devtools::test(filter = "alameda")
 
 Expected: FAIL ("could not find function alameda_factype_for").
 
-- [ ] **Step 3: Implement the mapper**
+- [x] **Step 3: Implement the mapper**
 
 Create `R/ccld_alameda.R`:
 
@@ -1423,7 +1423,7 @@ alameda_factype_for <- function(type) {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```r
 devtools::test(filter = "alameda")
@@ -1431,7 +1431,7 @@ devtools::test(filter = "alameda")
 
 Expected: 3 tests PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add R/ccld_alameda.R tests/testthat/test-alameda.R
@@ -1452,7 +1452,7 @@ One city query, parse the FACILITYARRAY into the slim 12-column shape.
 - Modify: `tests/testthat/test-alameda.R`
 - Create: `tests/testthat/fixtures/facility_search_preschools_oakland.json`
 
-- [ ] **Step 1: Capture the fixture**
+- [x] **Step 1: Capture the fixture**
 
 ```bash
 curl -s -H "User-Agent: ccldr/0.0.0" \
@@ -1460,7 +1460,7 @@ curl -s -H "User-Agent: ccldr/0.0.0" \
   > tests/testthat/fixtures/facility_search_preschools_oakland.json
 ```
 
-- [ ] **Step 2: Write failing tests**
+- [x] **Step 2: Write failing tests**
 
 Append to `tests/testthat/test-alameda.R`:
 
@@ -1506,7 +1506,7 @@ test_that("alameda_search_city builds a URL without county filter", {
 })
 ```
 
-- [ ] **Step 3: Run tests to verify they fail**
+- [x] **Step 3: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "alameda")
@@ -1514,7 +1514,7 @@ devtools::test(filter = "alameda")
 
 Expected: 2 new tests FAIL.
 
-- [ ] **Step 4: Add `parse_search_array` to `R/parse.R`**
+- [x] **Step 4: Add `parse_search_array` to `R/parse.R`**
 
 Append to `R/parse.R`:
 
@@ -1545,7 +1545,7 @@ parse_search_array <- function(body) {
 
 The FacilitySearch payload doesn't include `LICENSEEFFECTIVEDATE`, `LASTVISITDATE`, `LICENSEENAME`, `FACILITYTYPE`, or `CITY` — those columns come back NA. `alameda_search_city` then stamps `city` from the query parameter (next step). Users who need the rest can call `ccld_facility()` per row.
 
-- [ ] **Step 5: Add `alameda_search_city` to `R/ccld_alameda.R`**
+- [x] **Step 5: Add `alameda_search_city` to `R/ccld_alameda.R`**
 
 Append to `R/ccld_alameda.R`:
 
@@ -1573,7 +1573,7 @@ alameda_search_city <- function(factype, city, cache = TRUE) {
 }
 ```
 
-- [ ] **Step 6: Run tests to verify they pass**
+- [x] **Step 6: Run tests to verify they pass**
 
 ```r
 devtools::test(filter = "alameda")
@@ -1581,7 +1581,7 @@ devtools::test(filter = "alameda")
 
 Expected: all alameda tests PASS.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add R/ccld_alameda.R R/parse.R tests/testthat/test-alameda.R tests/testthat/fixtures/facility_search_preschools_oakland.json
@@ -1598,7 +1598,7 @@ Walk the 17 cities, union, dedupe. This is the public function.
 - Modify: `R/ccld_alameda.R`
 - Modify: `tests/testthat/test-alameda.R`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Append to `tests/testthat/test-alameda.R`:
 
@@ -1649,7 +1649,7 @@ test_that("ccld_alameda warns when any single city hits the 250-cap", {
 })
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 ```r
 devtools::test(filter = "alameda")
@@ -1657,7 +1657,7 @@ devtools::test(filter = "alameda")
 
 Expected: FAIL ("could not find function ccld_alameda").
 
-- [ ] **Step 3: Implement the public function**
+- [x] **Step 3: Implement the public function**
 
 Append to `R/ccld_alameda.R`:
 
@@ -1720,7 +1720,7 @@ ccld_alameda <- function(type, cache = TRUE) {
 }
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```r
 devtools::document()
@@ -1729,7 +1729,7 @@ devtools::test(filter = "alameda")
 
 Expected: all alameda tests PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add R/ccld_alameda.R tests/testthat/test-alameda.R man/ccld_alameda.Rd NAMESPACE
@@ -1740,7 +1740,7 @@ git commit -m "feat(alameda): add ccld_alameda() city-walking snapshot"
 
 ### Task 4.4: Cut v0.2.0
 
-- [ ] **Step 1: Update version + NEWS.md**
+- [x] **Step 1: Update version + NEWS.md**
 
 `DESCRIPTION`: bump `Version: 0.1.0` to `Version: 0.2.0`.
 
@@ -1755,7 +1755,7 @@ Prepend to `NEWS.md`:
 
 ```
 
-- [ ] **Step 2: Run full check**
+- [x] **Step 2: Run full check**
 
 ```r
 devtools::check()
@@ -1763,7 +1763,7 @@ devtools::check()
 
 Expected: 0 errors, 0 warnings.
 
-- [ ] **Step 3: Commit and tag**
+- [x] **Step 3: Commit and tag**
 
 ```bash
 git add DESCRIPTION NEWS.md
@@ -1783,7 +1783,7 @@ Replace the design-only README with a working quickstart.
 **Files:**
 - Modify: `README.md`
 
-- [ ] **Step 1: Replace `README.md` content**
+- [x] **Step 1: Replace `README.md` content**
 
 ```markdown
 # ccldr
@@ -1825,7 +1825,7 @@ See `vignette("getting-started")` for a longer walkthrough and
 - [`chekos/ccld-open-data-snapshot`](https://github.com/chekos/ccld-open-data-snapshot) — bulk CKAN snapshot of Alameda CCLD data and the Python `verify.py` companion. The R package here is the live, per-facility-detail layer.
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add README.md
@@ -1839,13 +1839,13 @@ git commit -m "docs: replace design-only README with working quickstart"
 **Files:**
 - Create: `vignettes/getting-started.Rmd`
 
-- [ ] **Step 1: Bootstrap the vignette**
+- [x] **Step 1: Bootstrap the vignette**
 
 ```r
 usethis::use_vignette("getting-started", "Getting started with ccldr")
 ```
 
-- [ ] **Step 2: Replace the vignette body**
+- [x] **Step 2: Replace the vignette body**
 
 Open `vignettes/getting-started.Rmd` and replace its body (everything below the YAML front matter) with:
 
@@ -1931,7 +1931,7 @@ one call: `ccld_verify(x, cache = FALSE)`. To clear the whole cache:
 (The Rmd code-fence open/close lines above are escaped illustratively; the
 actual file uses plain backticks.)
 
-- [ ] **Step 3: Build vignettes locally to confirm they render**
+- [x] **Step 3: Build vignettes locally to confirm they render**
 
 ```r
 devtools::build_vignettes()
@@ -1939,7 +1939,7 @@ devtools::build_vignettes()
 
 Expected: no errors. A `doc/getting-started.html` is created.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add vignettes/getting-started.Rmd DESCRIPTION
@@ -1953,7 +1953,7 @@ git commit -m "docs: add getting-started vignette"
 **Files:**
 - Create: `.github/workflows/R-CMD-check.yaml`
 
-- [ ] **Step 1: Add the workflow via `usethis`**
+- [x] **Step 1: Add the workflow via `usethis`**
 
 ```r
 usethis::use_github_action("check-standard")
@@ -1961,7 +1961,7 @@ usethis::use_github_action("check-standard")
 
 This creates `.github/workflows/R-CMD-check.yaml` using `r-lib/actions`. Inspect it; the standard one runs on push and PR across `release`, `oldrel-1`, and `devel` R on Ubuntu, plus `release` on macOS and Windows.
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add .github/workflows/R-CMD-check.yaml .Rbuildignore
@@ -1969,13 +1969,13 @@ git commit -m "ci: add R-CMD-check workflow"
 git push
 ```
 
-- [ ] **Step 3: Watch the first CI run**
+- [x] **Step 3: Watch the first CI run**
 
 ```bash
 gh run watch
 ```
 
-Expected: workflow completes successfully. If it fails for environment reasons (e.g. missing system dep for `qs`), fix in a follow-up commit.
+Expected: workflow completes successfully. If it fails for environment reasons (e.g. missing system dep for `qs2`), fix in a follow-up commit.
 
 ---
 

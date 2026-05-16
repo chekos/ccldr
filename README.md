@@ -1,10 +1,14 @@
 # ccldr
 
-An R client for the [CCLD Transparency API](https://www.ccld.dss.ca.gov/carefacilitysearch/). Verify license numbers, pull facility detail, snapshot Alameda — without leaving your R script.
+An R client for the [CCLD Transparency API](https://www.ccld.dss.ca.gov/carefacilitysearch/). Verify license numbers, pull facility detail, snapshot Alameda — all from inside your R script.
 
-> **Status: design only.** The implementation hasn't started yet — this repo currently holds the design spec at [`docs/design.md`](docs/design.md). When the package is implemented, this README will switch to a quickstart.
+## Installation
 
-## What it will do
+```r
+remotes::install_github("chekos/ccldr")
+```
+
+## Quickstart
 
 ```r
 library(ccldr)
@@ -19,12 +23,12 @@ rr |> left_join(verified, by = c("license_number" = "input"))
 # 2. Pull rich detail for one facility
 ccld_facility("13423996")
 
-# 3. Live Alameda snapshot for a facility type
-ccld_alameda(type = "centers")
+# 3. Live Alameda snapshot
+ccld_alameda("preschools")
 ```
 
-See [`docs/design.md`](docs/design.md) for the full API surface, return schemas, behavior contracts, and what's deliberately not in scope.
+See `vignette("getting-started")` for a longer walkthrough and [`docs/design.md`](docs/design.md) for the design.
 
 ## Related
 
-- [`chekos/ccld-open-data-snapshot`](https://github.com/chekos/ccld-open-data-snapshot) — git-scraping snapshot of the CCLD CKAN open data + the Python `verify.py` and the reverse-engineered API reference at `docs/transparency-api.md`. The R package here is the live, per-facility-detail companion to that bulk inventory.
+- [`chekos/ccld-open-data-snapshot`](https://github.com/chekos/ccld-open-data-snapshot) — bulk CKAN snapshot of Alameda CCLD data and the Python `verify.py` companion. This package is the live, per-facility-detail layer.

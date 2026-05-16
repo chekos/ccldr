@@ -5,3 +5,5 @@
 *.Rcheck/
 *.tar.gz
 .DS_Store
+/doc/
+/Meta/
