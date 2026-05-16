@@ -1,5 +1,9 @@
 # ccldr 0.2.0
 
+* Added a pkgdown documentation site configuration, GitHub Pages publishing
+  workflow, expanded README, package vignette, website-only workflow articles,
+  and contributor documentation.
+
 * `ccld_alameda(type)` adds live Alameda snapshots per facility type, walking
   the 17 Alameda cities under the hood to work around the API's 250-result
   per-call cap.

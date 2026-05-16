@@ -11,5 +11,15 @@ A tibble with one row per cached response and columns \code{key},
 \code{age_seconds}, and \code{size_bytes}.
 }
 \description{
-Inspect cached CCLD API responses
+Returns one row per cached response. Cache entries older than
+\code{getOption("ccldr.cache_ttl_seconds")} are ignored by API helpers, but they
+can still appear here until the cache is cleared.
 }
+\examples{
+ccld_cache_info()
+}
+\seealso{
+Other cache management:
+\code{\link[=ccld_cache_clear]{ccld_cache_clear()}}
+}
+\concept{cache management}

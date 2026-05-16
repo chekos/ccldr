@@ -35,10 +35,15 @@ cache_set <- function(key, value) {
 
 #' Clear cached CCLD API responses
 #'
-#' Removes every cached response from the on-disk ccldr cache.
+#' Removes every cached response from the on-disk `ccldr` cache. This is useful
+#' before a reproducibility run or when you want to force subsequent calls to
+#' re-query the live CCLD Transparency API.
 #'
 #' @return Invisibly, the number of cache files removed.
+#' @family cache management
 #' @export
+#' @examples
+#' ccld_cache_clear()
 ccld_cache_clear <- function() {
   dir <- ccldr_cache_dir()
   files <- list.files(dir, pattern = "\\.qs$", full.names = TRUE)
@@ -48,9 +53,16 @@ ccld_cache_clear <- function() {
 
 #' Inspect cached CCLD API responses
 #'
+#' Returns one row per cached response. Cache entries older than
+#' `getOption("ccldr.cache_ttl_seconds")` are ignored by API helpers, but they
+#' can still appear here until the cache is cleared.
+#'
 #' @return A tibble with one row per cached response and columns `key`,
 #'   `age_seconds`, and `size_bytes`.
+#' @family cache management
 #' @export
+#' @examples
+#' ccld_cache_info()
 ccld_cache_info <- function() {
   dir <- ccldr_cache_dir()
   files <- list.files(dir, pattern = "\\.qs$", full.names = TRUE)

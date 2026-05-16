@@ -7,7 +7,8 @@
 ccld_pad(facnums)
 }
 \arguments{
-\item{facnums}{Character or numeric vector of license numbers.}
+\item{facnums}{Character or numeric vector of license numbers. Numeric inputs
+are converted without scientific notation before padding.}
 }
 \value{
 Character vector of 9-digit zero-padded license numbers. \code{NA} inputs
@@ -18,7 +19,16 @@ The CCLD Transparency API requires every facility number to be left-padded
 with leading zeros to exactly 9 digits. CDSS-side data usually stores the
 8-digit form. \code{ccld_pad()} makes the conversion explicit and vectorised.
 }
+\details{
+\code{NA} values are preserved. Non-digit inputs and values longer than 9 digits
+raise a \code{ccldr_invalid_input} error.
+}
 \examples{
 ccld_pad("13423996")
 ccld_pad(c(13423996, 15700561))
 }
+\seealso{
+Other license helpers:
+\code{\link[=ccld_verify]{ccld_verify()}}
+}
+\concept{license helpers}

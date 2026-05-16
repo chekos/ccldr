@@ -1,0 +1,53 @@
+url: https://chekos.github.io/ccldr/
+destination: pkgdown-site
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+
+reference:
+- title: License helpers
+  desc: Validate, normalize, and verify CCLD facility license numbers.
+  contents:
+  - ccld_pad
+  - ccld_verify
+- title: Facility detail
+  desc: Pull detailed fields, visits, reports, and complaints for a single facility.
+  contents:
+  - ccld_facility
+- title: Alameda snapshots
+  desc: Fetch current Alameda County child-care facility snapshots by facility type.
+  contents:
+  - ccld_alameda
+- title: Cache management
+  desc: Inspect and clear cached Transparency API responses.
+  contents:
+  - ccld_cache_info
+  - ccld_cache_clear
+
+articles:
+- title: Start here
+  navbar: ~
+  contents:
+  - ccldr
+- title: Workflows
+  navbar: Workflows
+  contents:
+  - matches("live-api-workflows")
+  - matches("troubleshooting")
+
+news:
+  releases:
+  - text: "Version 0.2.0"
+    href: news/index.html#ccldr-020
+
+repo:
+  url:
+    home: https://github.com/chekos/ccldr/
+    source: https://github.com/chekos/ccldr/blob/main/
+    issue: https://github.com/chekos/ccldr/issues/
+    user: https://github.com/

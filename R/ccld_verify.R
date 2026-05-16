@@ -4,14 +4,21 @@
 #' returns a tibble with one row per input. Unknown licenses are not dropped:
 #' they appear as rows with `found = FALSE` and `NA`s in the data columns.
 #'
+#' Inputs are padded with [ccld_pad()] before requests are made. Duplicate
+#' license numbers are fetched once and then expanded back to the original input
+#' order, which keeps joins predictable and avoids unnecessary API calls.
+#'
 #' @param facnums Character or numeric vector of facility license numbers.
 #'   Accepts 8- or 9-digit forms; padded internally via [ccld_pad()].
-#' @param cache If `TRUE` (default), use the on-disk response cache.
+#' @param cache Logical value (default `TRUE`) controlling whether the on-disk
+#'   response cache is used.
 #'
 #' @return A tibble with 12 columns: `input`, `facility_number`, `found`,
 #'   `facility_name`, `facility_type`, `status`, `licensee_name`,
 #'   `street_address`, `city`, `zip`, `license_effective_date`,
 #'   `last_visit_date`.
+#' @family license helpers
+#' @seealso [ccld_facility()] for full detail on one verified facility.
 #' @export
 #' @examples
 #' \dontrun{

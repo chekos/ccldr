@@ -12,7 +12,8 @@ ccld_alameda(type, cache = TRUE)
 \code{"single_licensed_centers"}. Partial matching via \code{\link[=match.arg]{match.arg()}} is
 supported.}
 
-\item{cache}{If \code{TRUE} (default), use the on-disk response cache.}
+\item{cache}{Logical value (default \code{TRUE}) controlling whether the on-disk
+response cache is used.}
 }
 \value{
 A 12-column slim tibble, matching \code{\link[=ccld_verify]{ccld_verify()}}.
@@ -28,6 +29,10 @@ Two facility types are deliberately unsupported: \code{"small_fccs"} because the
 API blocks \code{facType = 0} searches, and \code{"centers"} because the API's
 \code{facType = 845} bucket only contains a few legacy records statewide. For the
 center workflow, use \code{"preschools"} (\code{facType = 850}).
+
+If any city query reports 250 or more results, \code{ccld_alameda()} warns that
+the API cap may have hidden additional facilities. The returned rows are
+deduplicated by \code{facility_number}.
 }
 \examples{
 \dontrun{
@@ -35,3 +40,7 @@ ccld_alameda("preschools")
 ccld_alameda("large_fccs")
 }
 }
+\seealso{
+\code{\link[=ccld_verify]{ccld_verify()}} for the shared slim return schema.
+}
+\concept{Alameda snapshots}

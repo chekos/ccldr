@@ -10,7 +10,8 @@ ccld_verify(facnums, cache = TRUE)
 \item{facnums}{Character or numeric vector of facility license numbers.
 Accepts 8- or 9-digit forms; padded internally via \code{\link[=ccld_pad]{ccld_pad()}}.}
 
-\item{cache}{If \code{TRUE} (default), use the on-disk response cache.}
+\item{cache}{Logical value (default \code{TRUE}) controlling whether the on-disk
+response cache is used.}
 }
 \value{
 A tibble with 12 columns: \code{input}, \code{facility_number}, \code{found},
@@ -23,9 +24,21 @@ Looks up each license number against the live CCLD Transparency API and
 returns a tibble with one row per input. Unknown licenses are not dropped:
 they appear as rows with \code{found = FALSE} and \code{NA}s in the data columns.
 }
+\details{
+Inputs are padded with \code{\link[=ccld_pad]{ccld_pad()}} before requests are made. Duplicate
+license numbers are fetched once and then expanded back to the original input
+order, which keeps joins predictable and avoids unnecessary API calls.
+}
 \examples{
 \dontrun{
 ccld_verify("13423996")
 ccld_verify(c(13423996, 99999999))
 }
 }
+\seealso{
+\code{\link[=ccld_facility]{ccld_facility()}} for full detail on one verified facility.
+
+Other license helpers:
+\code{\link[=ccld_pad]{ccld_pad()}}
+}
+\concept{license helpers}

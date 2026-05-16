@@ -1,5 +1,10 @@
 ^\.github$
 ^.*\.Rproj$
+^_pkgdown\.yml$
+^pkgdown$
+^pkgdown-site$
+^vignettes/articles$
+^CONTRIBUTING\.md$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^doc$

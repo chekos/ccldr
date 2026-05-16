@@ -10,7 +10,8 @@ ccld_facility(facnum, cache = TRUE)
 \item{facnum}{A single facility license number, character or numeric.
 Accepts 8- or 9-digit forms; padded internally via \code{\link[=ccld_pad]{ccld_pad()}}.}
 
-\item{cache}{If \code{TRUE} (default), use the on-disk response cache.}
+\item{cache}{Logical value (default \code{TRUE}) controlling whether the on-disk
+response cache is used.}
 }
 \value{
 A one-row tibble with scalar facility fields and list-columns
@@ -19,10 +20,21 @@ A one-row tibble with scalar facility fields and list-columns
 \description{
 Returns the facility detail fields exposed by the Transparency API, plus
 nested list-columns for evaluation reports and itemized complaints. Use
-\code{tidyr::unnest()} to flatten either list-column.
+\code{tidyr::unnest()} to flatten either list-column after inspecting the scalar
+facility fields.
+}
+\details{
+\code{ccld_facility()} is intentionally scalar: pass one facility license number
+at a time. Use \code{\link[=ccld_verify]{ccld_verify()}} first when you need to screen a vector of
+candidate licenses. Unknown facilities raise a \code{ccldr_not_found} error.
 }
 \examples{
 \dontrun{
 ccld_facility("13423996")
 }
 }
+\seealso{
+\code{\link[=ccld_verify]{ccld_verify()}} to check whether licenses exist before requesting
+full detail.
+}
+\concept{facility detail}
