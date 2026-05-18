@@ -92,6 +92,14 @@ Example output:
 #> 1 013423996       2024-11-04  Other
 ```
 
+The full facility record also includes `date_closed`, which is useful when
+auditing sites that may have closed:
+
+```r
+ccld_facility("013423958") |>
+  select(facility_number, facility_name, status, date_closed)
+```
+
 Build a current Alameda snapshot for a supported child-care facility type:
 
 ```r
@@ -158,6 +166,7 @@ output with `geocode_status` explaining what happened.
 
 - Get started: `vignette("ccldr")`
 - Reference site: <https://chekos.github.io/ccldr/>
+- Closure date audits: <https://chekos.github.io/ccldr/articles/closure-date-audits.html>
 - Live workflow guide: <https://chekos.github.io/ccldr/articles/live-api-workflows.html>
 - Troubleshooting and FAQ: <https://chekos.github.io/ccldr/articles/troubleshooting.html>
 - Design notes: [`docs/design.md`](docs/design.md)
