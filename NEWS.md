@@ -1,5 +1,9 @@
 # ccldr 0.3.0
 
+* `ccld_verify()` now includes `date_closed`, parsed from the CCLD
+  `DATECLOSED` field, so closure audits can run across a vector of license
+  numbers.
+
 * `ccld_add_census_geographies()` adds no-key U.S. Census Geocoder enrichment
   for facility rows, including latitude/longitude, Census tract, block, block
   group, ZCTA, place, county subdivision, urban area, legislative districts, and

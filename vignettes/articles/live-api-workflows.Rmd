@@ -6,7 +6,8 @@ title: "Live API workflows"
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = FALSE,
+  purl = FALSE
 )
 ```
 
@@ -83,9 +84,8 @@ facility |>
   )
 ```
 
-`date_closed` comes from the full facility detail endpoint. Use the
-[closure date audit article](closure-date-audits.html) when you need to apply
-that field across a site list.
+`date_closed` comes from the facility detail endpoint and is also included in
+`ccld_verify()` output for site-list audits.
 
 Reports and complaints are list-columns. Unnest the piece you need.
 
@@ -102,7 +102,7 @@ facility |>
 ## Build Alameda snapshots
 
 `ccld_alameda()` walks Alameda cities one by one because the API caps search
-responses at 250 records. The result uses the same slim 12-column schema as
+responses at 250 records. The result uses the same slim 13-column schema as
 `ccld_verify()`, which makes it easy to bind or compare outputs.
 
 ```{r}

@@ -9,6 +9,7 @@ test_that("parse_slim_row handles a licensed FCC", {
   expect_equal(row$status, "Licensed")
   expect_equal(row$city, "OAKLAND")
   expect_s3_class(row$license_effective_date, "Date")
+  expect_true(is.na(row$date_closed))
 })
 
 test_that("parse_slim_row handles a closed facility", {
@@ -16,6 +17,7 @@ test_that("parse_slim_row handles a closed facility", {
   row <- parse_slim_row(body, input = "13423958")
   expect_true(row$found)
   expect_equal(row$status, "Closed, Licensee Initiated")
+  expect_equal(row$date_closed, as.Date("2026-04-17"))
 })
 
 test_that("parse_slim_row returns found=FALSE for unknown licenses", {
@@ -26,4 +28,5 @@ test_that("parse_slim_row returns found=FALSE for unknown licenses", {
   expect_false(row$found)
   expect_true(is.na(row$facility_name))
   expect_true(is.na(row$status))
+  expect_true(is.na(row$date_closed))
 })

@@ -38,6 +38,7 @@ empty_slim_tibble <- function() {
     city = character(),
     zip = character(),
     license_effective_date = as.Date(character()),
+    date_closed = as.Date(character()),
     last_visit_date = as.Date(character())
   )
 }
@@ -58,6 +59,7 @@ parse_slim_row <- function(body, input) {
     city = if (found) empty_to_na(fd$CITY) else NA_character_,
     zip = if (found) empty_to_na(fd$ZIPCODE) else NA_character_,
     license_effective_date = if (found) parse_date(fd$LICENSEEFFECTIVEDATE) else as.Date(NA),
+    date_closed = if (found) parse_date(fd$DATECLOSED) else as.Date(NA),
     last_visit_date = if (found) parse_date(fd$LASTVISITDATE) else as.Date(NA)
   )
 }
@@ -200,6 +202,7 @@ parse_search_array <- function(body) {
       city = NA_character_,
       zip = empty_to_na(item$ZIPCODE),
       license_effective_date = as.Date(NA),
+      date_closed = as.Date(NA),
       last_visit_date = as.Date(NA)
     )
   })
