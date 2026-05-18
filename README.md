@@ -37,10 +37,8 @@ library(ccldr)
 library(dplyr)
 library(readr)
 
-# CCLD's API expects canonical 9-digit facility numbers.
-ccld_pad(c("13423996", "15700561"))
-
 # Verify a column of license numbers without dropping unknown inputs.
+# ccld_verify() accepts 8- or 9-digit license numbers and pads internally.
 rr <- read_csv("rr_sites_2026.csv")
 
 verified <- ccld_verify(rr$license_number)
@@ -50,16 +48,47 @@ rr |>
   select(site_name, license_number, found, facility_name, status)
 ```
 
-Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints:
+Example output:
+
+```text
+#> # A tibble: 2 x 5
+#>   site_name                 license_number found facility_name       status
+#>   <chr>                     <chr>          <lgl> <chr>               <chr>
+#> 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed
+#> 2 Unknown Site              99999999       FALSE <NA>                <NA>
+```
+
+Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints. `ccld_facility()` also accepts either the 8- or 9-digit form:
 
 ```r
 facility <- ccld_facility("13423996")
 
 facility |>
   select(facility_name, status, capacity, last_visit_date)
+```
 
+Example output:
+
+```text
+#> # A tibble: 1 x 4
+#>   facility_name       status   capacity last_visit_date
+#>   <chr>               <chr>       <int> <date>
+#> 1 JOHNSON III, JOHNNY Licensed       14 2024-11-04
+```
+
+```r
 facility |>
-  tidyr::unnest(reports)
+  tidyr::unnest(reports) |>
+  select(facility_number, report_date, report_type)
+```
+
+Example output:
+
+```text
+#> # A tibble: 1 x 3
+#>   facility_number report_date report_type
+#>   <chr>           <date>      <chr>
+#> 1 013423996       2024-11-04  Other
 ```
 
 Build a current Alameda snapshot for a supported child-care facility type:
@@ -67,6 +96,21 @@ Build a current Alameda snapshot for a supported child-care facility type:
 ```r
 preschools <- ccld_alameda("preschools")
 large_fccs <- ccld_alameda("large_fccs")
+
+preschools |>
+  select(facility_number, facility_name, status, city, zip) |>
+  slice_head(n = 3)
+```
+
+Example output:
+
+```text
+#> # A tibble: 3 x 5
+#>   facility_number facility_name          status   city    zip
+#>   <chr>           <chr>                  <chr>    <chr>   <chr>
+#> 1 013423751       WILD CHILD SCHOOLHOUSE Licensed Oakland 94611
+#> 2 013423056       AGAPE LEARNING CENTER  Licensed Oakland 94621
+#> 3 013422467       COLIBRI PRESCHOOL      Licensed Oakland 94611
 ```
 
 Supported Alameda types are `"large_fccs"`, `"infant_centers"`, `"school_age_centers"`, `"preschools"`, and `"single_licensed_centers"`.
