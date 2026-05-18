@@ -2,11 +2,6 @@
 
 # ccldr
 
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/chekos/ccldr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/chekos/ccldr/actions/workflows/R-CMD-check.yaml)
-[![pkgdown](https://github.com/chekos/ccldr/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/chekos/ccldr/actions/workflows/pkgdown.yaml)
-<!-- badges: end -->
-
 `ccldr` is a small R client for the [California Community Care Licensing Division (CCLD) Transparency API](https://www.ccld.dss.ca.gov/carefacilitysearch/).
 
 Use it when you need to:
