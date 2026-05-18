@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Get started with ccldr">
@@ -91,28 +91,20 @@ leaving their scripts. It focuses on three workflows:</p>
 <li>build current Alameda County child-care snapshots.</li>
 </ul>
 <p>The examples are not evaluated when the vignette is built because
-they call the live CCLD Transparency API.</p>
-<div class="section level2">
-<h2 id="normalize-license-numbers">Normalize license numbers<a class="anchor" aria-label="anchor" href="#normalize-license-numbers"></a>
-</h2>
-<p>The API expects facility numbers in a 9-digit form. Many source files
-store the same license as 8 digits, so start by making that conversion
-explicit.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://chekos.github.io/ccldr/">ccldr</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/ccld_pad.html">ccld_pad</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"13423996"</span>, <span class="st">"15700561"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/ccld_pad.html">ccld_pad()</a></code> is vectorized, preserves <code>NA</code>, and
-errors on non-digit inputs.</p>
-</div>
+they call the live CCLD Transparency API. Representative output is shown
+below the main snippets so you can see the result shape before running
+them.</p>
 <div class="section level2">
 <h2 id="verify-a-column">Verify a column<a class="anchor" aria-label="anchor" href="#verify-a-column"></a>
 </h2>
 <p>Use <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> when you have a vector or a data-frame
-column of possible license numbers. It returns one row per input,
-including unknown licenses.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+column of possible license numbers. The CCLD API expects facility
+numbers in a 9-digit form, but <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> accepts 8- or
+9-digit inputs and pads internally before making requests. It returns
+one row per input, including unknown licenses.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://chekos.github.io/ccldr/">ccldr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"rr_sites.csv"</span><span class="op">)</span></span>
@@ -122,6 +114,12 @@ including unknown licenses.</p>
 <span><span class="va">rr</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">verified</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"license_number"</span> <span class="op">=</span> <span class="st">"input"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">site_name</span>, <span class="va">license_number</span>, <span class="va">found</span>, <span class="va">facility_name</span>, <span class="va">status</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 2 x 5</span></span>
+<span><span class="co">#&gt;   site_name                 license_number found facility_name       status</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                     &lt;chr&gt;          &lt;lgl&gt; &lt;chr&gt;               &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed</span></span>
+<span><span class="co">#&gt; 2 Unknown Site              99999999       FALSE &lt;NA&gt;                &lt;NA&gt;</span></span></code></pre>
 <p>Keeping <code>found = FALSE</code> rows in the result makes audits
 easier: your original records stay visible instead of disappearing
 during a join.</p>
@@ -130,19 +128,36 @@ during a join.</p>
 <h2 id="inspect-one-facility">Inspect one facility<a class="anchor" aria-label="anchor" href="#inspect-one-facility"></a>
 </h2>
 <p>Use <code><a href="../reference/ccld_facility.html">ccld_facility()</a></code> when you need the full API record
-for one known license. The result is a one-row tibble with scalar
-facility fields and nested list-columns for reports and complaints.</p>
+for one known license. Like <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code>, it accepts
+either the 8- or 9-digit license form. The result is a one-row tibble
+with scalar facility fields and nested list-columns for reports and
+complaints.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">facility</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"13423996"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">facility</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">capacity</span>, <span class="va">last_visit_date</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">facility</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">reports</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">facility</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">capacity</span>, <span class="va">last_visit_date</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 1 x 4</span></span>
+<span><span class="co">#&gt;   facility_name       status   capacity last_visit_date</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;       &lt;int&gt; &lt;date&gt;</span></span>
+<span><span class="co">#&gt; 1 JOHNSON III, JOHNNY Licensed       14 2024-11-04</span></span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">facility</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">reports</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">report_date</span>, <span class="va">report_type</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 1 x 3</span></span>
+<span><span class="co">#&gt;   facility_number report_date report_type</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;date&gt;      &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 013423996       2024-11-04  Other</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">facility</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">complaints</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 0 x 4</span></span>
+<span><span class="co">#&gt; # i 4 variables: facility_number &lt;chr&gt;, complaint_date &lt;date&gt;,</span></span>
+<span><span class="co">#&gt; #   allegation &lt;chr&gt;, outcome &lt;chr&gt;</span></span></code></pre>
 <p><code><a href="../reference/ccld_facility.html">ccld_facility()</a></code> is scalar by design. For a column of
 candidate licenses, run <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> first and request
 full detail only for the facilities you need.</p>
@@ -152,9 +167,20 @@ full detail only for the facilities you need.</p>
 </h2>
 <p>Use <code><a href="../reference/ccld_alameda.html">ccld_alameda()</a></code> when you need the current set of
 Alameda County facilities for a supported child-care type.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">preschools</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_alameda.html">ccld_alameda</a></span><span class="op">(</span><span class="st">"preschools"</span><span class="op">)</span></span>
-<span><span class="va">large_fccs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_alameda.html">ccld_alameda</a></span><span class="op">(</span><span class="st">"large_fccs"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">large_fccs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_alameda.html">ccld_alameda</a></span><span class="op">(</span><span class="st">"large_fccs"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">preschools</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">city</span>, <span class="va">zip</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 5</span></span>
+<span><span class="co">#&gt;   facility_number facility_name          status   city    zip</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;                  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 013423751       WILD CHILD SCHOOLHOUSE Licensed Oakland 94611</span></span>
+<span><span class="co">#&gt; 2 013423056       AGAPE LEARNING CENTER  Licensed Oakland 94621</span></span>
+<span><span class="co">#&gt; 3 013422467       COLIBRI PRESCHOOL      Licensed Oakland 94611</span></span></code></pre>
 <p>Supported values are:</p>
 <ul>
 <li><code>"large_fccs"</code></li>
@@ -172,14 +198,17 @@ center workflow.</p>
 <h2 id="cache-behavior">Cache behavior<a class="anchor" aria-label="anchor" href="#cache-behavior"></a>
 </h2>
 <p>Every API response is cached on disk for 24 hours by default.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_cache_info.html">ccld_cache_info</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ccld_cache_clear.html">ccld_cache_clear</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="../reference/ccld_cache_info.html">ccld_cache_info()</a></code> returns a tibble with cache file
+paths, ages, and sizes. <code><a href="../reference/ccld_cache_clear.html">ccld_cache_clear()</a></code> returns the
+number of cached files removed.</p>
 <p>For a fresh response in one call, set <code>cache = FALSE</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_verify.html">ccld_verify</a></span><span class="op">(</span><span class="st">"13423996"</span>, cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>For debugging, these options are useful:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ccldr.verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ccldr.delay <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ccldr.cache_ttl_seconds <span class="op">=</span> <span class="fl">3600</span><span class="op">)</span></span></code></pre></div>

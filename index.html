@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="favicon.ico">
 <link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="R Client for the CCLD Transparency API">
@@ -105,10 +105,8 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># CCLD's API expects canonical 9-digit facility numbers.</span></span>
-<span><span class="fu"><a href="reference/ccld_pad.html">ccld_pad</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"13423996"</span>, <span class="st">"15700561"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
 <span><span class="co"># Verify a column of license numbers without dropping unknown inputs.</span></span>
+<span><span class="co"># ccld_verify() accepts 8- or 9-digit license numbers and pads internally.</span></span>
 <span><span class="va">rr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"rr_sites_2026.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">verified</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_verify.html">ccld_verify</a></span><span class="op">(</span><span class="va">rr</span><span class="op">$</span><span class="va">license_number</span><span class="op">)</span></span>
@@ -116,19 +114,47 @@
 <span><span class="va">rr</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">verified</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"license_number"</span> <span class="op">=</span> <span class="st">"input"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">site_name</span>, <span class="va">license_number</span>, <span class="va">found</span>, <span class="va">facility_name</span>, <span class="va">status</span><span class="op">)</span></span></code></pre></div>
-<p>Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 2 x 5</span></span>
+<span><span class="co">#&gt;   site_name                 license_number found facility_name       status</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                     &lt;chr&gt;          &lt;lgl&gt; &lt;chr&gt;               &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed</span></span>
+<span><span class="co">#&gt; 2 Unknown Site              99999999       FALSE &lt;NA&gt;                &lt;NA&gt;</span></span></code></pre>
+<p>Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints. <code><a href="reference/ccld_facility.html">ccld_facility()</a></code> also accepts either the 8- or 9-digit form:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">facility</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"13423996"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">facility</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">capacity</span>, <span class="va">last_visit_date</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">facility</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">reports</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">capacity</span>, <span class="va">last_visit_date</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 1 x 4</span></span>
+<span><span class="co">#&gt;   facility_name       status   capacity last_visit_date</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;       &lt;int&gt; &lt;date&gt;</span></span>
+<span><span class="co">#&gt; 1 JOHNSON III, JOHNNY Licensed       14 2024-11-04</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">facility</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">reports</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">report_date</span>, <span class="va">report_type</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 1 x 3</span></span>
+<span><span class="co">#&gt;   facility_number report_date report_type</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;date&gt;      &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 013423996       2024-11-04  Other</span></span></code></pre>
 <p>Build a current Alameda snapshot for a supported child-care facility type:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">preschools</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_alameda.html">ccld_alameda</a></span><span class="op">(</span><span class="st">"preschools"</span><span class="op">)</span></span>
-<span><span class="va">large_fccs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_alameda.html">ccld_alameda</a></span><span class="op">(</span><span class="st">"large_fccs"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">large_fccs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_alameda.html">ccld_alameda</a></span><span class="op">(</span><span class="st">"large_fccs"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">preschools</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">city</span>, <span class="va">zip</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 5</span></span>
+<span><span class="co">#&gt;   facility_number facility_name          status   city    zip</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;                  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 013423751       WILD CHILD SCHOOLHOUSE Licensed Oakland 94611</span></span>
+<span><span class="co">#&gt; 2 013423056       AGAPE LEARNING CENTER  Licensed Oakland 94621</span></span>
+<span><span class="co">#&gt; 3 013422467       COLIBRI PRESCHOOL      Licensed Oakland 94611</span></span></code></pre>
 <p>Supported Alameda types are <code>"large_fccs"</code>, <code>"infant_centers"</code>, <code>"school_age_centers"</code>, <code>"preschools"</code>, and <code>"single_licensed_centers"</code>.</p>
 </div>
 <div class="section level2">

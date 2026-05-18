@@ -9,33 +9,23 @@ scripts. It focuses on three workflows:
 - build current Alameda County child-care snapshots.
 
 The examples are not evaluated when the vignette is built because they
-call the live CCLD Transparency API.
-
-## Normalize license numbers
-
-The API expects facility numbers in a 9-digit form. Many source files
-store the same license as 8 digits, so start by making that conversion
-explicit.
-
-``` r
-
-library(ccldr)
-
-ccld_pad(c("13423996", "15700561"))
-```
-
-[`ccld_pad()`](https://chekos.github.io/ccldr/reference/ccld_pad.md) is
-vectorized, preserves `NA`, and errors on non-digit inputs.
+call the live CCLD Transparency API. Representative output is shown
+below the main snippets so you can see the result shape before running
+them.
 
 ## Verify a column
 
 Use
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
 when you have a vector or a data-frame column of possible license
-numbers. It returns one row per input, including unknown licenses.
+numbers. The CCLD API expects facility numbers in a 9-digit form, but
+[`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
+accepts 8- or 9-digit inputs and pads internally before making requests.
+It returns one row per input, including unknown licenses.
 
 ``` r
 
+library(ccldr)
 library(dplyr)
 library(readr)
 
@@ -48,6 +38,16 @@ rr |>
   select(site_name, license_number, found, facility_name, status)
 ```
 
+Example output:
+
+``` text
+#> # A tibble: 2 x 5
+#>   site_name                 license_number found facility_name       status
+#>   <chr>                     <chr>          <lgl> <chr>               <chr>
+#> 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed
+#> 2 Unknown Site              99999999       FALSE <NA>                <NA>
+```
+
 Keeping `found = FALSE` rows in the result makes audits easier: your
 original records stay visible instead of disappearing during a join.
 
@@ -55,7 +55,9 @@ original records stay visible instead of disappearing during a join.
 
 Use
 [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)
-when you need the full API record for one known license. The result is a
+when you need the full API record for one known license. Like
+[`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md),
+it accepts either the 8- or 9-digit license form. The result is a
 one-row tibble with scalar facility fields and nested list-columns for
 reports and complaints.
 
@@ -65,12 +67,45 @@ facility <- ccld_facility("13423996")
 
 facility |>
   select(facility_name, status, capacity, last_visit_date)
+```
+
+Example output:
+
+``` text
+#> # A tibble: 1 x 4
+#>   facility_name       status   capacity last_visit_date
+#>   <chr>               <chr>       <int> <date>
+#> 1 JOHNSON III, JOHNNY Licensed       14 2024-11-04
+```
+
+``` r
 
 facility |>
-  tidyr::unnest(reports)
+  tidyr::unnest(reports) |>
+  select(facility_number, report_date, report_type)
+```
+
+Example output:
+
+``` text
+#> # A tibble: 1 x 3
+#>   facility_number report_date report_type
+#>   <chr>           <date>      <chr>
+#> 1 013423996       2024-11-04  Other
+```
+
+``` r
 
 facility |>
   tidyr::unnest(complaints)
+```
+
+Example output:
+
+``` text
+#> # A tibble: 0 x 4
+#> # i 4 variables: facility_number <chr>, complaint_date <date>,
+#> #   allegation <chr>, outcome <chr>
 ```
 
 [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)
@@ -89,6 +124,21 @@ supported child-care type.
 
 preschools <- ccld_alameda("preschools")
 large_fccs <- ccld_alameda("large_fccs")
+
+preschools |>
+  select(facility_number, facility_name, status, city, zip) |>
+  slice_head(n = 3)
+```
+
+Example output:
+
+``` text
+#> # A tibble: 3 x 5
+#>   facility_number facility_name          status   city    zip
+#>   <chr>           <chr>                  <chr>    <chr>   <chr>
+#> 1 013423751       WILD CHILD SCHOOLHOUSE Licensed Oakland 94611
+#> 2 013423056       AGAPE LEARNING CENTER  Licensed Oakland 94621
+#> 3 013422467       COLIBRI PRESCHOOL      Licensed Oakland 94611
 ```
 
 Supported values are:
@@ -112,6 +162,11 @@ Every API response is cached on disk for 24 hours by default.
 ccld_cache_info()
 ccld_cache_clear()
 ```
+
+[`ccld_cache_info()`](https://chekos.github.io/ccldr/reference/ccld_cache_info.md)
+returns a tibble with cache file paths, ages, and sizes.
+[`ccld_cache_clear()`](https://chekos.github.io/ccldr/reference/ccld_cache_clear.md)
+returns the number of cached files removed.
 
 For a fresh response in one call, set `cache = FALSE`:
 
