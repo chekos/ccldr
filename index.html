@@ -17,8 +17,8 @@
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="R Client for the CCLD Transparency API">
-<meta name="description" content="Verify license numbers, pull facility detail, and snapshot Alameda child-care facilities via the California CCLD Transparency API.">
-<meta property="og:description" content="Verify license numbers, pull facility detail, and snapshot Alameda child-care facilities via the California CCLD Transparency API.">
+<meta name="description" content="Verify license numbers, pull facility detail, snapshot Alameda child-care facilities, and append Census geographies using public CCLD and Census APIs.">
+<meta property="og:description" content="Verify license numbers, pull facility detail, snapshot Alameda child-care facilities, and append Census geographies using public CCLD and Census APIs.">
 <meta property="og:image" content="https://chekos.github.io/ccldr/logo.svg">
 </head>
 <body>
@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ccldr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-news">
 <li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
+    <li><a class="dropdown-item" href="news/index.html#ccldr-030">Version 0.3.0</a></li>
     <li><a class="dropdown-item" href="news/index.html#ccldr-020">Version 0.2.0</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="news/index.html">Changelog</a></li>
@@ -84,7 +85,8 @@
 <ul>
 <li>verify CCLD child-care facility license numbers from an R script;</li>
 <li>fetch the full detail record for a single facility;</li>
-<li>pull a live Alameda County child-care facility snapshot by facility type.</li>
+<li>pull a live Alameda County child-care facility snapshot by facility type;</li>
+<li>append Census geographies to facility rows that have addresses.</li>
 </ul>
 <p>The package returns tibbles, keeps unknown licenses in your output, and caches API responses on disk so repeated development runs are gentler on the upstream service.</p>
 <div class="section level2">
@@ -156,11 +158,25 @@
 <span><span class="co">#&gt; 2 013423056       AGAPE LEARNING CENTER  Licensed Oakland 94621</span></span>
 <span><span class="co">#&gt; 3 013422467       COLIBRI PRESCHOOL      Licensed Oakland 94611</span></span></code></pre>
 <p>Supported Alameda types are <code>"large_fccs"</code>, <code>"infant_centers"</code>, <code>"school_age_centers"</code>, <code>"preschools"</code>, and <code>"single_licensed_centers"</code>.</p>
+<p>Append Census geography codes when you need tract, block, ZCTA, school district, or other geography fields for addressable facility rows. The Census Geocoder does not require an API key, and <code>ccldr</code> caches repeated address lookups.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">preschools_geo</span> <span class="op">&lt;-</span> <span class="va">preschools</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="reference/ccld_add_census_geographies.html">ccld_add_census_geographies</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">preschools_geo</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">latitude</span>, <span class="va">longitude</span>, <span class="va">census_tract_geoid</span>, <span class="va">zcta_geoid</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 5</span></span>
+<span><span class="co">#&gt;   facility_number latitude longitude census_tract_geoid zcta_geoid</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 013423751           37.8     -122. 06001401100        94611</span></span>
+<span><span class="co">#&gt; 2 013423056           37.7     -122. 06001409400        94621</span></span>
+<span><span class="co">#&gt; 3 013422467           37.8     -122. 06001401100        94611</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="live-api-behavior">Live API behavior<a class="anchor" aria-label="anchor" href="#live-api-behavior"></a>
 </h2>
-<p><code>ccldr</code> talks to an undocumented public API. For reproducible scripts, keep these habits in mind:</p>
+<p><code>ccldr</code> talks to public APIs. For reproducible scripts, keep these habits in mind:</p>
 <ul>
 <li>Use <code>cache = FALSE</code> when you need a fresh API response for a single call.</li>
 <li>Use <code><a href="reference/ccld_cache_clear.html">ccld_cache_clear()</a></code> before rerunning a full workflow from scratch.</li>
@@ -168,6 +184,7 @@
 <li>Use <code>options(ccldr.delay = 1)</code> to slow down batch requests.</li>
 </ul>
 <p><code><a href="reference/ccld_alameda.html">ccld_alameda()</a></code> walks the 17 Alameda cities to avoid the API’s 250-result response cap. If any city still hits that cap, the function warns that the snapshot may be incomplete.</p>
+<p><code><a href="reference/ccld_add_census_geographies.html">ccld_add_census_geographies()</a></code> calls the U.S. Census Geocoder once per distinct address, requests <code>layers = "all"</code> by default, and keeps unmatched rows in the output with <code>geocode_status</code> explaining what happened.</p>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>

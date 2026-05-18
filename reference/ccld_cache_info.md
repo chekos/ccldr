@@ -1,4 +1,4 @@
-# Inspect cached CCLD API responses
+# Inspect cached API responses
 
 Returns one row per cached response. Cache entries older than
 `getOption("ccldr.cache_ttl_seconds")` are ignored by API helpers, but

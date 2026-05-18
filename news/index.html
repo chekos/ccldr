@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ccldr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,7 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-news" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">News</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-news"><li><h6 class="dropdown-header" data-toc-skip>Releases</h6></li>
+    <li><a class="dropdown-item" href="../news/index.html#ccldr-030">Version 0.3.0</a></li>
     <li><a class="dropdown-item" href="../news/index.html#ccldr-020">Version 0.2.0</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../news/index.html">Changelog</a></li>
@@ -45,6 +46,11 @@
       <small>Source: <a href="https://github.com/chekos/ccldr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="ccldr-030">ccldr 0.3.0<a class="anchor" aria-label="anchor" href="#ccldr-030"></a></h2>
+<ul><li><p><code><a href="../reference/ccld_add_census_geographies.html">ccld_add_census_geographies()</a></code> adds no-key U.S. Census Geocoder enrichment for facility rows, including latitude/longitude, Census tract, block, block group, ZCTA, place, county subdivision, urban area, legislative districts, and school district fields when available.</p></li>
+<li><p>Census Geocoder responses are deduplicated by address and cached on disk, matching the package’s existing cache behavior.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="ccldr-020">ccldr 0.2.0<a class="anchor" aria-label="anchor" href="#ccldr-020"></a></h2>
 <ul><li><p>Added a pkgdown documentation site configuration, GitHub Pages publishing workflow, expanded README, package vignette, website-only workflow articles, and contributor documentation.</p></li>

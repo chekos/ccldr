@@ -1,8 +1,8 @@
 # ccldr: R client for the CCLD Transparency API
 
-Verify facility license numbers, pull rich per-facility detail, and
-snapshot Alameda child-care facilities from the California Community
-Care Licensing Division's undocumented Transparency API.
+Verify facility license numbers, pull rich per-facility detail, snapshot
+Alameda child-care facilities, and append Census geographies using
+public CCLD and Census APIs.
 
 ## Package options
 
@@ -28,6 +28,9 @@ Care Licensing Division's undocumented Transparency API.
 
 - [`ccld_alameda()`](https://chekos.github.io/ccldr/reference/ccld_alameda.md)
   to build live Alameda facility snapshots.
+
+- [`ccld_add_census_geographies()`](https://chekos.github.io/ccldr/reference/ccld_add_census_geographies.md)
+  to append geocodes and Census geography.
 
 ## Author
 

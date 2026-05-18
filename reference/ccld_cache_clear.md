@@ -1,8 +1,8 @@
-# Clear cached CCLD API responses
+# Clear cached API responses
 
 Removes every cached response from the on-disk `ccldr` cache. This is
 useful before a reproducibility run or when you want to force subsequent
-calls to re-query the live CCLD Transparency API.
+calls to re-query the live public APIs.
 
 ## Usage
 

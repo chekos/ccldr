@@ -6,7 +6,8 @@ scripts. It focuses on three workflows:
 
 - verify license numbers;
 - fetch full detail for one facility;
-- build current Alameda County child-care snapshots.
+- build current Alameda County child-care snapshots;
+- append Census geographies to addressable facility rows.
 
 The examples are not evaluated when the vignette is built because they
 call the live CCLD Transparency API. Representative output is shown
@@ -152,6 +153,47 @@ Supported values are:
 `"small_fccs"` is not supported because the API blocks that search
 route. `"centers"` is not supported because the API bucket is sparse and
 legacy; use `"preschools"` for the center workflow.
+
+## Add Census geographies
+
+Use
+[`ccld_add_census_geographies()`](https://chekos.github.io/ccldr/reference/ccld_add_census_geographies.md)
+when you need coordinates or Census geography identifiers for facility
+rows with addresses. The helper uses the U.S. Census Geocoder, does not
+require an API key, deduplicates repeated addresses, and caches
+responses on disk.
+
+``` r
+
+preschools_geo <- preschools |>
+  ccld_add_census_geographies()
+
+preschools_geo |>
+  select(
+    facility_number,
+    geocode_status,
+    latitude,
+    longitude,
+    census_tract_geoid,
+    census_block_geoid,
+    zcta_geoid,
+    unified_school_district_name
+  ) |>
+  slice_head(n = 3)
+```
+
+Example output:
+
+``` text
+#> # A tibble: 3 x 8
+#>   facility_number geocode_status latitude longitude census_tract_geoid
+#>   <chr>           <chr>             <dbl>     <dbl> <chr>
+#> 1 013423751       matched            37.8     -122. 06001401100
+#> 2 013423056       matched            37.7     -122. 06001409400
+#> 3 013422467       matched            37.8     -122. 06001401100
+#> # i 3 more variables: census_block_geoid <chr>, zcta_geoid <chr>,
+#> #   unified_school_district_name <chr>
+```
 
 ## Cache behavior
 
