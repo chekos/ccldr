@@ -13,7 +13,8 @@ Use it when you need to:
 
 - verify CCLD child-care facility license numbers from an R script;
 - fetch the full detail record for a single facility;
-- pull a live Alameda County child-care facility snapshot by facility type.
+- pull a live Alameda County child-care facility snapshot by facility type;
+- append Census geographies to facility rows that have addresses.
 
 The package returns tibbles, keeps unknown licenses in your output, and caches API responses on disk so repeated development runs are gentler on the upstream service.
 
@@ -115,9 +116,32 @@ Example output:
 
 Supported Alameda types are `"large_fccs"`, `"infant_centers"`, `"school_age_centers"`, `"preschools"`, and `"single_licensed_centers"`.
 
+Append Census geography codes when you need tract, block, ZCTA, school district,
+or other geography fields for addressable facility rows. The Census Geocoder
+does not require an API key, and `ccldr` caches repeated address lookups.
+
+```r
+preschools_geo <- preschools |>
+  ccld_add_census_geographies()
+
+preschools_geo |>
+  select(facility_number, latitude, longitude, census_tract_geoid, zcta_geoid)
+```
+
+Example output:
+
+```text
+#> # A tibble: 3 x 5
+#>   facility_number latitude longitude census_tract_geoid zcta_geoid
+#>   <chr>              <dbl>     <dbl> <chr>              <chr>
+#> 1 013423751           37.8     -122. 06001401100        94611
+#> 2 013423056           37.7     -122. 06001409400        94621
+#> 3 013422467           37.8     -122. 06001401100        94611
+```
+
 ## Live API behavior
 
-`ccldr` talks to an undocumented public API. For reproducible scripts, keep these habits in mind:
+`ccldr` talks to public APIs. For reproducible scripts, keep these habits in mind:
 
 - Use `cache = FALSE` when you need a fresh API response for a single call.
 - Use `ccld_cache_clear()` before rerunning a full workflow from scratch.
@@ -125,6 +149,10 @@ Supported Alameda types are `"large_fccs"`, `"infant_centers"`, `"school_age_cen
 - Use `options(ccldr.delay = 1)` to slow down batch requests.
 
 `ccld_alameda()` walks the 17 Alameda cities to avoid the API's 250-result response cap. If any city still hits that cap, the function warns that the snapshot may be incomplete.
+
+`ccld_add_census_geographies()` calls the U.S. Census Geocoder once per distinct
+address, requests `layers = "all"` by default, and keeps unmatched rows in the
+output with `geocode_status` explaining what happened.
 
 ## Documentation
 

@@ -6,9 +6,9 @@
 \alias{ccldr-package}
 \title{ccldr: R client for the CCLD Transparency API}
 \description{
-Verify facility license numbers, pull rich per-facility detail, and snapshot
-Alameda child-care facilities from the California Community Care Licensing
-Division's undocumented Transparency API.
+Verify facility license numbers, pull rich per-facility detail, snapshot
+Alameda child-care facilities, and append Census geographies using public
+CCLD and Census APIs.
 }
 \section{Package options}{
 
@@ -25,6 +25,7 @@ Division's undocumented Transparency API.
 \item \code{\link[=ccld_verify]{ccld_verify()}} to verify many license numbers.
 \item \code{\link[=ccld_facility]{ccld_facility()}} to fetch full detail for one license.
 \item \code{\link[=ccld_alameda]{ccld_alameda()}} to build live Alameda facility snapshots.
+\item \code{\link[=ccld_add_census_geographies]{ccld_add_census_geographies()}} to append geocodes and Census geography.
 }
 }
 \author{

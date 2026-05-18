@@ -1,3 +1,13 @@
+# ccldr 0.3.0
+
+* `ccld_add_census_geographies()` adds no-key U.S. Census Geocoder enrichment
+  for facility rows, including latitude/longitude, Census tract, block, block
+  group, ZCTA, place, county subdivision, urban area, legislative districts, and
+  school district fields when available.
+
+* Census Geocoder responses are deduplicated by address and cached on disk,
+  matching the package's existing cache behavior.
+
 # ccldr 0.2.0
 
 * Added a pkgdown documentation site configuration, GitHub Pages publishing

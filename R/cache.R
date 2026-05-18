@@ -33,11 +33,11 @@ cache_set <- function(key, value) {
   invisible(value)
 }
 
-#' Clear cached CCLD API responses
+#' Clear cached API responses
 #'
-#' Removes every cached response from the on-disk `ccldr` cache. This is useful
-#' before a reproducibility run or when you want to force subsequent calls to
-#' re-query the live CCLD Transparency API.
+#' Removes every cached response from the on-disk `ccldr` cache. This is
+#' useful before a reproducibility run or when you want to force subsequent
+#' calls to re-query the live public APIs.
 #'
 #' @return Invisibly, the number of cache files removed.
 #' @family cache management
@@ -51,7 +51,7 @@ ccld_cache_clear <- function() {
   invisible(length(files))
 }
 
-#' Inspect cached CCLD API responses
+#' Inspect cached API responses
 #'
 #' Returns one row per cached response. Cache entries older than
 #' `getOption("ccldr.cache_ttl_seconds")` are ignored by API helpers, but they
