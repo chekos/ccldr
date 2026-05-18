@@ -149,9 +149,9 @@ fields that are not present in the slim verification output.</p>
 <span>    <span class="va">visits_complaints</span>,</span>
 <span>    <span class="va">last_visit_date</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p><code>date_closed</code> comes from the full facility detail
-endpoint. Use the <a href="closure-date-audits.html">closure date audit
-article</a> when you need to apply that field across a site list.</p>
+<p><code>date_closed</code> comes from the facility detail endpoint and
+is also included in <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> output for site-list
+audits.</p>
 <p>Reports and complaints are list-columns. Unnest the piece you
 need.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -168,7 +168,7 @@ need.</p>
 </h2>
 <p><code><a href="../reference/ccld_alameda.html">ccld_alameda()</a></code> walks Alameda cities one by one because
 the API caps search responses at 250 records. The result uses the same
-slim 12-column schema as <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code>, which makes it easy
+slim 13-column schema as <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code>, which makes it easy
 to bind or compare outputs.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">types</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>

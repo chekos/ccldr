@@ -49,7 +49,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="ccldr-030">ccldr 0.3.0<a class="anchor" aria-label="anchor" href="#ccldr-030"></a></h2>
-<ul><li><p><code><a href="../reference/ccld_add_census_geographies.html">ccld_add_census_geographies()</a></code> adds no-key U.S. Census Geocoder enrichment for facility rows, including latitude/longitude, Census tract, block, block group, ZCTA, place, county subdivision, urban area, legislative districts, and school district fields when available.</p></li>
+<ul><li><p><code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> now includes <code>date_closed</code>, parsed from the CCLD <code>DATECLOSED</code> field, so closure audits can run across a vector of license numbers.</p></li>
+<li><p><code><a href="../reference/ccld_add_census_geographies.html">ccld_add_census_geographies()</a></code> adds no-key U.S. Census Geocoder enrichment for facility rows, including latitude/longitude, Census tract, block, block group, ZCTA, place, county subdivision, urban area, legislative districts, and school district fields when available.</p></li>
 <li><p>Census Geocoder responses are deduplicated by address and cached on disk, matching the package’s existing cache behavior.</p></li>
 </ul></div>
     <div class="section level2">

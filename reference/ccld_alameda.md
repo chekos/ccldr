@@ -26,8 +26,9 @@ ccld_alameda(type, cache = TRUE)
 
 ## Value
 
-A 12-column slim tibble, matching
+A 13-column slim tibble, matching
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md).
+Search responses do not include closure dates, so `date_closed` is `NA`.
 
 ## Details
 

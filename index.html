@@ -143,7 +143,7 @@
 <span><span class="co">#&gt;   facility_number report_date report_type</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;           &lt;date&gt;      &lt;chr&gt;</span></span>
 <span><span class="co">#&gt; 1 013423996       2024-11-04  Other</span></span></code></pre>
-<p>The full facility record also includes <code>date_closed</code>, which is useful when auditing sites that may have closed:</p>
+<p><code><a href="reference/ccld_verify.html">ccld_verify()</a></code> includes <code>date_closed</code>, which is useful when auditing sites that may have closed. Pull the full facility record when you need the same field alongside richer detail:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"013423958"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">date_closed</span><span class="op">)</span></span></code></pre></div>

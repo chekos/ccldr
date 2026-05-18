@@ -18,7 +18,6 @@ back cleanly.
 library(ccldr)
 library(dplyr)
 library(readr)
-library(tidyr)
 
 sites <- read_csv("rr_sites_2026.csv", col_types = cols(.default = "c"))
 ```
@@ -27,73 +26,33 @@ sites <- read_csv("rr_sites_2026.csv", col_types = cols(.default = "c"))
 
 Run
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
-before requesting full detail. It screens unknown or invalid licenses
-and returns current status for every input row.
+first. It screens unknown or invalid licenses and returns current status
+and closure dates for every input row.
 
 ``` r
 
 verified <- ccld_verify(sites$license_number)
 
 sites_verified <- sites |>
-  left_join(verified, by = c("license_number" = "input"))
+  bind_cols(verified |> select(-input))
 
 sites_verified |>
   count(found, status, sort = TRUE)
 ```
 
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
-is the right first pass for a full file, but it does not include the
-closure date. Closure dates are part of the full facility detail record.
+is the right first pass for a full file. It includes `date_closed`,
+parsed from the CCLD `DATECLOSED` field, when the API has a closure date
+for the facility.
 
-## Pull closure dates
+## Flag closed sites
 
-Use
-[`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)
-for the records where the API found a facility. The full record includes
-`date_closed`, parsed from the CCLD `DATECLOSED` field.
-
-``` r
-
-closure_detail <- sites_verified |>
-  filter(found) |>
-  distinct(facility_number) |>
-  mutate(
-    detail = lapply(
-      facility_number,
-      function(.x) ccld_facility(.x) |>
-        select(
-          facility_number,
-          facility_name,
-          status,
-          date_closed,
-          license_effective_date,
-          last_visit_date
-        )
-    )
-  ) |>
-  select(detail) |>
-  unnest(detail)
-```
-
-Join the detail rows back to your original site list.
+Use `date_closed` and the current CCLD status to flag likely closures.
 
 ``` r
 
 closure_audit <- sites_verified |>
-  select(
-    site_name,
-    license_number,
-    facility_number,
-    found,
-    verified_status = status
-  ) |>
-  left_join(
-    closure_detail,
-    by = "facility_number",
-    suffix = c("_verified", "_detail")
-  ) |>
   mutate(
-    status = coalesce(status_detail, verified_status),
     is_closed = !is.na(date_closed) |
       grepl("^Closed", status, ignore.case = TRUE)
   )
@@ -141,7 +100,7 @@ closure_detail <- ccld_facility("013423958", cache = FALSE) |>
 ## A compact helper
 
 For repeated audits, wrap the workflow in a small helper. This keeps the
-one-detail-request-per-facility step explicit.
+bulk verification step explicit.
 
 ``` r
 
@@ -151,30 +110,9 @@ add_closure_dates <- function(data, license_col = license_number) {
 
   verified <- ccld_verify(data$.license_input)
 
-  with_status <- data |>
-    left_join(verified, by = c(".license_input" = "input"))
-
-  detail <- with_status |>
-    filter(found) |>
-    distinct(facility_number) |>
+  data |>
+    bind_cols(verified |> select(-input)) |>
     mutate(
-      detail = lapply(
-        facility_number,
-        function(.x) ccld_facility(.x) |>
-          select(facility_number, status, date_closed, last_visit_date)
-      )
-    ) |>
-    select(detail) |>
-    unnest(detail)
-
-  with_status |>
-    left_join(
-      detail,
-      by = "facility_number",
-      suffix = c("_verified", "_detail")
-    ) |>
-    mutate(
-      status = coalesce(status_detail, status_verified),
       is_closed = !is.na(date_closed) |
         grepl("^Closed", status, ignore.case = TRUE)
     ) |>

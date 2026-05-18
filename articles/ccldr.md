@@ -112,8 +112,9 @@ Example output:
 [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)
 is scalar by design. For a column of candidate licenses, run
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
-first and request full detail only for the facilities you need. The full
-facility record also includes `date_closed` for closure audits.
+first. Its slim output includes `date_closed` for closure audits, and
+you can request full detail only for the facilities where you need
+visits, complaint counts, reports, or itemized complaints.
 
 ## Pull an Alameda snapshot
 

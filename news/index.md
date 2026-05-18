@@ -2,6 +2,10 @@
 
 ## ccldr 0.3.0
 
+- [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
+  now includes `date_closed`, parsed from the CCLD `DATECLOSED` field,
+  so closure audits can run across a vector of license numbers.
+
 - [`ccld_add_census_geographies()`](https://chekos.github.io/ccldr/reference/ccld_add_census_geographies.md)
   adds no-key U.S. Census Geocoder enrichment for facility rows,
   including latitude/longitude, Census tract, block, block group, ZCTA,

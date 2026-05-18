@@ -100,8 +100,10 @@ Example output:
 #> 1 013423996       2024-11-04  Other
 ```
 
-The full facility record also includes `date_closed`, which is useful
-when auditing sites that may have closed:
+[`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
+includes `date_closed`, which is useful when auditing sites that may
+have closed. Pull the full facility record when you need the same field
+alongside richer detail:
 
 ``` r
 

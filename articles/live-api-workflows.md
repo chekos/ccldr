@@ -78,10 +78,10 @@ facility |>
   )
 ```
 
-`date_closed` comes from the full facility detail endpoint. Use the
-[closure date audit
-article](https://chekos.github.io/ccldr/articles/closure-date-audits.md)
-when you need to apply that field across a site list.
+`date_closed` comes from the facility detail endpoint and is also
+included in
+[`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
+output for site-list audits.
 
 Reports and complaints are list-columns. Unnest the piece you need.
 
@@ -100,7 +100,7 @@ facility |>
 
 [`ccld_alameda()`](https://chekos.github.io/ccldr/reference/ccld_alameda.md)
 walks Alameda cities one by one because the API caps search responses at
-250 records. The result uses the same slim 12-column schema as
+250 records. The result uses the same slim 13-column schema as
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md),
 which makes it easy to bind or compare outputs.
 
