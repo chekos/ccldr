@@ -118,6 +118,34 @@ If a city hits the 250-result cap, `ccld_alameda()` warns that the snapshot may
 be incomplete. Treat that warning as a cue to supplement with the CKAN snapshot
 or a narrower workflow.
 
+## Append Census geographies
+
+Facility outputs include street address fields, so they can be enriched with
+coordinates and Census geography identifiers. The Census Geocoder route used by
+`ccld_add_census_geographies()` does not require an API key.
+
+```{r}
+all_facilities_geo <- all_facilities |>
+  ccld_add_census_geographies()
+
+all_facilities_geo |>
+  select(
+    facility_number,
+    geocode_status,
+    latitude,
+    longitude,
+    census_tract_geoid,
+    census_block_group_geoid,
+    zcta_geoid,
+    unified_school_district_name
+  )
+```
+
+Rows without usable street addresses are kept with
+`geocode_status = "not_geocoded"`. Addresses that the Census Geocoder cannot
+match are kept with `geocode_status = "unmatched"`, which makes follow-up
+review straightforward after a join or export.
+
 ## Make scripts easier to debug
 
 Turn on request logging when you need to see which API paths are being called.

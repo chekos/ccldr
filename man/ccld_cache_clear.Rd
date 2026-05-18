@@ -2,7 +2,7 @@
 % Please edit documentation in R/cache.R
 \name{ccld_cache_clear}
 \alias{ccld_cache_clear}
-\title{Clear cached CCLD API responses}
+\title{Clear cached API responses}
 \usage{
 ccld_cache_clear()
 }
@@ -10,9 +10,9 @@ ccld_cache_clear()
 Invisibly, the number of cache files removed.
 }
 \description{
-Removes every cached response from the on-disk \code{ccldr} cache. This is useful
-before a reproducibility run or when you want to force subsequent calls to
-re-query the live CCLD Transparency API.
+Removes every cached response from the on-disk \code{ccldr} cache. This is
+useful before a reproducibility run or when you want to force subsequent
+calls to re-query the live public APIs.
 }
 \examples{
 ccld_cache_clear()

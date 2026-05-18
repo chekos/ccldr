@@ -2,7 +2,7 @@
 % Please edit documentation in R/cache.R
 \name{ccld_cache_info}
 \alias{ccld_cache_info}
-\title{Inspect cached CCLD API responses}
+\title{Inspect cached API responses}
 \usage{
 ccld_cache_info()
 }

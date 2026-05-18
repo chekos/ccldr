@@ -1,0 +1,133 @@
+{
+  "result": {
+    "input": {
+      "address": {
+        "address": "1221 Oak Street, Oakland, CA, 94612"
+      },
+      "vintage": {
+        "isDefault": true,
+        "id": "4",
+        "vintageName": "Current_Current"
+      },
+      "benchmark": {
+        "isDefault": true,
+        "id": "4",
+        "benchmarkName": "Public_AR_Current"
+      }
+    },
+    "addressMatches": [
+      {
+        "matchedAddress": "1221 OAK ST, OAKLAND, CA, 94612",
+        "coordinates": {
+          "x": -122.263716981538,
+          "y": 37.799894764455
+        },
+        "tigerLine": {
+          "tigerLineId": "125000948",
+          "side": "L"
+        },
+        "geographies": {
+          "States": [
+            {
+              "GEOID": "06",
+              "STATE": "06",
+              "NAME": "California"
+            }
+          ],
+          "Counties": [
+            {
+              "GEOID": "06001",
+              "STATE": "06",
+              "COUNTY": "001",
+              "NAME": "Alameda County"
+            }
+          ],
+          "Census Tracts": [
+            {
+              "GEOID": "06001403402",
+              "STATE": "06",
+              "COUNTY": "001",
+              "TRACT": "403402",
+              "NAME": "Census Tract 4034.02"
+            }
+          ],
+          "Census Block Groups": [
+            {
+              "GEOID": "060014034021",
+              "STATE": "06",
+              "COUNTY": "001",
+              "TRACT": "403402",
+              "BLKGRP": "1",
+              "NAME": "Block Group 1"
+            }
+          ],
+          "2020 Census Blocks": [
+            {
+              "GEOID": "060014034021005",
+              "STATE": "06",
+              "COUNTY": "001",
+              "TRACT": "403402",
+              "BLKGRP": "1",
+              "BLOCK": "1005",
+              "NAME": "Block 1005"
+            }
+          ],
+          "2020 Census ZIP Code Tabulation Areas": [
+            {
+              "GEOID": "94612",
+              "ZCTA5": "94612",
+              "NAME": "ZCTA5 94612"
+            }
+          ],
+          "Incorporated Places": [
+            {
+              "GEOID": "0653000",
+              "PLACE": "53000",
+              "NAME": "Oakland city"
+            }
+          ],
+          "County Subdivisions": [
+            {
+              "GEOID": "0600192230",
+              "COUSUB": "92230",
+              "NAME": "Oakland CCD"
+            }
+          ],
+          "Urban Areas": [
+            {
+              "GEOID": "78904",
+              "NAME": "San Francisco-Oakland, CA Urban Area"
+            }
+          ],
+          "119th Congressional Districts": [
+            {
+              "GEOID": "0612",
+              "BASENAME": "12",
+              "NAME": "Congressional District 12"
+            }
+          ],
+          "2024 State Legislative Districts - Upper": [
+            {
+              "GEOID": "06007",
+              "BASENAME": "7",
+              "NAME": "State Senate District 7"
+            }
+          ],
+          "2024 State Legislative Districts - Lower": [
+            {
+              "GEOID": "06018",
+              "BASENAME": "18",
+              "NAME": "Assembly District 18"
+            }
+          ],
+          "Unified School Districts": [
+            {
+              "GEOID": "0628050",
+              "NAME": "Oakland Unified School District"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

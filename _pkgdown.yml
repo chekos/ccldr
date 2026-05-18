@@ -23,8 +23,12 @@ reference:
   desc: Fetch current Alameda County child-care facility snapshots by facility type.
   contents:
   - ccld_alameda
+- title: Geography helpers
+  desc: Geocode facility rows and append Census geography identifiers.
+  contents:
+  - ccld_add_census_geographies
 - title: Cache management
-  desc: Inspect and clear cached Transparency API responses.
+  desc: Inspect and clear cached API responses.
   contents:
   - ccld_cache_info
   - ccld_cache_clear
@@ -42,6 +46,8 @@ articles:
 
 news:
   releases:
+  - text: "Version 0.3.0"
+    href: news/index.html#ccldr-030
   - text: "Version 0.2.0"
     href: news/index.html#ccldr-020
 
