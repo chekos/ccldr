@@ -8,7 +8,17 @@ test_that("ccld_verify returns a 1-row tibble for a single license", {
   expect_equal(nrow(result), 1)
   expect_equal(result$facility_number, "013423996")
   expect_true(result$found)
-  expect_equal(ncol(result), 12)
+  expect_equal(ncol(result), 13)
+  expect_true("date_closed" %in% names(result))
+})
+
+test_that("ccld_verify includes closure dates from facility detail", {
+  setup_clean_cache()
+  result <- httr2::with_mocked_responses(
+    mock_fixture("facility_detail_closed.json"),
+    ccld_verify("13423958")
+  )
+  expect_equal(result$date_closed, as.Date("2026-04-17"))
 })
 
 test_that("ccld_verify returns found=FALSE for unknown license", {

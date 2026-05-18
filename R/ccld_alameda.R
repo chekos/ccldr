@@ -72,7 +72,8 @@ alameda_search_city <- function(factype, city, cache = TRUE) {
 #' @param cache Logical value (default `TRUE`) controlling whether the on-disk
 #'   response cache is used.
 #'
-#' @return A 12-column slim tibble, matching [ccld_verify()].
+#' @return A 13-column slim tibble, matching [ccld_verify()]. Search responses
+#'   do not include closure dates, so `date_closed` is `NA`.
 #' @family Alameda snapshots
 #' @seealso [ccld_verify()] for the shared slim return schema.
 #' @export

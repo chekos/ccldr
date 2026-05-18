@@ -13,10 +13,10 @@
 #' @param cache Logical value (default `TRUE`) controlling whether the on-disk
 #'   response cache is used.
 #'
-#' @return A tibble with 12 columns: `input`, `facility_number`, `found`,
+#' @return A tibble with 13 columns: `input`, `facility_number`, `found`,
 #'   `facility_name`, `facility_type`, `status`, `licensee_name`,
 #'   `street_address`, `city`, `zip`, `license_effective_date`,
-#'   `last_visit_date`.
+#'   `date_closed`, `last_visit_date`.
 #' @family license helpers
 #' @seealso [ccld_facility()] for full detail on one verified facility.
 #' @export

@@ -17,15 +17,16 @@ test_that("alameda_factype_for rejects unknown types with valid options listed",
   expect_error(alameda_factype_for("foo"), class = "ccldr_invalid_input")
 })
 
-test_that("parse_search_array returns a 12-column slim tibble keyed on facility_number", {
+test_that("parse_search_array returns a 13-column slim tibble keyed on facility_number", {
   body <- load_fixture("facility_search_preschools_oakland.json")
   out <- parse_search_array(body)
   expect_s3_class(out, "tbl_df")
-  expect_equal(ncol(out), 12)
+  expect_equal(ncol(out), 13)
   expect_true(all(c("facility_number", "facility_name", "status", "city", "zip") %in% names(out)))
   expect_true(all(out$found))
   expect_true(all(nchar(out$facility_number) == 9))
   expect_true(all(is.na(out$city)))
+  expect_true(all(is.na(out$date_closed)))
 })
 
 test_that("alameda_search_city stamps the queried city onto every row", {
