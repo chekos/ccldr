@@ -42,6 +42,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Workflows</h6></li>
+    <li><a class="dropdown-item" href="../articles/closure-date-audits.html">Closure date audits</a></li>
     <li><a class="dropdown-item" href="../articles/live-api-workflows.html">Live API workflows</a></li>
     <li><a class="dropdown-item" href="../articles/troubleshooting.html">Troubleshooting and FAQ</a></li>
   </ul>
@@ -141,11 +142,16 @@ fields that are not present in the slim verification output.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/transmute.html" class="external-link">transmute</a></span><span class="op">(</span></span>
 <span>    <span class="va">facility_number</span>,</span>
 <span>    <span class="va">facility_name</span>,</span>
+<span>    <span class="va">status</span>,</span>
+<span>    <span class="va">date_closed</span>,</span>
 <span>    <span class="va">capacity</span>,</span>
 <span>    <span class="va">visits_total</span>,</span>
 <span>    <span class="va">visits_complaints</span>,</span>
 <span>    <span class="va">last_visit_date</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p><code>date_closed</code> comes from the full facility detail
+endpoint. Use the <a href="closure-date-audits.html">closure date audit
+article</a> when you need to apply that field across a site list.</p>
 <p>Reports and complaints are list-columns. Unnest the piece you
 need.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">

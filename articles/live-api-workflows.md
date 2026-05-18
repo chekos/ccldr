@@ -69,12 +69,19 @@ facility |>
   transmute(
     facility_number,
     facility_name,
+    status,
+    date_closed,
     capacity,
     visits_total,
     visits_complaints,
     last_visit_date
   )
 ```
+
+`date_closed` comes from the full facility detail endpoint. Use the
+[closure date audit
+article](https://chekos.github.io/ccldr/articles/closure-date-audits.md)
+when you need to apply that field across a site list.
 
 Reports and complaints are list-columns. Unnest the piece you need.
 

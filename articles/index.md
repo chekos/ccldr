@@ -7,6 +7,8 @@
 
 ### Workflows
 
+- [Closure date
+  audits](https://chekos.github.io/ccldr/articles/closure-date-audits.md):
 - [Live API
   workflows](https://chekos.github.io/ccldr/articles/live-api-workflows.md):
 - [Troubleshooting and

@@ -112,7 +112,8 @@ Example output:
 [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)
 is scalar by design. For a column of candidate licenses, run
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
-first and request full detail only for the facilities you need.
+first and request full detail only for the facilities you need. The full
+facility record also includes `date_closed` for closure audits.
 
 ## Pull an Alameda snapshot
 
@@ -229,5 +230,6 @@ options(ccldr.cache_ttl_seconds = 3600)
 Read the website articles for recurring script patterns and
 troubleshooting:
 
+- <https://chekos.github.io/ccldr/articles/closure-date-audits.html>
 - <https://chekos.github.io/ccldr/articles/live-api-workflows.html>
 - <https://chekos.github.io/ccldr/articles/troubleshooting.html>
