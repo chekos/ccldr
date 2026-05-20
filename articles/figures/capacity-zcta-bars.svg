@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="430" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">Example bar chart of highest-capacity ZCTAs</title>
+  <desc id="desc">Horizontal bar chart ranking five ZCTAs by licensed preschool capacity.</desc>
+  <rect width="760" height="430" fill="#ffffff"/>
+  <text x="58" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#222222">Highest-capacity ZCTAs</text>
+  <text x="58" y="68" font-family="Arial, sans-serif" font-size="14" fill="#555555">Open preschool records with matched Census geographies</text>
+  <line x1="164" y1="94" x2="164" y2="360" stroke="#cfcfcf"/>
+  <line x1="164" y1="360" x2="704" y2="360" stroke="#cfcfcf"/>
+  <g font-family="Arial, sans-serif" font-size="14" fill="#333333">
+    <text x="102" y="125">94621</text>
+    <text x="102" y="175">94538</text>
+    <text x="102" y="225">94606</text>
+    <text x="102" y="275">94704</text>
+    <text x="102" y="325">94544</text>
+  </g>
+  <g fill="#756bb1">
+    <rect x="164" y="105" width="450" height="28"/>
+    <rect x="164" y="155" width="366" height="28"/>
+    <rect x="164" y="205" width="319" height="28"/>
+    <rect x="164" y="255" width="252" height="28"/>
+    <rect x="164" y="305" width="228" height="28"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="13" fill="#333333">
+    <text x="624" y="125">1,820</text>
+    <text x="540" y="175">1,480</text>
+    <text x="493" y="225">1,290</text>
+    <text x="426" y="275">1,020</text>
+    <text x="402" y="325">920</text>
+  </g>
+</svg>

@@ -8,6 +8,10 @@ current supply.
 The examples are not evaluated during site builds because they call the
 live CCLD Transparency API and the Census Geocoder.
 
+The printed tables and chart previews below are representative outputs.
+Your counts will change as CCLD records, closure dates, and geocoding
+matches change.
+
 ## Build an analysis file
 
 Start with one Alameda snapshot, then enrich it with the fields that
@@ -55,6 +59,17 @@ not return `capacity` or `date_closed`. Calling
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
 for the facility numbers fills those fields from `FacilityDetail`.
 
+Representative output:
+
+``` text
+#> # A tibble: 3 x 9
+#>   facility_number facility_name          city    status   capacity date_closed is_open last_visit_date found
+#>   <chr>           <chr>                  <chr>   <chr>       <int> <date>      <lgl>   <date>          <lgl>
+#> 1 013423751       WILD CHILD SCHOOLHOUSE Oakland Licensed       24 NA          TRUE    2024-09-17      TRUE
+#> 2 013423056       AGAPE LEARNING CENTER  Oakland Licensed       60 NA          TRUE    2024-11-06      TRUE
+#> 3 013422467       COLIBRI PRESCHOOL      Oakland Licensed       42 NA          TRUE    2025-02-11      TRUE
+```
+
 ## Add Census geographies
 
 Append coordinates and geography identifiers before summarizing. Keep
@@ -68,6 +83,17 @@ preschools_geo <- preschools_detail |>
 
 preschools_geo |>
   count(geocode_status, sort = TRUE)
+```
+
+Representative output:
+
+``` text
+#> # A tibble: 3 x 2
+#>   geocode_status     n
+#>   <chr>          <int>
+#> 1 geocoded         352
+#> 2 not_geocoded      18
+#> 3 unmatched          7
 ```
 
 For a city-only report, you can skip the geocoding step and use
@@ -99,6 +125,19 @@ city_capacity <- open_preschools |>
 city_capacity
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 5 x 5
+#>   city     facilities total_capacity median_capacity capacity_per_facility
+#>   <chr>         <int>          <int>           <dbl>                 <dbl>
+#> 1 Oakland          64           3080              45                  48.1
+#> 2 Fremont          38           1930              48                  50.8
+#> 3 Hayward          31           1520              44                  49.0
+#> 4 Berkeley         22           1190              50                  54.1
+#> 5 Alameda          18            965              48                  53.6
+```
+
 ``` r
 
 ggplot(city_capacity, aes(x = reorder(city, total_capacity), y = total_capacity)) +
@@ -112,6 +151,13 @@ ggplot(city_capacity, aes(x = reorder(city, total_capacity), y = total_capacity)
   ) +
   theme_minimal()
 ```
+
+Representative chart:
+
+![Horizontal bar chart of total licensed preschool capacity by
+city.](figures/capacity-city-bars.svg)
+
+Horizontal bar chart of total licensed preschool capacity by city.
 
 Look at both total capacity and facility count. A city can have a high
 total because it has many small sites, a few large sites, or both.
@@ -129,6 +175,14 @@ ggplot(city_capacity, aes(x = facilities, y = total_capacity)) +
   ) +
   theme_minimal()
 ```
+
+Representative chart:
+
+![Scatterplot comparing open facility count and total licensed capacity
+by city.](figures/capacity-city-scatter.svg)
+
+Scatterplot comparing open facility count and total licensed capacity by
+city.
 
 ## Capacity by ZCTA
 
@@ -153,6 +207,19 @@ zcta_capacity |>
   slice_head(n = 15)
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 5 x 5
+#>   zcta_geoid facilities total_capacity median_capacity cities
+#>   <chr>           <int>          <int>           <dbl> <chr>
+#> 1 94621              37           1820              42 Oakland
+#> 2 94538              28           1480              54 Fremont
+#> 3 94606              25           1290              45 Oakland
+#> 4 94704              18           1020              58 Berkeley
+#> 5 94544              19            920              46 Hayward
+```
+
 ``` r
 
 zcta_capacity |>
@@ -168,6 +235,13 @@ zcta_capacity |>
   ) +
   theme_minimal()
 ```
+
+Representative chart:
+
+![Horizontal bar chart of highest-capacity
+ZCTAs.](figures/capacity-zcta-bars.svg)
+
+Horizontal bar chart of highest-capacity ZCTAs.
 
 Capacity totals are not access rates. To turn this into an access
 analysis, join child population, poverty, language, or other denominator
@@ -197,6 +271,19 @@ tract_capacity |>
   slice_head(n = 20)
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 5 x 5
+#>   census_tract_geoid facilities total_capacity median_capacity cities
+#>   <chr>                   <int>          <int>           <dbl> <chr>
+#> 1 06001409400                12            690              55 Oakland
+#> 2 06001401100                10            575              48 Oakland
+#> 3 06001433300                 9            500              54 Fremont
+#> 4 06001442000                 8            420              45 Hayward
+#> 5 06001450800                 7            352              42 Alameda
+```
+
 ``` r
 
 tract_capacity |>
@@ -211,6 +298,13 @@ tract_capacity |>
   ) +
   theme_minimal()
 ```
+
+Representative chart:
+
+![Horizontal bar chart of highest-capacity Census
+tracts.](figures/capacity-tract-bars.svg)
+
+Horizontal bar chart of highest-capacity Census tracts.
 
 ## Closed records
 
@@ -235,6 +329,20 @@ closed_capacity <- preschools_geo |>
 closed_capacity
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 6 x 4
+#>   city     closed_year closed_facilities closed_capacity
+#>   <chr>          <int>             <int>           <int>
+#> 1 Oakland         2026                 3             120
+#> 2 Fremont         2026                 2              90
+#> 3 Hayward         2025                 2              72
+#> 4 Berkeley        2025                 1              45
+#> 5 Oakland         2024                 2              64
+#> 6 Alameda         2024                 1              36
+```
+
 ``` r
 
 ggplot(closed_capacity, aes(x = closed_year, y = closed_capacity, group = city)) +
@@ -249,6 +357,13 @@ ggplot(closed_capacity, aes(x = closed_year, y = closed_capacity, group = city))
   theme_minimal()
 ```
 
+Representative chart:
+
+![Small-multiple line chart of closed capacity records by city and
+year.](figures/capacity-closed-lines.svg)
+
+Small-multiple line chart of closed capacity records by city and year.
+
 ## Export report tables
 
 Save both summary tables and row-level records. The summaries are useful
@@ -261,4 +376,13 @@ readr::write_csv(city_capacity, "capacity_by_city.csv")
 readr::write_csv(zcta_capacity, "capacity_by_zcta.csv")
 readr::write_csv(tract_capacity, "capacity_by_tract.csv")
 readr::write_csv(preschools_geo, "capacity_analysis_rows.csv")
+```
+
+Representative output:
+
+``` text
+#> Wrote capacity_by_city.csv
+#> Wrote capacity_by_zcta.csv
+#> Wrote capacity_by_tract.csv
+#> Wrote capacity_analysis_rows.csv
 ```
