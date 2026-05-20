@@ -18,6 +18,12 @@ including them in the package bundle.
 Examples and vignettes should not require live network access during package
 checks. Use non-evaluated chunks or conditional execution for API calls.
 
+Documentation is not complete when it only shows code. If a snippet returns a
+table, vector, warning, error, file list, or plot, show representative output in
+the page next to the snippet. For live API examples, keep the code
+non-evaluated and add a static `text` output block or image preview so readers
+can understand the result shape without running the code themselves.
+
 ## Local checks
 
 Run these before opening a PR:
