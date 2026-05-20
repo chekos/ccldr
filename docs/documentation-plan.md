@@ -71,6 +71,7 @@ All reference pages should use markdown links, `@family` tags, examples that do 
 ## Vignette and article plan
 
 - `ccldr.Rmd`: Audience is analysts installing the package or reading local help. Outline: install/load, license number padding, verify a column, inspect one facility, pull an Alameda snapshot, cache behavior, next links.
+- `articles/capacity-audits.Rmd`: Audience is analysts comparing local site capacity records against CCLD. Outline: source data shape, verifying licenses, comparing local and CCLD capacity, reviewing mismatches, refreshing cache, reusable helper.
 - `articles/live-api-workflows.Rmd`: Audience is applied data users building recurring scripts. Outline: source data shape, joining verification results, refreshing cache, drilling into facility detail, building Alameda snapshots, reproducibility tips.
 - `articles/troubleshooting.Rmd`: Audience is users debugging unexpected results. Outline: unknown licenses, invalid license formats, unsupported Alameda types, API caps, stale cache, HTTP failures, running package checks locally.
 

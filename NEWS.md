@@ -1,5 +1,8 @@
 # ccldr 0.3.0
 
+* Added a capacity audit article showing how to compare local licensed-capacity
+  records against `ccld_verify()` output.
+
 * `ccld_verify()` now includes `capacity`, parsed from the CCLD `CAPACITY`
   field, so licensed capacity is available in bulk verification output.
 

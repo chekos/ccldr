@@ -41,6 +41,7 @@ articles:
 - title: Workflows
   navbar: Workflows
   contents:
+  - matches("capacity-audits")
   - matches("closure-date-audits")
   - matches("live-api-workflows")
   - matches("troubleshooting")

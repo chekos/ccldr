@@ -167,6 +167,7 @@ output with `geocode_status` explaining what happened.
 
 - Get started: `vignette("ccldr")`
 - Reference site: <https://chekos.github.io/ccldr/>
+- Capacity audits: <https://chekos.github.io/ccldr/articles/capacity-audits.html>
 - Closure date audits: <https://chekos.github.io/ccldr/articles/closure-date-audits.html>
 - Live workflow guide: <https://chekos.github.io/ccldr/articles/live-api-workflows.html>
 - Troubleshooting and FAQ: <https://chekos.github.io/ccldr/articles/troubleshooting.html>
