@@ -63,7 +63,7 @@ The quickstart should move from the safest zero-network helper (`ccld_pad()`) to
 - `ccld_pad()`: document accepted input types, vectorization, NA behavior, validation errors, and canonical 9-digit output.
 - `ccld_verify()`: document deduped fetching, row preservation, unknown-license behavior, 14-column schema, cache default, and live API side effects.
 - `ccld_facility()`: document single-license constraint, not-found error class, scalar fields, `reports` and `complaints` list-columns, and unnesting.
-- `ccld_facilities()`: document bulk full-detail fetching, deduped one-site API calls, row preservation, unknown-license behavior, list-columns, and when to prefer `ccld_verify()`.
+- `ccld_facilities()`: document bulk full-detail fetching, deduped one-site API calls, row preservation, unknown-license behavior, the full selectable column set, nested list-column schemas, and when to prefer `ccld_verify()`.
 - `ccld_alameda()`: document accepted types, rejected API buckets, 17-city strategy, 250-result cap warning, deduping, and the slim return schema.
 - `ccld_cache_clear()` and `ccld_cache_info()`: document cache location conceptually, return values, TTL option, and safe use during debugging.
 

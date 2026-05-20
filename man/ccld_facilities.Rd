@@ -28,6 +28,30 @@ empty \code{reports} and \code{complaints} list-columns.
 Use \code{\link[=ccld_verify]{ccld_verify()}} when you only need the slim verification schema. Use
 \code{ccld_facilities()} when you need full detail for a whole column of
 facilities, including visit counts, reports, and itemized complaints.
+
+Available top-level columns are: \code{input}, \code{facility_number}, \code{found},
+\code{facility_name}, \code{facility_type}, \code{status}, \code{licensee_name}, \code{contact},
+\code{street_address}, \code{city}, \code{state}, \code{zip}, \code{county}, \code{telephone},
+\code{capacity}, \code{client_served_1}, \code{client_served_2}, \code{client_served_3},
+\code{client_served_4}, \code{client_served_5}, \code{client_served_6}, \code{comments},
+\code{comments_2}, \code{license_effective_date}, \code{license_first_date},
+\code{date_closed}, \code{last_visit_date}, \code{visits_total}, \code{visits_complaints},
+\code{visits_inspections}, \code{visits_other}, \code{cmplt_type_a}, \code{cmplt_type_b},
+\code{cmplt_substantiated}, \code{cmplt_unsubstantiated}, \code{cmplt_inconclusive},
+\code{cmplt_unfounded}, \code{insp_type_a}, \code{insp_type_b}, \code{other_type_a},
+\code{other_type_b}, \code{visit_date_all}, \code{visit_date_complaint},
+\code{visit_date_inspection}, \code{visit_date_other}, \code{district_office},
+\code{district_office_address}, \code{district_office_city}, \code{district_office_state},
+\code{district_office_zip}, \code{district_office_phone}, \code{complaint_count},
+\code{total_complaint_visits}, \code{total_substantiated_allegations},
+\code{total_inconclusive_allegations}, \code{total_unsubstantiated_allegations},
+\code{total_unfounded_allegations}, \code{total_type_a}, \code{total_type_b}, \code{reports},
+and \code{complaints}.
+
+The \code{reports} list-column contains tibbles with \code{report_date},
+\code{report_title}, \code{report_type}, \code{report_page}, and \code{control_number}. The
+\code{complaints} list-column contains tibbles with \code{complaint_date},
+\code{allegation}, and \code{outcome}.
 }
 \examples{
 \dontrun{
