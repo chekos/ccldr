@@ -43,6 +43,9 @@ facilities raise a `ccldr_not_found` error.
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
 to check whether licenses exist before requesting full detail.
 
+Other facility detail:
+[`ccld_facilities()`](https://chekos.github.io/ccldr/reference/ccld_facilities.md)
+
 ## Examples
 
 ``` r

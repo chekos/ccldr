@@ -26,6 +26,9 @@ public CCLD and Census APIs.
 - [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)
   to fetch full detail for one license.
 
+- [`ccld_facilities()`](https://chekos.github.io/ccldr/reference/ccld_facilities.md)
+  to fetch full detail for many licenses.
+
 - [`ccld_alameda()`](https://chekos.github.io/ccldr/reference/ccld_alameda.md)
   to build live Alameda facility snapshots.
 

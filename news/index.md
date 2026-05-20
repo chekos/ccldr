@@ -2,6 +2,17 @@
 
 ## ccldr 0.3.0
 
+- Added
+  [`ccld_facilities()`](https://chekos.github.io/ccldr/reference/ccld_facilities.md)
+  to pull full facility detail for a vector of license numbers while
+  preserving input rows, duplicate licenses, and unknown licenses.
+
+- Clarified the documented split between the slim bulk-verification
+  output from
+  [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
+  and the full single-facility detail from
+  [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md).
+
 - Expanded workflow articles so result-producing examples show
   representative output, and documented that future examples must do the
   same.

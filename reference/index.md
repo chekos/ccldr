@@ -11,11 +11,13 @@ Validate, normalize, and verify CCLD facility license numbers.
 
 ## Facility detail
 
-Pull detailed fields, visits, reports, and complaints for a single
-facility.
+Pull detailed fields, visits, reports, and complaints for one or many
+facilities.
 
 - [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)
   : Pull the full CCLD facility detail for one license
+- [`ccld_facilities()`](https://chekos.github.io/ccldr/reference/ccld_facilities.md)
+  : Pull full CCLD facility detail for many licenses
 
 ## Alameda snapshots
 
