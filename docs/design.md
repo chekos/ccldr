@@ -26,7 +26,7 @@ Bulk-verify a vector of license numbers. The 95% use case.
 
 Accepts character or numeric input, with or without leading zeros. Pads internally. Unknown licenses do not drop — they return a row with `found = FALSE` and NAs in the data columns, so `nrow()` and `left_join` invariants hold.
 
-**Return:** tibble, 13 columns:
+**Return:** tibble, 14 columns:
 
 | Column | Type | Notes |
 |--------|------|-------|
@@ -37,6 +37,7 @@ Accepts character or numeric input, with or without leading zeros. Pads internal
 | `facility_type` | chr | E.g. `FAMILY DAY CARE HOME`, `DAY CARE CENTER` |
 | `status` | chr | Granular API taxonomy — see transparency-api.md |
 | `licensee_name` | chr | May differ from `facility_name` |
+| `capacity` | int | Licensed capacity |
 | `street_address` | chr | Free-text from CCLD; sometimes `Unavailable` |
 | `city` | chr | |
 | `zip` | chr | Stored as character to preserve leading zeros |
@@ -83,7 +84,7 @@ Accepted values (mapped to the API's `facType`):
 - `type = "small_fccs"` — the API blocks `facType=0` searches entirely. Routed to the CKAN snapshot (`chekos/ccld-open-data-snapshot/data/homes.csv`).
 - `type = "centers"` — `facType=845` ("Child Care Center") has only 4 records statewide in the API; the bulk of what people call "centers" live in `facType=850` (Preschool). Users wanting "Day Care Centers" should pass `"preschools"`; the error message explains.
 
-Return shape matches `ccld_verify()` (same 13 columns).
+Return shape matches `ccld_verify()` (same 14 columns).
 
 ### `ccld_pad(facnums)`
 

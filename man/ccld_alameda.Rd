@@ -16,8 +16,9 @@ supported.}
 response cache is used.}
 }
 \value{
-A 13-column slim tibble, matching \code{\link[=ccld_verify]{ccld_verify()}}. Search responses
-do not include closure dates, so \code{date_closed} is \code{NA}.
+A 14-column slim tibble, matching \code{\link[=ccld_verify]{ccld_verify()}}. Search responses
+do not include capacity or closure dates, so \code{capacity} and \code{date_closed}
+are \code{NA}.
 }
 \description{
 Pulls the current set of Alameda County child-care facilities of the given

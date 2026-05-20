@@ -14,9 +14,9 @@ Accepts 8- or 9-digit forms; padded internally via \code{\link[=ccld_pad]{ccld_p
 response cache is used.}
 }
 \value{
-A tibble with 13 columns: \code{input}, \code{facility_number}, \code{found},
+A tibble with 14 columns: \code{input}, \code{facility_number}, \code{found},
 \code{facility_name}, \code{facility_type}, \code{status}, \code{licensee_name},
-\code{street_address}, \code{city}, \code{zip}, \code{license_effective_date},
+\code{capacity}, \code{street_address}, \code{city}, \code{zip}, \code{license_effective_date},
 \code{date_closed}, \code{last_visit_date}.
 }
 \description{
