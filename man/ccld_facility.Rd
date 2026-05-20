@@ -36,5 +36,8 @@ ccld_facility("13423996")
 \seealso{
 \code{\link[=ccld_verify]{ccld_verify()}} to check whether licenses exist before requesting
 full detail.
+
+Other facility detail:
+\code{\link[=ccld_facilities]{ccld_facilities()}}
 }
 \concept{facility detail}

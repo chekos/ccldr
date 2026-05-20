@@ -24,6 +24,7 @@ CCLD and Census APIs.
 \itemize{
 \item \code{\link[=ccld_verify]{ccld_verify()}} to verify many license numbers.
 \item \code{\link[=ccld_facility]{ccld_facility()}} to fetch full detail for one license.
+\item \code{\link[=ccld_facilities]{ccld_facilities()}} to fetch full detail for many licenses.
 \item \code{\link[=ccld_alameda]{ccld_alameda()}} to build live Alameda facility snapshots.
 \item \code{\link[=ccld_add_census_geographies]{ccld_add_census_geographies()}} to append geocodes and Census geography.
 }

@@ -10,8 +10,9 @@
 #'
 #' `ccld_verify()` always returns the slim bulk-verification schema documented
 #' in the return value. It does not have a full-detail mode. After identifying
-#' the facilities that need deeper review, use [ccld_facility()] to pull the
-#' full API detail for one license at a time, including reports and complaints.
+#' the facilities that need deeper review, use [ccld_facility()] for one
+#' license or [ccld_facilities()] for a whole vector to pull the full API
+#' detail, including reports and complaints.
 #'
 #' @param facnums Character or numeric vector of facility license numbers.
 #'   Accepts 8- or 9-digit forms; padded internally via [ccld_pad()].
@@ -23,7 +24,8 @@
 #'   `capacity`, `street_address`, `city`, `zip`, `license_effective_date`,
 #'   `date_closed`, `last_visit_date`.
 #' @family license helpers
-#' @seealso [ccld_facility()] for full detail on one verified facility.
+#' @seealso [ccld_facility()] for full detail on one verified facility and
+#'   [ccld_facilities()] for full detail on many facilities.
 #' @export
 #' @examples
 #' \dontrun{

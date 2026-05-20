@@ -1,5 +1,9 @@
 # ccldr 0.3.0
 
+* Added `ccld_facilities()` to pull full facility detail for a vector of
+  license numbers while preserving input rows, duplicate licenses, and unknown
+  licenses.
+
 * Clarified the documented split between the slim bulk-verification output from
   `ccld_verify()` and the full single-facility detail from `ccld_facility()`.
 
