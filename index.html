@@ -116,13 +116,13 @@
 <span></span>
 <span><span class="va">rr</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">verified</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"license_number"</span> <span class="op">=</span> <span class="st">"input"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">site_name</span>, <span class="va">license_number</span>, <span class="va">found</span>, <span class="va">facility_name</span>, <span class="va">status</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">site_name</span>, <span class="va">license_number</span>, <span class="va">found</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">capacity</span><span class="op">)</span></span></code></pre></div>
 <p>Example output:</p>
-<pre class="text"><code><span><span class="co">#&gt; # A tibble: 2 x 5</span></span>
-<span><span class="co">#&gt;   site_name                 license_number found facility_name       status</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                     &lt;chr&gt;          &lt;lgl&gt; &lt;chr&gt;               &lt;chr&gt;</span></span>
-<span><span class="co">#&gt; 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed</span></span>
-<span><span class="co">#&gt; 2 Unknown Site              99999999       FALSE &lt;NA&gt;                &lt;NA&gt;</span></span></code></pre>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 2 x 6</span></span>
+<span><span class="co">#&gt;   site_name                 license_number found facility_name       status   capacity</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                     &lt;chr&gt;          &lt;lgl&gt; &lt;chr&gt;               &lt;chr&gt;       &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed       14</span></span>
+<span><span class="co">#&gt; 2 Unknown Site              99999999       FALSE &lt;NA&gt;                &lt;NA&gt;          NA</span></span></code></pre>
 <p>Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints. <code><a href="reference/ccld_facility.html">ccld_facility()</a></code> also accepts either the 8- or 9-digit form:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">facility</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"13423996"</span><span class="op">)</span></span>
@@ -143,7 +143,7 @@
 <span><span class="co">#&gt;   facility_number report_date report_type</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;           &lt;date&gt;      &lt;chr&gt;</span></span>
 <span><span class="co">#&gt; 1 013423996       2024-11-04  Other</span></span></code></pre>
-<p><code><a href="reference/ccld_verify.html">ccld_verify()</a></code> includes <code>date_closed</code>, which is useful when auditing sites that may have closed. Pull the full facility record when you need the same field alongside richer detail:</p>
+<p><code><a href="reference/ccld_verify.html">ccld_verify()</a></code> includes <code>capacity</code> and <code>date_closed</code>, which are useful when auditing sites in bulk. Pull the full facility record when you need those fields alongside richer detail:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"013423958"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">date_closed</span><span class="op">)</span></span></code></pre></div>

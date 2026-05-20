@@ -26,8 +26,8 @@ ccld_verify(facnums, cache = TRUE)
 
 ## Value
 
-A tibble with 13 columns: `input`, `facility_number`, `found`,
-`facility_name`, `facility_type`, `status`, `licensee_name`,
+A tibble with 14 columns: `input`, `facility_number`, `found`,
+`facility_name`, `facility_type`, `status`, `licensee_name`, `capacity`,
 `street_address`, `city`, `zip`, `license_effective_date`,
 `date_closed`, `last_visit_date`.
 

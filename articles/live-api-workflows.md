@@ -78,8 +78,8 @@ facility |>
   )
 ```
 
-`date_closed` comes from the facility detail endpoint and is also
-included in
+`capacity` and `date_closed` come from the facility detail endpoint and
+are also included in
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
 output for site-list audits.
 
@@ -100,7 +100,7 @@ facility |>
 
 [`ccld_alameda()`](https://chekos.github.io/ccldr/reference/ccld_alameda.md)
 walks Alameda cities one by one because the API caps search responses at
-250 records. The result uses the same slim 13-column schema as
+250 records. The result uses the same slim 14-column schema as
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md),
 which makes it easy to bind or compare outputs.
 

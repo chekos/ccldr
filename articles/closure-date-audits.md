@@ -41,9 +41,9 @@ sites_verified |>
 ```
 
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
-is the right first pass for a full file. It includes `date_closed`,
-parsed from the CCLD `DATECLOSED` field, when the API has a closure date
-for the facility.
+is the right first pass for a full file. It includes `capacity` from the
+CCLD `CAPACITY` field and `date_closed` from the `DATECLOSED` field when
+the API has those values for the facility.
 
 ## Flag closed sites
 

@@ -117,9 +117,9 @@ row.</p>
 <span><span class="va">sites_verified</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">found</span>, <span class="va">status</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> is the right first pass for a full file.
-It includes <code>date_closed</code>, parsed from the CCLD
-<code>DATECLOSED</code> field, when the API has a closure date for the
-facility.</p>
+It includes <code>capacity</code> from the CCLD <code>CAPACITY</code>
+field and <code>date_closed</code> from the <code>DATECLOSED</code>
+field when the API has those values for the facility.</p>
 </div>
 <div class="section level2">
 <h2 id="flag-closed-sites">Flag closed sites<a class="anchor" aria-label="anchor" href="#flag-closed-sites"></a>

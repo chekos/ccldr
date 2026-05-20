@@ -49,17 +49,17 @@ verified <- ccld_verify(rr$license_number)
 
 rr |>
   left_join(verified, by = c("license_number" = "input")) |>
-  select(site_name, license_number, found, facility_name, status)
+  select(site_name, license_number, found, facility_name, status, capacity)
 ```
 
 Example output:
 
 ``` text
-#> # A tibble: 2 x 5
-#>   site_name                 license_number found facility_name       status
-#>   <chr>                     <chr>          <lgl> <chr>               <chr>
-#> 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed
-#> 2 Unknown Site              99999999       FALSE <NA>                <NA>
+#> # A tibble: 2 x 6
+#>   site_name                 license_number found facility_name       status   capacity
+#>   <chr>                     <chr>          <lgl> <chr>               <chr>       <int>
+#> 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed       14
+#> 2 Unknown Site              99999999       FALSE <NA>                <NA>          NA
 ```
 
 Pull one full facility record when you need visits, complaint counts,
@@ -101,8 +101,8 @@ Example output:
 ```
 
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
-includes `date_closed`, which is useful when auditing sites that may
-have closed. Pull the full facility record when you need the same field
+includes `capacity` and `date_closed`, which are useful when auditing
+sites in bulk. Pull the full facility record when you need those fields
 alongside richer detail:
 
 ``` r

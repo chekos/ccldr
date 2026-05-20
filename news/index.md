@@ -3,6 +3,10 @@
 ## ccldr 0.3.0
 
 - [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
+  now includes `capacity`, parsed from the CCLD `CAPACITY` field, so
+  licensed capacity is available in bulk verification output.
+
+- [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
   now includes `date_closed`, parsed from the CCLD `DATECLOSED` field,
   so closure audits can run across a vector of license numbers.
 

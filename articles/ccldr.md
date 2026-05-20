@@ -36,17 +36,17 @@ verified <- ccld_verify(rr$license_number)
 
 rr |>
   left_join(verified, by = c("license_number" = "input")) |>
-  select(site_name, license_number, found, facility_name, status)
+  select(site_name, license_number, found, facility_name, status, capacity)
 ```
 
 Example output:
 
 ``` text
-#> # A tibble: 2 x 5
-#>   site_name                 license_number found facility_name       status
-#>   <chr>                     <chr>          <lgl> <chr>               <chr>
-#> 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed
-#> 2 Unknown Site              99999999       FALSE <NA>                <NA>
+#> # A tibble: 2 x 6
+#>   site_name                 license_number found facility_name       status   capacity
+#>   <chr>                     <chr>          <lgl> <chr>               <chr>       <int>
+#> 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed       14
+#> 2 Unknown Site              99999999       FALSE <NA>                <NA>          NA
 ```
 
 Keeping `found = FALSE` rows in the result makes audits easier: your
@@ -112,9 +112,9 @@ Example output:
 [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)
 is scalar by design. For a column of candidate licenses, run
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
-first. Its slim output includes `date_closed` for closure audits, and
-you can request full detail only for the facilities where you need
-visits, complaint counts, reports, or itemized complaints.
+first. Its slim output includes `capacity` and `date_closed` for bulk
+audits, and you can request full detail only for the facilities where
+you need visits, complaint counts, reports, or itemized complaints.
 
 ## Pull an Alameda snapshot
 
