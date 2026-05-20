@@ -2,6 +2,10 @@
 
 ## ccldr 0.3.0
 
+- Expanded workflow articles so result-producing examples show
+  representative output, and documented that future examples must do the
+  same.
+
 - Added a capacity-by-geography analysis article with city, ZCTA, tract,
   and closure-date summaries plus `ggplot2` chart examples.
 

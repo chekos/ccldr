@@ -58,6 +58,7 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'roxygen2::roxygenise()'</span></span></code></pre></div>
 <p>The installed getting-started guide is <code>vignettes/ccldr.Rmd</code>. Longer live API walk-throughs live in <code>vignettes/articles/</code> so pkgdown can publish them without including them in the package bundle.</p>
 <p>Examples and vignettes should not require live network access during package checks. Use non-evaluated chunks or conditional execution for API calls.</p>
+<p>Documentation is not complete when it only shows code. If a snippet returns a table, vector, warning, error, file list, or plot, show representative output in the page next to the snippet. For live API examples, keep the code non-evaluated and add a static <code>text</code> output block or image preview so readers can understand the result shape without running the code themselves.</p>
 </div>
 <div class="section level2">
 <h2 id="local-checks">Local checks<a class="anchor" aria-label="anchor" href="#local-checks"></a></h2>

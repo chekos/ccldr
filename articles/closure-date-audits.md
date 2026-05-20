@@ -22,6 +22,17 @@ library(readr)
 sites <- read_csv("rr_sites_2026.csv", col_types = cols(.default = "c"))
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 3 x 2
+#>   site_name                 license_number
+#>   <chr>                     <chr>
+#> 1 Johnson Family Child Care 13423996
+#> 2 Ahmadi Family Child Care  013423958
+#> 3 Unknown Site              99999999
+```
+
 ## Verify first
 
 Run
@@ -40,6 +51,17 @@ sites_verified |>
   count(found, status, sort = TRUE)
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 3 x 3
+#>   found status                         n
+#>   <lgl> <chr>                      <int>
+#> 1 TRUE  Licensed                     184
+#> 2 TRUE  Closed, Licensee Initiated     6
+#> 3 FALSE <NA>                           3
+```
+
 [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
 is the right first pass for a full file. It includes `capacity` from the
 CCLD `CAPACITY` field and `date_closed` from the `DATECLOSED` field when
@@ -56,6 +78,17 @@ closure_audit <- sites_verified |>
     is_closed = !is.na(date_closed) |
       grepl("^Closed", status, ignore.case = TRUE)
   )
+```
+
+Representative output:
+
+``` text
+#> # A tibble: 3 x 6
+#>   site_name                 facility_number found status                     date_closed is_closed
+#>   <chr>                     <chr>           <lgl> <chr>                      <date>      <lgl>
+#> 1 Johnson Family Child Care 013423996       TRUE  Licensed                   NA          FALSE
+#> 2 Ahmadi Family Child Care  013423958       TRUE  Closed, Licensee Initiated 2026-04-17  TRUE
+#> 3 Unknown Site              099999999       FALSE <NA>                       NA          FALSE
 ```
 
 ## Review closed and unmatched sites
@@ -80,6 +113,16 @@ closure_audit |>
   )
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 2 x 7
+#>   site_name                license_number found facility_name  status                     date_closed last_visit_date
+#>   <chr>                    <chr>          <lgl> <chr>          <chr>                      <date>      <date>
+#> 1 Ahmadi Family Child Care 013423958      TRUE  AHMADI, MARIAM Closed, Licensee Initiated 2026-04-17  2024-07-09
+#> 2 Unknown Site             99999999       FALSE <NA>           <NA>                       NA          NA
+```
+
 If a facility is found but has `date_closed = NA`, treat it as not
 having a closure date in the current CCLD detail response.
 
@@ -95,6 +138,15 @@ ccld_cache_clear()
 
 closure_detail <- ccld_facility("013423958", cache = FALSE) |>
   select(facility_number, facility_name, status, date_closed)
+```
+
+Representative output:
+
+``` text
+#> # A tibble: 1 x 4
+#>   facility_number facility_name  status                     date_closed
+#>   <chr>           <chr>          <chr>                      <date>
+#> 1 013423958       AHMADI, MARIAM Closed, Licensee Initiated 2026-04-17
 ```
 
 ## A compact helper
@@ -120,4 +172,15 @@ add_closure_dates <- function(data, license_col = license_number) {
 }
 
 closure_audit <- add_closure_dates(sites, license_number)
+```
+
+Representative output:
+
+``` text
+#> # A tibble: 3 x 5
+#>   site_name                 facility_number found date_closed is_closed
+#>   <chr>                     <chr>           <lgl> <date>      <lgl>
+#> 1 Johnson Family Child Care 013423996       TRUE  NA          FALSE
+#> 2 Ahmadi Family Child Care  013423958       TRUE  2026-04-17  TRUE
+#> 3 Unknown Site              099999999       FALSE NA          FALSE
 ```

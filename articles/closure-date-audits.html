@@ -103,6 +103,13 @@ joined back cleanly.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sites</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"rr_sites_2026.csv"</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html" class="external-link">cols</a></span><span class="op">(</span>.default <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 2</span></span>
+<span><span class="co">#&gt;   site_name                 license_number</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                     &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 Johnson Family Child Care 13423996</span></span>
+<span><span class="co">#&gt; 2 Ahmadi Family Child Care  013423958</span></span>
+<span><span class="co">#&gt; 3 Unknown Site              99999999</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="verify-first">Verify first<a class="anchor" aria-label="anchor" href="#verify-first"></a>
@@ -110,7 +117,7 @@ joined back cleanly.</p>
 <p>Run <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> first. It screens unknown or invalid
 licenses and returns current status and closure dates for every input
 row.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">verified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_verify.html">ccld_verify</a></span><span class="op">(</span><span class="va">sites</span><span class="op">$</span><span class="va">license_number</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">sites_verified</span> <span class="op">&lt;-</span> <span class="va">sites</span> <span class="op">|&gt;</span></span>
@@ -118,6 +125,13 @@ row.</p>
 <span></span>
 <span><span class="va">sites_verified</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">found</span>, <span class="va">status</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 3</span></span>
+<span><span class="co">#&gt;   found status                         n</span></span>
+<span><span class="co">#&gt;   &lt;lgl&gt; &lt;chr&gt;                      &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 TRUE  Licensed                     184</span></span>
+<span><span class="co">#&gt; 2 TRUE  Closed, Licensee Initiated     6</span></span>
+<span><span class="co">#&gt; 3 FALSE &lt;NA&gt;                           3</span></span></code></pre>
 <p><code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> is the right first pass for a full file.
 It includes <code>capacity</code> from the CCLD <code>CAPACITY</code>
 field and <code>date_closed</code> from the <code>DATECLOSED</code>
@@ -128,12 +142,19 @@ field when the API has those values for the facility.</p>
 </h2>
 <p>Use <code>date_closed</code> and the current CCLD status to flag
 likely closures.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">closure_audit</span> <span class="op">&lt;-</span> <span class="va">sites_verified</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    is_closed <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">date_closed</span><span class="op">)</span> <span class="op">|</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^Closed"</span>, <span class="va">status</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 6</span></span>
+<span><span class="co">#&gt;   site_name                 facility_number found status                     date_closed is_closed</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                     &lt;chr&gt;           &lt;lgl&gt; &lt;chr&gt;                      &lt;date&gt;      &lt;lgl&gt;</span></span>
+<span><span class="co">#&gt; 1 Johnson Family Child Care 013423996       TRUE  Licensed                   NA          FALSE</span></span>
+<span><span class="co">#&gt; 2 Ahmadi Family Child Care  013423958       TRUE  Closed, Licensee Initiated 2026-04-17  TRUE</span></span>
+<span><span class="co">#&gt; 3 Unknown Site              099999999       FALSE &lt;NA&gt;                       NA          FALSE</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="review-closed-and-unmatched-sites">Review closed and unmatched sites<a class="anchor" aria-label="anchor" href="#review-closed-and-unmatched-sites"></a>
@@ -142,7 +163,7 @@ likely closures.</p>
 <code>"Closed"</code> and a non-missing <code>date_closed</code>. Open
 facilities usually return <code>NA</code> for
 <code>date_closed</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">closure_audit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_closed</span> <span class="op">|</span> <span class="op">!</span><span class="va">found</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">is_closed</span><span class="op">)</span>, <span class="va">date_closed</span>, <span class="va">site_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -155,6 +176,12 @@ facilities usually return <code>NA</code> for
 <span>    <span class="va">date_closed</span>,</span>
 <span>    <span class="va">last_visit_date</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 2 x 7</span></span>
+<span><span class="co">#&gt;   site_name                license_number found facility_name  status                     date_closed last_visit_date</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                    &lt;chr&gt;          &lt;lgl&gt; &lt;chr&gt;          &lt;chr&gt;                      &lt;date&gt;      &lt;date&gt;</span></span>
+<span><span class="co">#&gt; 1 Ahmadi Family Child Care 013423958      TRUE  AHMADI, MARIAM Closed, Licensee Initiated 2026-04-17  2024-07-09</span></span>
+<span><span class="co">#&gt; 2 Unknown Site             99999999       FALSE &lt;NA&gt;           &lt;NA&gt;                       NA          NA</span></span></code></pre>
 <p>If a facility is found but has <code>date_closed = NA</code>, treat
 it as not having a closure date in the current CCLD detail response.</p>
 </div>
@@ -164,18 +191,23 @@ it as not having a closure date in the current CCLD detail response.</p>
 <p>The package caches API responses while you work. For a closure audit,
 clear the cache at the start of a scheduled run or bypass the cache when
 checking one important facility.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_cache_clear.html">ccld_cache_clear</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">closure_detail</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"013423958"</span>, cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">date_closed</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 1 x 4</span></span>
+<span><span class="co">#&gt;   facility_number facility_name  status                     date_closed</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;                      &lt;date&gt;</span></span>
+<span><span class="co">#&gt; 1 013423958       AHMADI, MARIAM Closed, Licensee Initiated 2026-04-17</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="a-compact-helper">A compact helper<a class="anchor" aria-label="anchor" href="#a-compact-helper"></a>
 </h2>
 <p>For repeated audits, wrap the workflow in a small helper. This keeps
 the bulk verification step explicit.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">add_closure_dates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">license_col</span> <span class="op">=</span> <span class="va">license_number</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>.license_input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">license_col</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
@@ -192,6 +224,13 @@ the bulk verification step explicit.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="va">closure_audit</span> <span class="op">&lt;-</span> <span class="fu">add_closure_dates</span><span class="op">(</span><span class="va">sites</span>, <span class="va">license_number</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 5</span></span>
+<span><span class="co">#&gt;   site_name                 facility_number found date_closed is_closed</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                     &lt;chr&gt;           &lt;lgl&gt; &lt;date&gt;      &lt;lgl&gt;</span></span>
+<span><span class="co">#&gt; 1 Johnson Family Child Care 013423996       TRUE  NA          FALSE</span></span>
+<span><span class="co">#&gt; 2 Ahmadi Family Child Care  013423958       TRUE  2026-04-17  TRUE</span></span>
+<span><span class="co">#&gt; 3 Unknown Site              099999999       FALSE NA          FALSE</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

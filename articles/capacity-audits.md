@@ -22,6 +22,17 @@ sites <- read_csv("rr_sites_2026.csv", col_types = cols(.default = "c")) |>
   mutate(local_capacity = as.integer(local_capacity))
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 3 x 3
+#>   site_name                 license_number local_capacity
+#>   <chr>                     <chr>                   <int>
+#> 1 Johnson Family Child Care 13423996                   14
+#> 2 Agape Learning Center     013423056                  60
+#> 3 Unknown Site              99999999                   24
+```
+
 ## Verify first
 
 Run
@@ -38,6 +49,17 @@ sites_verified <- sites |>
 
 sites_verified |>
   count(found, status, sort = TRUE)
+```
+
+Representative output:
+
+``` text
+#> # A tibble: 3 x 3
+#>   found status                         n
+#>   <lgl> <chr>                      <int>
+#> 1 TRUE  Licensed                     184
+#> 2 TRUE  Closed, Licensee Initiated     6
+#> 3 FALSE <NA>                           3
 ```
 
 `capacity` is parsed from the CCLD `CAPACITY` field. If a license is
@@ -64,6 +86,17 @@ capacity_audit <- sites_verified |>
   )
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 3 x 6
+#>   site_name                 local_capacity capacity capacity_delta capacity_matches needs_capacity_review
+#>   <chr>                              <int>    <int>          <int> <lgl>            <lgl>
+#> 1 Johnson Family Child Care             14       14              0 TRUE             FALSE
+#> 2 Agape Learning Center                 54       60              6 FALSE            TRUE
+#> 3 Unknown Site                          24       NA             NA FALSE            TRUE
+```
+
 ## Review mismatches
 
 Sort records that need review by the size of the difference, then keep
@@ -87,6 +120,17 @@ capacity_audit |>
   )
 ```
 
+Representative output:
+
+``` text
+#> # A tibble: 3 x 9
+#>   site_name             license_number found facility_name         status   local_capacity capacity capacity_delta date_closed
+#>   <chr>                 <chr>          <lgl> <chr>                 <chr>             <int>    <int>          <int> <date>
+#> 1 Agape Learning Center 013423056      TRUE  AGAPE LEARNING CENTER Licensed             54       60              6 NA
+#> 2 Unknown Site          99999999       FALSE <NA>                  <NA>                 24       NA             NA NA
+#> 3 Closed Site           013423958      TRUE  AHMADI, MARIAM        Closed...             8        8              0 2026-04-17
+```
+
 If `capacity = NA` for a found facility, treat it as missing in the
 current CCLD detail response and review the facility manually.
 
@@ -102,6 +146,15 @@ ccld_cache_clear()
 
 ccld_verify("013423996", cache = FALSE) |>
   select(facility_number, facility_name, status, capacity)
+```
+
+Representative output:
+
+``` text
+#> # A tibble: 1 x 4
+#>   facility_number facility_name       status   capacity
+#>   <chr>           <chr>               <chr>       <int>
+#> 1 013423996       JOHNSON III, JOHNNY Licensed       14
 ```
 
 ## A compact helper
@@ -137,4 +190,15 @@ add_capacity_audit <- function(data, license_col = license_number, capacity_col 
 }
 
 capacity_audit <- add_capacity_audit(sites, license_number, local_capacity)
+```
+
+Representative output:
+
+``` text
+#> # A tibble: 3 x 5
+#>   site_name                 capacity local_capacity capacity_delta needs_capacity_review
+#>   <chr>                        <int>          <int>          <int> <lgl>
+#> 1 Johnson Family Child Care       14             14              0 FALSE
+#> 2 Agape Learning Center           60             54              6 TRUE
+#> 3 Unknown Site                    NA             24             NA TRUE
 ```

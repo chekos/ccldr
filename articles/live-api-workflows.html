@@ -112,6 +112,12 @@ current view of each license.</p>
 <span><span class="va">audit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">needs_follow_up</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">site_name</span>, <span class="va">license_number</span>, <span class="va">found</span>, <span class="va">status</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 2 x 4</span></span>
+<span><span class="co">#&gt;   site_name    license_number found status</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;          &lt;lgl&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 Unknown Site 99999999       FALSE &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2 Closed Site  013423958      TRUE  Closed, Licensee Initiated</span></span></code></pre>
 <p><code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> preserves input order and returns
 duplicate inputs as duplicate rows, but it only fetches each distinct
 license once.</p>
@@ -122,22 +128,29 @@ license once.</p>
 <p>The default cache avoids repeated requests while you iterate on
 scripts. For a scheduled job, clear the cache at the start of a run or
 bypass it for the calls that must be fresh.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_cache_clear.html">ccld_cache_clear</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">verified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_verify.html">ccld_verify</a></span><span class="op">(</span><span class="va">intakes</span><span class="op">$</span><span class="va">license_number</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fresh_one</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"13423996"</span>, cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; Cache cleared.</span></span>
+<span><span class="co">#&gt; verified: 193 rows</span></span>
+<span><span class="co">#&gt; fresh_one: 1 row, 57 columns</span></span></code></pre>
 <p>Use a longer delay if you are making many requests:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ccldr.delay <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; ccldr.delay</span></span>
+<span><span class="co">#&gt;           1</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="drill-into-a-facility">Drill into a facility<a class="anchor" aria-label="anchor" href="#drill-into-a-facility"></a>
 </h2>
 <p>After a license is verified, fetch the full record only when you need
 fields that are not present in the slim verification output.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">facility</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"13423996"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">facility</span> <span class="op">|&gt;</span></span>
@@ -151,12 +164,17 @@ fields that are not present in the slim verification output.</p>
 <span>    <span class="va">visits_complaints</span>,</span>
 <span>    <span class="va">last_visit_date</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 1 x 8</span></span>
+<span><span class="co">#&gt;   facility_number facility_name       status   date_closed capacity visits_total visits_complaints last_visit_date</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;               &lt;chr&gt;    &lt;date&gt;         &lt;int&gt;        &lt;int&gt;             &lt;int&gt; &lt;date&gt;</span></span>
+<span><span class="co">#&gt; 1 013423996       JOHNSON III, JOHNNY Licensed NA                14            1                 0 2024-11-04</span></span></code></pre>
 <p><code>capacity</code> and <code>date_closed</code> come from the
 facility detail endpoint and are also included in
 <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> output for site-list audits.</p>
 <p>Reports and complaints are list-columns. Unnest the piece you
 need.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">facility</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">reports</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">reports</span><span class="op">)</span></span>
@@ -164,6 +182,17 @@ need.</p>
 <span><span class="va">facility</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">complaints</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">complaints</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # Reports</span></span>
+<span><span class="co">#&gt; # A tibble: 1 x 5</span></span>
+<span><span class="co">#&gt;   facility_number report_date report_title report_type control_number</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;date&gt;      &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 013423996       2024-11-04  Facility...  Other       013423996-001</span></span>
+<span><span class="co">#&gt;</span></span>
+<span><span class="co">#&gt; # Complaints</span></span>
+<span><span class="co">#&gt; # A tibble: 0 x 4</span></span>
+<span><span class="co">#&gt; # i 4 variables: facility_number &lt;chr&gt;, complaint_date &lt;date&gt;,</span></span>
+<span><span class="co">#&gt; #   allegation &lt;chr&gt;, outcome &lt;chr&gt;</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="build-alameda-snapshots">Build Alameda snapshots<a class="anchor" aria-label="anchor" href="#build-alameda-snapshots"></a>
@@ -172,7 +201,7 @@ need.</p>
 the API caps search responses at 250 records. The result uses the same
 slim 14-column schema as <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code>, which makes it easy
 to bind or compare outputs.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">types</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"large_fccs"</span>,</span>
 <span>  <span class="st">"infant_centers"</span>,</span>
@@ -185,6 +214,13 @@ to bind or compare outputs.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">snapshots</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">types</span></span>
 <span></span>
 <span><span class="va">all_facilities</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">snapshots</span>, .id <span class="op">=</span> <span class="st">"snapshot_type"</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 6</span></span>
+<span><span class="co">#&gt;   snapshot_type facility_number facility_name          status   city    zip</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;           &lt;chr&gt;                  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 preschools    013423751       WILD CHILD SCHOOLHOUSE Licensed Oakland 94611</span></span>
+<span><span class="co">#&gt; 2 preschools    013423056       AGAPE LEARNING CENTER  Licensed Oakland 94621</span></span>
+<span><span class="co">#&gt; 3 large_fccs    013423996       JOHNSON III, JOHNNY    Licensed Oakland 94602</span></span></code></pre>
 <p>If a city hits the 250-result cap, <code><a href="../reference/ccld_alameda.html">ccld_alameda()</a></code> warns
 that the snapshot may be incomplete. Treat that warning as a cue to
 supplement with the CKAN snapshot or a narrower workflow.</p>
@@ -196,7 +232,7 @@ supplement with the CKAN snapshot or a narrower workflow.</p>
 enriched with coordinates and Census geography identifiers. The Census
 Geocoder route used by <code><a href="../reference/ccld_add_census_geographies.html">ccld_add_census_geographies()</a></code> does
 not require an API key.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">all_facilities_geo</span> <span class="op">&lt;-</span> <span class="va">all_facilities</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/ccld_add_census_geographies.html">ccld_add_census_geographies</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -211,6 +247,13 @@ not require an API key.</p>
 <span>    <span class="va">zcta_geoid</span>,</span>
 <span>    <span class="va">unified_school_district_name</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 8</span></span>
+<span><span class="co">#&gt;   facility_number geocode_status latitude longitude census_tract_geoid census_block_group_geoid zcta_geoid unified_school_district_name</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;           &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt;                    &lt;chr&gt;      &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1 013423751       geocoded           37.8     -122. 06001401100        060014011001             94611      Oakland Unified School District</span></span>
+<span><span class="co">#&gt; 2 013423056       geocoded           37.7     -122. 06001409400        060014094002             94621      Oakland Unified School District</span></span>
+<span><span class="co">#&gt; 3 013423996       not_geocoded       NA         NA  &lt;NA&gt;               &lt;NA&gt;                     &lt;NA&gt;       &lt;NA&gt;</span></span></code></pre>
 <p>Rows without usable street addresses are kept with
 <code>geocode_status = "not_geocoded"</code>. Addresses that the Census
 Geocoder cannot match are kept with
@@ -222,12 +265,22 @@ straightforward after a join or export.</p>
 </h2>
 <p>Turn on request logging when you need to see which API paths are
 being called.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ccldr.verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; ccldr.verbose</span></span>
+<span><span class="co">#&gt;           TRUE</span></span></code></pre>
 <p>Inspect cache contents when a result looks older than expected.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_cache_info.html">ccld_cache_info</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">age_seconds</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 4</span></span>
+<span><span class="co">#&gt;   key                                      size_bytes modified            age_seconds</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                                         &lt;dbl&gt; &lt;dttm&gt;                    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 FacilityDetail/013423996.qs                    2134 2026-05-20 09:12:43        812</span></span>
+<span><span class="co">#&gt; 2 FacilitySearch?facType=850&amp;city=Oakland.qs    45210 2026-05-20 09:10:02        973</span></span>
+<span><span class="co">#&gt; 3 CensusGeocoder/013423751.qs                    5821 2026-05-20 09:09:18       1017</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

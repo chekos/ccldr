@@ -95,6 +95,8 @@ Many public or local data files store the same number as 8 digits.
 canonical form.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_pad.html">ccld_pad</a></span><span class="op">(</span><span class="st">"13423996"</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; [1] "013423996"</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="why-does-ccld_verify-return-found-false">Why does <code>ccld_verify()</code> return
@@ -110,11 +112,18 @@ failed matches visible after joins.</p>
 </h2>
 <p>License inputs must contain only digits and must be 9 digits or
 fewer.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_pad.html">ccld_pad</a></span><span class="op">(</span><span class="st">"13423996"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/ccld_pad.html">ccld_pad</a></span><span class="op">(</span><span class="fl">13423996</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; [1] "013423996"</span></span>
+<span><span class="co">#&gt; [1] "013423996"</span></span></code></pre>
 <p>Values such as <code>"ABC123"</code> or <code>"0123456789"</code> are
 rejected with a <code>ccldr_invalid_input</code> error.</p>
+<p>Representative error:</p>
+<pre class="text"><code><span><span class="co">#&gt; Error:</span></span>
+<span><span class="co">#&gt; ! Facility license numbers must contain digits only.</span></span>
+<span><span class="co">#&gt; x Problem value: "ABC123"</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="why-are-small_fccs-and-centers-unsupported">Why are <code>"small_fccs"</code> and <code>"centers"</code>
@@ -145,34 +154,58 @@ response cap.</p>
 <h2 id="how-do-i-force-fresh-data">How do I force fresh data?<a class="anchor" aria-label="anchor" href="#how-do-i-force-fresh-data"></a>
 </h2>
 <p>Use <code>cache = FALSE</code> for one call:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_verify.html">ccld_verify</a></span><span class="op">(</span><span class="st">"13423996"</span>, cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 1 x 14</span></span>
+<span><span class="co">#&gt;   input    facility_number found facility_name       facility_type        status   licensee_name capacity street_address city    zip   license_effective_date date_closed last_visit_date</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;           &lt;lgl&gt; &lt;chr&gt;               &lt;chr&gt;                &lt;chr&gt;    &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt; &lt;date&gt;                 &lt;date&gt;      &lt;date&gt;</span></span>
+<span><span class="co">#&gt; 1 13423996 013423996       TRUE  JOHNSON III, JOHNNY FAMILY DAY CARE HOME Licensed JOHNNY...           14 Unavailable    OAKLAND 94602 2024-11-04             NA          2024-11-04</span></span></code></pre>
 <p>Clear the whole cache before a reproducibility run:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_cache_clear.html">ccld_cache_clear</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; Cache cleared.</span></span></code></pre>
 <p>Inspect cached responses:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_cache_info.html">ccld_cache_info</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; # A tibble: 3 x 4</span></span>
+<span><span class="co">#&gt;   key                                      size_bytes modified            age_seconds</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                                         &lt;dbl&gt; &lt;dttm&gt;                    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 FacilityDetail/013423996.qs                    2134 2026-05-20 09:12:43        812</span></span>
+<span><span class="co">#&gt; 2 FacilitySearch?facType=850&amp;city=Oakland.qs    45210 2026-05-20 09:10:02        973</span></span>
+<span><span class="co">#&gt; 3 CensusGeocoder/013423751.qs                    5821 2026-05-20 09:09:18       1017</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="how-do-i-see-api-requests">How do I see API requests?<a class="anchor" aria-label="anchor" href="#how-do-i-see-api-requests"></a>
 </h2>
 <p>Set verbose mode before running a workflow:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ccldr.verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; ccldr.verbose</span></span>
+<span><span class="co">#&gt;           TRUE</span></span></code></pre>
 <p>Slow down batch requests when running larger jobs:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>ccldr.delay <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; ccldr.delay</span></span>
+<span><span class="co">#&gt;           1</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="how-should-i-run-documentation-checks-locally">How should I run documentation checks locally?<a class="anchor" aria-label="anchor" href="#how-should-i-run-documentation-checks-locally"></a>
 </h2>
 <p>Run the same core checks used for this package:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">roxygen2</span><span class="fu">::</span><span class="fu">roxygenise</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_package.html" class="external-link">test_local</a></span><span class="op">(</span>reporter <span class="op">=</span> <span class="st">"summary"</span><span class="op">)</span></span>
 <span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">build_site</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">check</span><span class="op">(</span>error_on <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span></code></pre></div>
+<p>Representative output:</p>
+<pre class="text"><code><span><span class="co">#&gt; testthat: DONE</span></span>
+<span><span class="co">#&gt; pkgdown: Finished building pkgdown site</span></span>
+<span><span class="co">#&gt; R CMD check: Status: OK</span></span></code></pre>
 <p>If a check fails only while executing live API examples, move that
 example into a website-only article or make the chunk conditional.</p>
 </div>
