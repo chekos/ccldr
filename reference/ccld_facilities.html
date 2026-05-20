@@ -95,6 +95,28 @@ detail fields, and list-columns <code>reports</code> and <code>complaints</code>
     <p>Use <code><a href="ccld_verify.html">ccld_verify()</a></code> when you only need the slim verification schema. Use
 <code>ccld_facilities()</code> when you need full detail for a whole column of
 facilities, including visit counts, reports, and itemized complaints.</p>
+<p>Available top-level columns are: <code>input</code>, <code>facility_number</code>, <code>found</code>,
+<code>facility_name</code>, <code>facility_type</code>, <code>status</code>, <code>licensee_name</code>, <code>contact</code>,
+<code>street_address</code>, <code>city</code>, <code>state</code>, <code>zip</code>, <code>county</code>, <code>telephone</code>,
+<code>capacity</code>, <code>client_served_1</code>, <code>client_served_2</code>, <code>client_served_3</code>,
+<code>client_served_4</code>, <code>client_served_5</code>, <code>client_served_6</code>, <code>comments</code>,
+<code>comments_2</code>, <code>license_effective_date</code>, <code>license_first_date</code>,
+<code>date_closed</code>, <code>last_visit_date</code>, <code>visits_total</code>, <code>visits_complaints</code>,
+<code>visits_inspections</code>, <code>visits_other</code>, <code>cmplt_type_a</code>, <code>cmplt_type_b</code>,
+<code>cmplt_substantiated</code>, <code>cmplt_unsubstantiated</code>, <code>cmplt_inconclusive</code>,
+<code>cmplt_unfounded</code>, <code>insp_type_a</code>, <code>insp_type_b</code>, <code>other_type_a</code>,
+<code>other_type_b</code>, <code>visit_date_all</code>, <code>visit_date_complaint</code>,
+<code>visit_date_inspection</code>, <code>visit_date_other</code>, <code>district_office</code>,
+<code>district_office_address</code>, <code>district_office_city</code>, <code>district_office_state</code>,
+<code>district_office_zip</code>, <code>district_office_phone</code>, <code>complaint_count</code>,
+<code>total_complaint_visits</code>, <code>total_substantiated_allegations</code>,
+<code>total_inconclusive_allegations</code>, <code>total_unsubstantiated_allegations</code>,
+<code>total_unfounded_allegations</code>, <code>total_type_a</code>, <code>total_type_b</code>, <code>reports</code>,
+and <code>complaints</code>.</p>
+<p>The <code>reports</code> list-column contains tibbles with <code>report_date</code>,
+<code>report_title</code>, <code>report_type</code>, <code>report_page</code>, and <code>control_number</code>. The
+<code>complaints</code> list-column contains tibbles with <code>complaint_date</code>,
+<code>allegation</code>, and <code>outcome</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

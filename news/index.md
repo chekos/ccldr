@@ -2,6 +2,12 @@
 
 ## ccldr 0.3.0
 
+- Documented the full
+  [`ccld_facilities()`](https://chekos.github.io/ccldr/reference/ccld_facilities.md)
+  column set, including the nested `reports` and `complaints` schemas,
+  so users know which variables they can select after pulling full
+  facility detail.
+
 - Added
   [`ccld_facilities()`](https://chekos.github.io/ccldr/reference/ccld_facilities.md)
   to pull full facility detail for a vector of license numbers while

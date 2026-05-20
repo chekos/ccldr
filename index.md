@@ -113,6 +113,56 @@ Example output:
 #> 2 99999999 FALSE <NA>                          NA              NA
 ```
 
+Use [`names()`](https://rdrr.io/r/base/names.html) to see every
+top-level variable you can select:
+
+``` r
+
+full |>
+  names()
+```
+
+Example output:
+
+``` text
+#>  [1] "input"                            "facility_number"
+#>  [3] "found"                            "facility_name"
+#>  [5] "facility_type"                    "status"
+#>  [7] "licensee_name"                    "contact"
+#>  [9] "street_address"                   "city"
+#> [11] "state"                            "zip"
+#> [13] "county"                           "telephone"
+#> [15] "capacity"                         "client_served_1"
+#> [17] "client_served_2"                  "client_served_3"
+#> [19] "client_served_4"                  "client_served_5"
+#> [21] "client_served_6"                  "comments"
+#> [23] "comments_2"                       "license_effective_date"
+#> [25] "license_first_date"               "date_closed"
+#> [27] "last_visit_date"                  "visits_total"
+#> [29] "visits_complaints"                "visits_inspections"
+#> [31] "visits_other"                     "cmplt_type_a"
+#> [33] "cmplt_type_b"                     "cmplt_substantiated"
+#> [35] "cmplt_unsubstantiated"            "cmplt_inconclusive"
+#> [37] "cmplt_unfounded"                  "insp_type_a"
+#> [39] "insp_type_b"                      "other_type_a"
+#> [41] "other_type_b"                     "visit_date_all"
+#> [43] "visit_date_complaint"             "visit_date_inspection"
+#> [45] "visit_date_other"                 "district_office"
+#> [47] "district_office_address"          "district_office_city"
+#> [49] "district_office_state"            "district_office_zip"
+#> [51] "district_office_phone"            "complaint_count"
+#> [53] "total_complaint_visits"           "total_substantiated_allegations"
+#> [55] "total_inconclusive_allegations"   "total_unsubstantiated_allegations"
+#> [57] "total_unfounded_allegations"      "total_type_a"
+#> [59] "total_type_b"                     "reports"
+#> [61] "complaints"
+```
+
+The `reports` list-column contains report rows with `report_date`,
+`report_title`, `report_type`, `report_page`, and `control_number`. The
+`complaints` list-column contains complaint rows with `complaint_date`,
+`allegation`, and `outcome`.
+
 Pull one full facility record when you need visits, complaint counts,
 reports, or itemized complaints.
 [`ccld_facility()`](https://chekos.github.io/ccldr/reference/ccld_facility.md)

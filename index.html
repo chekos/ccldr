@@ -153,8 +153,45 @@
 <span><span class="co">#&gt;   &lt;chr&gt;    &lt;lgl&gt; &lt;chr&gt;                      &lt;int&gt;           &lt;int&gt;</span></span>
 <span><span class="co">#&gt; 1 13423996 TRUE  JOHNSON III, JOHNNY            4               0</span></span>
 <span><span class="co">#&gt; 2 99999999 FALSE &lt;NA&gt;                          NA              NA</span></span></code></pre>
-<p>Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints. <code><a href="reference/ccld_facility.html">ccld_facility()</a></code> also accepts either the 8- or 9-digit form:</p>
+<p>Use <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names()</a></code> to see every top-level variable you can select:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">full</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Example output:</p>
+<pre class="text"><code><span><span class="co">#&gt;  [1] "input"                            "facility_number"</span></span>
+<span><span class="co">#&gt;  [3] "found"                            "facility_name"</span></span>
+<span><span class="co">#&gt;  [5] "facility_type"                    "status"</span></span>
+<span><span class="co">#&gt;  [7] "licensee_name"                    "contact"</span></span>
+<span><span class="co">#&gt;  [9] "street_address"                   "city"</span></span>
+<span><span class="co">#&gt; [11] "state"                            "zip"</span></span>
+<span><span class="co">#&gt; [13] "county"                           "telephone"</span></span>
+<span><span class="co">#&gt; [15] "capacity"                         "client_served_1"</span></span>
+<span><span class="co">#&gt; [17] "client_served_2"                  "client_served_3"</span></span>
+<span><span class="co">#&gt; [19] "client_served_4"                  "client_served_5"</span></span>
+<span><span class="co">#&gt; [21] "client_served_6"                  "comments"</span></span>
+<span><span class="co">#&gt; [23] "comments_2"                       "license_effective_date"</span></span>
+<span><span class="co">#&gt; [25] "license_first_date"               "date_closed"</span></span>
+<span><span class="co">#&gt; [27] "last_visit_date"                  "visits_total"</span></span>
+<span><span class="co">#&gt; [29] "visits_complaints"                "visits_inspections"</span></span>
+<span><span class="co">#&gt; [31] "visits_other"                     "cmplt_type_a"</span></span>
+<span><span class="co">#&gt; [33] "cmplt_type_b"                     "cmplt_substantiated"</span></span>
+<span><span class="co">#&gt; [35] "cmplt_unsubstantiated"            "cmplt_inconclusive"</span></span>
+<span><span class="co">#&gt; [37] "cmplt_unfounded"                  "insp_type_a"</span></span>
+<span><span class="co">#&gt; [39] "insp_type_b"                      "other_type_a"</span></span>
+<span><span class="co">#&gt; [41] "other_type_b"                     "visit_date_all"</span></span>
+<span><span class="co">#&gt; [43] "visit_date_complaint"             "visit_date_inspection"</span></span>
+<span><span class="co">#&gt; [45] "visit_date_other"                 "district_office"</span></span>
+<span><span class="co">#&gt; [47] "district_office_address"          "district_office_city"</span></span>
+<span><span class="co">#&gt; [49] "district_office_state"            "district_office_zip"</span></span>
+<span><span class="co">#&gt; [51] "district_office_phone"            "complaint_count"</span></span>
+<span><span class="co">#&gt; [53] "total_complaint_visits"           "total_substantiated_allegations"</span></span>
+<span><span class="co">#&gt; [55] "total_inconclusive_allegations"   "total_unsubstantiated_allegations"</span></span>
+<span><span class="co">#&gt; [57] "total_unfounded_allegations"      "total_type_a"</span></span>
+<span><span class="co">#&gt; [59] "total_type_b"                     "reports"</span></span>
+<span><span class="co">#&gt; [61] "complaints"</span></span></code></pre>
+<p>The <code>reports</code> list-column contains report rows with <code>report_date</code>, <code>report_title</code>, <code>report_type</code>, <code>report_page</code>, and <code>control_number</code>. The <code>complaints</code> list-column contains complaint rows with <code>complaint_date</code>, <code>allegation</code>, and <code>outcome</code>.</p>
+<p>Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints. <code><a href="reference/ccld_facility.html">ccld_facility()</a></code> also accepts either the 8- or 9-digit form:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">facility</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"13423996"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">facility</span> <span class="op">|&gt;</span></span>
@@ -164,7 +201,7 @@
 <span><span class="co">#&gt;   facility_name       status   capacity last_visit_date</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;               &lt;chr&gt;       &lt;int&gt; &lt;date&gt;</span></span>
 <span><span class="co">#&gt; 1 JOHNSON III, JOHNNY Licensed       14 2024-11-04</span></span></code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">facility</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">reports</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">report_date</span>, <span class="va">report_type</span><span class="op">)</span></span></code></pre></div>
@@ -174,11 +211,11 @@
 <span><span class="co">#&gt;   &lt;chr&gt;           &lt;date&gt;      &lt;chr&gt;</span></span>
 <span><span class="co">#&gt; 1 013423996       2024-11-04  Other</span></span></code></pre>
 <p><code><a href="reference/ccld_verify.html">ccld_verify()</a></code> includes <code>capacity</code> and <code>date_closed</code>, which are useful when auditing sites in bulk. Pull the full facility record when you need those fields alongside richer detail:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"013423958"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">date_closed</span><span class="op">)</span></span></code></pre></div>
 <p>Build a current Alameda snapshot for a supported child-care facility type:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">preschools</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_alameda.html">ccld_alameda</a></span><span class="op">(</span><span class="st">"preschools"</span><span class="op">)</span></span>
 <span><span class="va">large_fccs</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ccld_alameda.html">ccld_alameda</a></span><span class="op">(</span><span class="st">"large_fccs"</span><span class="op">)</span></span>
 <span></span>
@@ -194,7 +231,7 @@
 <span><span class="co">#&gt; 3 013422467       COLIBRI PRESCHOOL      Licensed Oakland 94611</span></span></code></pre>
 <p>Supported Alameda types are <code>"large_fccs"</code>, <code>"infant_centers"</code>, <code>"school_age_centers"</code>, <code>"preschools"</code>, and <code>"single_licensed_centers"</code>.</p>
 <p>Append Census geography codes when you need tract, block, ZCTA, school district, or other geography fields for addressable facility rows. The Census Geocoder does not require an API key, and <code>ccldr</code> caches repeated address lookups.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">preschools_geo</span> <span class="op">&lt;-</span> <span class="va">preschools</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/ccld_add_census_geographies.html">ccld_add_census_geographies</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
