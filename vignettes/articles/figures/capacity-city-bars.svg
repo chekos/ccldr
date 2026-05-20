@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="430" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">Example bar chart of licensed preschool capacity by city</title>
+  <desc id="desc">Horizontal bar chart showing Oakland with the highest capacity, followed by Fremont, Hayward, Berkeley, and Alameda.</desc>
+  <rect width="760" height="430" fill="#ffffff"/>
+  <text x="58" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#222222">Total licensed preschool capacity by city</text>
+  <text x="58" y="68" font-family="Arial, sans-serif" font-size="14" fill="#555555">Open facilities only, representative output</text>
+  <line x1="182" y1="94" x2="182" y2="360" stroke="#cfcfcf"/>
+  <line x1="182" y1="360" x2="704" y2="360" stroke="#cfcfcf"/>
+  <g font-family="Arial, sans-serif" font-size="14" fill="#333333">
+    <text x="112" y="125">Oakland</text>
+    <text x="114" y="175">Fremont</text>
+    <text x="116" y="225">Hayward</text>
+    <text x="116" y="275">Berkeley</text>
+    <text x="116" y="325">Alameda</text>
+  </g>
+  <g fill="#2b8cbe">
+    <rect x="182" y="105" width="498" height="28"/>
+    <rect x="182" y="155" width="312" height="28"/>
+    <rect x="182" y="205" width="246" height="28"/>
+    <rect x="182" y="255" width="193" height="28"/>
+    <rect x="182" y="305" width="156" height="28"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="13" fill="#333333">
+    <text x="690" y="125">3,080</text>
+    <text x="504" y="175">1,930</text>
+    <text x="438" y="225">1,520</text>
+    <text x="385" y="275">1,190</text>
+    <text x="348" y="325">965</text>
+  </g>
+  <text x="182" y="390" font-family="Arial, sans-serif" font-size="13" fill="#555555">Licensed capacity</text>
+</svg>

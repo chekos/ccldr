@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="430" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">Example bar chart of highest-capacity Census tracts</title>
+  <desc id="desc">Horizontal bar chart ranking five Census tracts by licensed preschool capacity.</desc>
+  <rect width="760" height="430" fill="#ffffff"/>
+  <text x="58" y="42" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#222222">Highest-capacity Census tracts</text>
+  <text x="58" y="68" font-family="Arial, sans-serif" font-size="14" fill="#555555">Representative output for open preschool records</text>
+  <line x1="246" y1="94" x2="246" y2="360" stroke="#cfcfcf"/>
+  <line x1="246" y1="360" x2="704" y2="360" stroke="#cfcfcf"/>
+  <g font-family="Arial, sans-serif" font-size="13" fill="#333333">
+    <text x="92" y="125">06001409400</text>
+    <text x="92" y="175">06001401100</text>
+    <text x="92" y="225">06001433300</text>
+    <text x="92" y="275">06001442000</text>
+    <text x="92" y="325">06001450800</text>
+  </g>
+  <g fill="#31a354">
+    <rect x="246" y="105" width="386" height="28"/>
+    <rect x="246" y="155" width="321" height="28"/>
+    <rect x="246" y="205" width="279" height="28"/>
+    <rect x="246" y="255" width="234" height="28"/>
+    <rect x="246" y="305" width="196" height="28"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="13" fill="#333333">
+    <text x="642" y="125">690</text>
+    <text x="577" y="175">575</text>
+    <text x="535" y="225">500</text>
+    <text x="490" y="275">420</text>
+    <text x="452" y="325">352</text>
+  </g>
+</svg>

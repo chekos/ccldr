@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="430" viewBox="0 0 760 430" role="img" aria-labelledby="title desc">
+  <title id="title">Example scatterplot of facility count and licensed capacity</title>
+  <desc id="desc">Scatterplot showing that cities with more facilities generally have more licensed capacity, but median facility size varies.</desc>
+  <rect width="760" height="430" fill="#ffffff"/>
+  <text x="58" y="42" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#222222">Facility count and licensed capacity</text>
+  <text x="58" y="68" font-family="Arial, sans-serif" font-size="14" fill="#555555">Point size represents median capacity, representative output</text>
+  <line x1="92" y1="350" x2="704" y2="350" stroke="#cfcfcf"/>
+  <line x1="92" y1="92" x2="92" y2="350" stroke="#cfcfcf"/>
+  <g stroke="#e8e8e8">
+    <line x1="92" y1="285" x2="704" y2="285"/>
+    <line x1="92" y1="220" x2="704" y2="220"/>
+    <line x1="92" y1="155" x2="704" y2="155"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="12" fill="#555555">
+    <text x="84" y="374">0</text>
+    <text x="237" y="374">20</text>
+    <text x="390" y="374">40</text>
+    <text x="543" y="374">60</text>
+    <text x="48" y="354">0</text>
+    <text x="36" y="289">1,000</text>
+    <text x="36" y="224">2,000</text>
+    <text x="36" y="159">3,000</text>
+  </g>
+  <g fill="#225ea8" fill-opacity="0.72" stroke="#17406f">
+    <circle cx="585" cy="150" r="18"/>
+    <circle cx="385" cy="225" r="15"/>
+    <circle cx="329" cy="252" r="14"/>
+    <circle cx="260" cy="273" r="12"/>
+    <circle cx="232" cy="287" r="11"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="13" fill="#222222">
+    <text x="606" y="146">Oakland</text>
+    <text x="405" y="221">Fremont</text>
+    <text x="347" y="250">Hayward</text>
+    <text x="278" y="272">Berkeley</text>
+    <text x="250" y="292">Alameda</text>
+  </g>
+  <text x="322" y="404" font-family="Arial, sans-serif" font-size="13" fill="#555555">Open facilities</text>
+  <text x="14" y="230" transform="rotate(-90 14,230)" font-family="Arial, sans-serif" font-size="13" fill="#555555">Total licensed capacity</text>
+</svg>
