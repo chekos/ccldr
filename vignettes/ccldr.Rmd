@@ -21,7 +21,7 @@ Division (CCLD) facility data in R without leaving their scripts. It focuses on
 three workflows:
 
 - verify license numbers;
-- fetch full detail for one facility;
+- fetch full detail for one facility or a whole facility table;
 - build current Alameda County child-care snapshots;
 - append Census geographies to addressable facility rows.
 
@@ -62,6 +62,51 @@ Example output:
 
 Keeping `found = FALSE` rows in the result makes audits easier: your original
 records stay visible instead of disappearing during a join.
+
+## Slim verification vs full detail
+
+`ccld_verify()` is the bulk-friendly path. It always returns the slim
+verification schema, with one row per input license and these columns:
+
+```{r}
+verified |>
+  names()
+```
+
+Example output:
+
+```text
+#>  [1] "input"                  "facility_number"
+#>  [3] "found"                  "facility_name"
+#>  [5] "facility_type"          "status"
+#>  [7] "licensee_name"          "capacity"
+#>  [9] "street_address"         "city"
+#> [11] "zip"                    "license_effective_date"
+#> [13] "date_closed"            "last_visit_date"
+```
+
+There is no full-detail mode inside `ccld_verify()`. Use it to screen or audit
+many licenses, then call `ccld_facilities()` when you need the full API detail
+for an entire column. `ccld_facilities()` still calls CCLD one unique license at
+a time behind the scenes, but it preserves your input rows, duplicate licenses,
+and unknown licenses.
+
+```{r}
+full <- ccld_facilities(rr$license_number)
+
+full |>
+  select(input, found, facility_name, visits_total, complaint_count)
+```
+
+Example output:
+
+```text
+#> # A tibble: 2 x 5
+#>   input    found facility_name       visits_total complaint_count
+#>   <chr>    <lgl> <chr>                      <int>           <int>
+#> 1 13423996 TRUE  JOHNSON III, JOHNNY            4               0
+#> 2 99999999 FALSE <NA>                          NA              NA
+```
 
 ## Inspect one facility
 

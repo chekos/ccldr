@@ -12,7 +12,7 @@
 Use it when you need to:
 
 - verify CCLD child-care facility license numbers from an R script;
-- fetch the full detail record for a single facility;
+- fetch full detail records for one facility or a whole facility table;
 - pull a live Alameda County child-care facility snapshot by facility type;
 - append Census geographies to facility rows that have addresses.
 
@@ -57,6 +57,51 @@ Example output:
 #>   <chr>                     <chr>          <lgl> <chr>               <chr>       <int>
 #> 1 Johnson Family Child Care 13423996       TRUE  JOHNSON III, JOHNNY Licensed       14
 #> 2 Unknown Site              99999999       FALSE <NA>                <NA>          NA
+```
+
+## Slim verification vs full detail
+
+`ccld_verify()` is the bulk-friendly path. It always returns the slim
+verification schema, with one row per input license and these columns:
+
+```r
+verified |>
+  names()
+```
+
+Example output:
+
+```text
+#>  [1] "input"                  "facility_number"
+#>  [3] "found"                  "facility_name"
+#>  [5] "facility_type"          "status"
+#>  [7] "licensee_name"          "capacity"
+#>  [9] "street_address"         "city"
+#> [11] "zip"                    "license_effective_date"
+#> [13] "date_closed"            "last_visit_date"
+```
+
+There is no full-detail mode inside `ccld_verify()`. Use it to screen or audit
+many licenses, then call `ccld_facilities()` when you need the full API detail
+for an entire column. `ccld_facilities()` still calls CCLD one unique license at
+a time behind the scenes, but it preserves your input rows, duplicate licenses,
+and unknown licenses.
+
+```r
+full <- ccld_facilities(rr$license_number)
+
+full |>
+  select(input, found, facility_name, visits_total, complaint_count)
+```
+
+Example output:
+
+```text
+#> # A tibble: 2 x 5
+#>   input    found facility_name       visits_total complaint_count
+#>   <chr>    <lgl> <chr>                      <int>           <int>
+#> 1 13423996 TRUE  JOHNSON III, JOHNNY            4               0
+#> 2 99999999 FALSE <NA>                          NA              NA
 ```
 
 Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints. `ccld_facility()` also accepts either the 8- or 9-digit form:

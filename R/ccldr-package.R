@@ -15,6 +15,7 @@
 #' @seealso
 #'   - [ccld_verify()] to verify many license numbers.
 #'   - [ccld_facility()] to fetch full detail for one license.
+#'   - [ccld_facilities()] to fetch full detail for many licenses.
 #'   - [ccld_alameda()] to build live Alameda facility snapshots.
 #'   - [ccld_add_census_geographies()] to append geocodes and Census geography.
 #'

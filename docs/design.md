@@ -18,7 +18,7 @@ Bulk-inventory queries already have a home in [`chekos/ccld-open-data-snapshot`]
 
 ## Public API
 
-Four exported functions, all prefixed `ccld_`. Idiomatic R: snake_case, `match.arg()` enums for type parameters, tibble returns throughout.
+Exported functions are prefixed `ccld_`. Idiomatic R: snake_case, `match.arg()` enums for type parameters, tibble returns throughout.
 
 ### `ccld_verify(facnums, ...)`
 
@@ -52,6 +52,17 @@ Including both `input` and `facility_number` makes round-trip joining frictionle
 Single-license rich detail. Returns a one-row tibble with the full 54-field `FacilityDetail` payload, plus list-columns `reports` (from `/FacilityReports/{padded}`) and `complaints` (from `FacilityDetail.COMPLAINTARRAY`). Users `unnest()` to flatten.
 
 Use case: "I'm auditing this specific site closely and want everything CCLD knows."
+
+### `ccld_facilities(facnums)`
+
+Bulk full-detail companion to `ccld_facility()`. Accepts a vector, fetches each
+unique padded license once from the one-facility endpoints, then expands back to
+the original input order. Unknown and invalid licenses are retained as
+`found = FALSE` rows with missing scalar fields and empty `reports` and
+`complaints` list-columns.
+
+Use case: "I've already narrowed the file to a set of sites that need close
+review, and I want the full output for the whole table."
 
 ### `ccld_alameda(type)`
 

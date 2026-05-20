@@ -16,9 +16,10 @@ reference:
   - ccld_pad
   - ccld_verify
 - title: Facility detail
-  desc: Pull detailed fields, visits, reports, and complaints for a single facility.
+  desc: Pull detailed fields, visits, reports, and complaints for one or many facilities.
   contents:
   - ccld_facility
+  - ccld_facilities
 - title: Alameda snapshots
   desc: Fetch current Alameda County child-care facility snapshots by facility type.
   contents:
