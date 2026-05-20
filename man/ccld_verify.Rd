@@ -28,6 +28,11 @@ they appear as rows with \code{found = FALSE} and \code{NA}s in the data columns
 Inputs are padded with \code{\link[=ccld_pad]{ccld_pad()}} before requests are made. Duplicate
 license numbers are fetched once and then expanded back to the original input
 order, which keeps joins predictable and avoids unnecessary API calls.
+
+\code{ccld_verify()} always returns the slim bulk-verification schema documented
+in the return value. It does not have a full-detail mode. After identifying
+the facilities that need deeper review, use \code{\link[=ccld_facility]{ccld_facility()}} to pull the
+full API detail for one license at a time, including reports and complaints.
 }
 \examples{
 \dontrun{

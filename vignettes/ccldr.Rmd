@@ -63,6 +63,32 @@ Example output:
 Keeping `found = FALSE` rows in the result makes audits easier: your original
 records stay visible instead of disappearing during a join.
 
+## Slim verification vs full detail
+
+`ccld_verify()` is the bulk-friendly path. It always returns the slim
+verification schema, with one row per input license and these columns:
+
+```{r}
+verified |>
+  names()
+```
+
+Example output:
+
+```text
+#>  [1] "input"                  "facility_number"
+#>  [3] "found"                  "facility_name"
+#>  [5] "facility_type"          "status"
+#>  [7] "licensee_name"          "capacity"
+#>  [9] "street_address"         "city"
+#> [11] "zip"                    "license_effective_date"
+#> [13] "date_closed"            "last_visit_date"
+```
+
+There is no full-detail mode inside `ccld_verify()`. Use it to screen or audit
+many licenses, then call `ccld_facility()` for one facility when you need the
+full API detail, including visits, reports, and complaints.
+
 ## Inspect one facility
 
 Use `ccld_facility()` when you need the full API record for one known license.

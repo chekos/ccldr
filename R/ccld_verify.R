@@ -8,6 +8,11 @@
 #' license numbers are fetched once and then expanded back to the original input
 #' order, which keeps joins predictable and avoids unnecessary API calls.
 #'
+#' `ccld_verify()` always returns the slim bulk-verification schema documented
+#' in the return value. It does not have a full-detail mode. After identifying
+#' the facilities that need deeper review, use [ccld_facility()] to pull the
+#' full API detail for one license at a time, including reports and complaints.
+#'
 #' @param facnums Character or numeric vector of facility license numbers.
 #'   Accepts 8- or 9-digit forms; padded internally via [ccld_pad()].
 #' @param cache Logical value (default `TRUE`) controlling whether the on-disk

@@ -59,6 +59,32 @@ Example output:
 #> 2 Unknown Site              99999999       FALSE <NA>                <NA>          NA
 ```
 
+## Slim verification vs full detail
+
+`ccld_verify()` is the bulk-friendly path. It always returns the slim
+verification schema, with one row per input license and these columns:
+
+```r
+verified |>
+  names()
+```
+
+Example output:
+
+```text
+#>  [1] "input"                  "facility_number"
+#>  [3] "found"                  "facility_name"
+#>  [5] "facility_type"          "status"
+#>  [7] "licensee_name"          "capacity"
+#>  [9] "street_address"         "city"
+#> [11] "zip"                    "license_effective_date"
+#> [13] "date_closed"            "last_visit_date"
+```
+
+There is no full-detail mode inside `ccld_verify()`. Use it to screen or audit
+many licenses, then call `ccld_facility()` for one facility when you need the
+full API detail, including visits, reports, and complaints.
+
 Pull one full facility record when you need visits, complaint counts, reports, or itemized complaints. `ccld_facility()` also accepts either the 8- or 9-digit form:
 
 ```r
