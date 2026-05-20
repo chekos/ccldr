@@ -68,6 +68,13 @@ The quickstart should move from the safest zero-network helper (`ccld_pad()`) to
 
 All reference pages should use markdown links, `@family` tags, examples that do not hit the live API during checks, and explicit default values in parameter descriptions.
 
+Documentation is not done if it only shows code. Every code snippet that would
+produce a visible result should be followed by representative output: a printed
+table, vector, warning/error text, file-writing message, or rendered chart
+preview. For live API workflows, keep chunks non-evaluated and use static
+representative outputs so package checks remain deterministic while readers
+still see what the workflow produces.
+
 ## Vignette and article plan
 
 - `ccldr.Rmd`: Audience is analysts installing the package or reading local help. Outline: install/load, license number padding, verify a column, inspect one facility, pull an Alameda snapshot, cache behavior, next links.
