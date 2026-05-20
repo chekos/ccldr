@@ -50,6 +50,8 @@ articles:
 
 news:
   releases:
+  - text: "Version 0.4.0"
+    href: news/index.html#ccldr-040
   - text: "Version 0.3.0"
     href: news/index.html#ccldr-030
   - text: "Version 0.2.0"

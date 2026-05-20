@@ -1,4 +1,4 @@
-# ccldr 0.3.0
+# ccldr 0.4.0
 
 * Documented the full `ccld_facilities()` column set, including the nested
   `reports` and `complaints` schemas, so users know which variables they can
@@ -26,6 +26,8 @@
 * `ccld_verify()` now includes `date_closed`, parsed from the CCLD
   `DATECLOSED` field, so closure audits can run across a vector of license
   numbers.
+
+# ccldr 0.3.0
 
 * `ccld_add_census_geographies()` adds no-key U.S. Census Geocoder enrichment
   for facility rows, including latitude/longitude, Census tract, block, block

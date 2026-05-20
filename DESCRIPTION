@@ -1,6 +1,6 @@
 Package: ccldr
 Title: R Client for the CCLD Transparency API
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: person("Sergio", "Sanchez", email = "sergio.sanchez@first5alameda.org", role = c("aut", "cre"))
 Description: Verify license numbers, pull facility detail, snapshot Alameda child-care facilities, and append Census geographies using public CCLD and Census APIs.
 License: MIT + file LICENSE
