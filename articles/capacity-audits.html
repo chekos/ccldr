@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Closure date audits • ccldr</title>
+<title>Capacity audits • ccldr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
-<meta property="og:title" content="Closure date audits">
+<meta property="og:title" content="Capacity audits">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -76,39 +76,40 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Closure date audits</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Capacity audits</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/chekos/ccldr/blob/main/vignettes/articles/closure-date-audits.Rmd" class="external-link"><code>vignettes/articles/closure-date-audits.Rmd</code></a></small>
-      <div class="d-none name"><code>closure-date-audits.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/chekos/ccldr/blob/main/vignettes/articles/capacity-audits.Rmd" class="external-link"><code>vignettes/articles/capacity-audits.Rmd</code></a></small>
+      <div class="d-none name"><code>capacity-audits.Rmd</code></div>
     </div>
 
     
     
-<p>Use this workflow when you have a list of sites and need to know
-which ones have closed, when they closed, and whether the CCLD record
-still matches your local source.</p>
+<p>Use this workflow when you have a list of sites and need to compare
+your local licensed-capacity records against the current CCLD facility
+record.</p>
 <p>The examples are not evaluated during site builds because they call
 the live CCLD Transparency API.</p>
 <div class="section level2">
 <h2 id="start-with-your-site-list">Start with your site list<a class="anchor" aria-label="anchor" href="#start-with-your-site-list"></a>
 </h2>
-<p>Your source file only needs one column with CCLD license numbers.
-Keep whatever site identifiers you use locally so the results can be
-joined back cleanly.</p>
+<p>Your source file needs one column with CCLD license numbers and, if
+you want to compare local values, one column with your local capacity
+value.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://chekos.github.io/ccldr/">ccldr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">sites</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"rr_sites_2026.csv"</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html" class="external-link">cols</a></span><span class="op">(</span>.default <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">sites</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="st">"rr_sites_2026.csv"</span>, col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html" class="external-link">cols</a></span><span class="op">(</span>.default <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>local_capacity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">local_capacity</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="verify-first">Verify first<a class="anchor" aria-label="anchor" href="#verify-first"></a>
 </h2>
 <p>Run <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> first. It screens unknown or invalid
-licenses and returns current status and closure dates for every input
-row.</p>
+licenses and returns licensed capacity for every facility found by the
+API.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">verified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_verify.html">ccld_verify</a></span><span class="op">(</span><span class="va">sites</span><span class="op">$</span><span class="va">license_number</span><span class="op">)</span></span>
 <span></span>
@@ -117,80 +118,97 @@ row.</p>
 <span></span>
 <span><span class="va">sites_verified</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">found</span>, <span class="va">status</span>, sort <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> is the right first pass for a full file.
-It includes <code>capacity</code> from the CCLD <code>CAPACITY</code>
-field and <code>date_closed</code> from the <code>DATECLOSED</code>
-field when the API has those values for the facility.</p>
+<p><code>capacity</code> is parsed from the CCLD <code>CAPACITY</code>
+field. If a license is unknown, invalid, or not found,
+<code>capacity</code> is <code>NA</code>.</p>
 </div>
 <div class="section level2">
-<h2 id="flag-closed-sites">Flag closed sites<a class="anchor" aria-label="anchor" href="#flag-closed-sites"></a>
+<h2 id="compare-capacities">Compare capacities<a class="anchor" aria-label="anchor" href="#compare-capacities"></a>
 </h2>
-<p>Use <code>date_closed</code> and the current CCLD status to flag
-likely closures.</p>
+<p>Compare your local capacity value with the current CCLD value. Keep
+missing values visible so they can be reviewed instead of silently
+dropping out.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">closure_audit</span> <span class="op">&lt;-</span> <span class="va">sites_verified</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">capacity_audit</span> <span class="op">&lt;-</span> <span class="va">sites_verified</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    is_closed <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">date_closed</span><span class="op">)</span> <span class="op">|</span></span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^Closed"</span>, <span class="va">status</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    capacity_delta <span class="op">=</span> <span class="va">capacity</span> <span class="op">-</span> <span class="va">local_capacity</span>,</span>
+<span>    capacity_matches <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">capacity</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>      <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">local_capacity</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>      <span class="va">capacity</span> <span class="op">==</span> <span class="va">local_capacity</span>,</span>
+<span>    needs_capacity_review <span class="op">=</span> <span class="op">!</span><span class="va">found</span> <span class="op">|</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">capacity</span><span class="op">)</span> <span class="op">|</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">local_capacity</span><span class="op">)</span> <span class="op">|</span></span>
+<span>      <span class="va">capacity</span> <span class="op">!=</span> <span class="va">local_capacity</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="review-closed-and-unmatched-sites">Review closed and unmatched sites<a class="anchor" aria-label="anchor" href="#review-closed-and-unmatched-sites"></a>
+<h2 id="review-mismatches">Review mismatches<a class="anchor" aria-label="anchor" href="#review-mismatches"></a>
 </h2>
-<p>Closed facilities usually have a <code>status</code> beginning with
-<code>"Closed"</code> and a non-missing <code>date_closed</code>. Open
-facilities usually return <code>NA</code> for
-<code>date_closed</code>.</p>
+<p>Sort records that need review by the size of the difference, then
+keep the fields that make follow-up easy.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">closure_audit</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_closed</span> <span class="op">|</span> <span class="op">!</span><span class="va">found</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">is_closed</span><span class="op">)</span>, <span class="va">date_closed</span>, <span class="va">site_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">capacity_audit</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">needs_capacity_review</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">capacity_delta</span><span class="op">)</span><span class="op">)</span>, <span class="va">site_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
 <span>    <span class="va">site_name</span>,</span>
 <span>    <span class="va">license_number</span>,</span>
 <span>    <span class="va">found</span>,</span>
 <span>    <span class="va">facility_name</span>,</span>
 <span>    <span class="va">status</span>,</span>
-<span>    <span class="va">date_closed</span>,</span>
-<span>    <span class="va">last_visit_date</span></span>
+<span>    <span class="va">local_capacity</span>,</span>
+<span>    <span class="va">capacity</span>,</span>
+<span>    <span class="va">capacity_delta</span>,</span>
+<span>    <span class="va">date_closed</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>If a facility is found but has <code>date_closed = NA</code>, treat
-it as not having a closure date in the current CCLD detail response.</p>
+<p>If <code>capacity = NA</code> for a found facility, treat it as
+missing in the current CCLD detail response and review the facility
+manually.</p>
 </div>
 <div class="section level2">
 <h2 id="refresh-deliberately">Refresh deliberately<a class="anchor" aria-label="anchor" href="#refresh-deliberately"></a>
 </h2>
-<p>The package caches API responses while you work. For a closure audit,
-clear the cache at the start of a scheduled run or bypass the cache when
-checking one important facility.</p>
+<p>The package caches API responses while you work. For a capacity
+audit, clear the cache at the start of a scheduled run or bypass the
+cache when checking one important facility.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ccld_cache_clear.html">ccld_cache_clear</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">closure_detail</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_facility.html">ccld_facility</a></span><span class="op">(</span><span class="st">"013423958"</span>, cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">date_closed</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/ccld_verify.html">ccld_verify</a></span><span class="op">(</span><span class="st">"013423996"</span>, cache <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">facility_number</span>, <span class="va">facility_name</span>, <span class="va">status</span>, <span class="va">capacity</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="a-compact-helper">A compact helper<a class="anchor" aria-label="anchor" href="#a-compact-helper"></a>
 </h2>
 <p>For repeated audits, wrap the workflow in a small helper. This keeps
-the bulk verification step explicit.</p>
+the bulk verification step explicit and makes the local capacity column
+configurable.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">add_closure_dates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">license_col</span> <span class="op">=</span> <span class="va">license_number</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="va">add_capacity_audit</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">license_col</span> <span class="op">=</span> <span class="va">license_number</span>, <span class="va">capacity_col</span> <span class="op">=</span> <span class="va">local_capacity</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">data</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>.license_input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">license_col</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>      .license_input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">license_col</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span>,</span>
+<span>      .local_capacity <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">{</span><span class="op">{</span> <span class="va">capacity_col</span> <span class="op">}</span><span class="op">}</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">verified</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ccld_verify.html">ccld_verify</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">.license_input</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">data</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="va">verified</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">input</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>      is_closed <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">date_closed</span><span class="op">)</span> <span class="op">|</span></span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^Closed"</span>, <span class="va">status</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>      capacity_delta <span class="op">=</span> <span class="va">capacity</span> <span class="op">-</span> <span class="va">.local_capacity</span>,</span>
+<span>      capacity_matches <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">capacity</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>        <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.local_capacity</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<span>        <span class="va">capacity</span> <span class="op">==</span> <span class="va">.local_capacity</span>,</span>
+<span>      needs_capacity_review <span class="op">=</span> <span class="op">!</span><span class="va">found</span> <span class="op">|</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">capacity</span><span class="op">)</span> <span class="op">|</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.local_capacity</span><span class="op">)</span> <span class="op">|</span></span>
+<span>        <span class="va">capacity</span> <span class="op">!=</span> <span class="va">.local_capacity</span></span>
 <span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">.license_input</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">closure_audit</span> <span class="op">&lt;-</span> <span class="fu">add_closure_dates</span><span class="op">(</span><span class="va">sites</span>, <span class="va">license_number</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">capacity_audit</span> <span class="op">&lt;-</span> <span class="fu">add_capacity_audit</span><span class="op">(</span><span class="va">sites</span>, <span class="va">license_number</span>, <span class="va">local_capacity</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

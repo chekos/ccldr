@@ -192,6 +192,8 @@ calls the U.S. Census Geocoder once per distinct address, requests
 - Get started:
   [`vignette("ccldr")`](https://chekos.github.io/ccldr/articles/ccldr.md)
 - Reference site: <https://chekos.github.io/ccldr/>
+- Capacity audits:
+  <https://chekos.github.io/ccldr/articles/capacity-audits.html>
 - Closure date audits:
   <https://chekos.github.io/ccldr/articles/closure-date-audits.html>
 - Live workflow guide:

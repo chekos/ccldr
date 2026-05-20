@@ -231,6 +231,7 @@ options(ccldr.cache_ttl_seconds = 3600)
 Read the website articles for recurring script patterns and
 troubleshooting:
 
+- <https://chekos.github.io/ccldr/articles/capacity-audits.html>
 - <https://chekos.github.io/ccldr/articles/closure-date-audits.html>
 - <https://chekos.github.io/ccldr/articles/live-api-workflows.html>
 - <https://chekos.github.io/ccldr/articles/troubleshooting.html>

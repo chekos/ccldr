@@ -21,6 +21,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Workflows</h6></li>
+    <li><a class="dropdown-item" href="../articles/capacity-audits.html">Capacity audits</a></li>
     <li><a class="dropdown-item" href="../articles/closure-date-audits.html">Closure date audits</a></li>
     <li><a class="dropdown-item" href="../articles/live-api-workflows.html">Live API workflows</a></li>
     <li><a class="dropdown-item" href="../articles/troubleshooting.html">Troubleshooting and FAQ</a></li>
@@ -49,7 +50,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="ccldr-030">ccldr 0.3.0<a class="anchor" aria-label="anchor" href="#ccldr-030"></a></h2>
-<ul><li><p><code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> now includes <code>capacity</code>, parsed from the CCLD <code>CAPACITY</code> field, so licensed capacity is available in bulk verification output.</p></li>
+<ul><li><p>Added a capacity audit article showing how to compare local licensed-capacity records against <code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> output.</p></li>
+<li><p><code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> now includes <code>capacity</code>, parsed from the CCLD <code>CAPACITY</code> field, so licensed capacity is available in bulk verification output.</p></li>
 <li><p><code><a href="../reference/ccld_verify.html">ccld_verify()</a></code> now includes <code>date_closed</code>, parsed from the CCLD <code>DATECLOSED</code> field, so closure audits can run across a vector of license numbers.</p></li>
 <li><p><code><a href="../reference/ccld_add_census_geographies.html">ccld_add_census_geographies()</a></code> adds no-key U.S. Census Geocoder enrichment for facility rows, including latitude/longitude, Census tract, block, block group, ZCTA, place, county subdivision, urban area, legislative districts, and school district fields when available.</p></li>
 <li><p>Census Geocoder responses are deduplicated by address and cached on disk, matching the package’s existing cache behavior.</p></li>

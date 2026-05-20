@@ -2,6 +2,11 @@
 
 ## ccldr 0.3.0
 
+- Added a capacity audit article showing how to compare local
+  licensed-capacity records against
+  [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
+  output.
+
 - [`ccld_verify()`](https://chekos.github.io/ccldr/reference/ccld_verify.md)
   now includes `capacity`, parsed from the CCLD `CAPACITY` field, so
   licensed capacity is available in bulk verification output.
