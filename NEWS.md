@@ -1,5 +1,9 @@
 # ccldr 0.3.0
 
+* Documented the full `ccld_facilities()` column set, including the nested
+  `reports` and `complaints` schemas, so users know which variables they can
+  select after pulling full facility detail.
+
 * Added `ccld_facilities()` to pull full facility detail for a vector of
   license numbers while preserving input rows, duplicate licenses, and unknown
   licenses.

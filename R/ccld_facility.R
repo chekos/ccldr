@@ -51,6 +51,30 @@ ccld_facility <- function(facnum, cache = TRUE) {
 #' `ccld_facilities()` when you need full detail for a whole column of
 #' facilities, including visit counts, reports, and itemized complaints.
 #'
+#' Available top-level columns are: `input`, `facility_number`, `found`,
+#' `facility_name`, `facility_type`, `status`, `licensee_name`, `contact`,
+#' `street_address`, `city`, `state`, `zip`, `county`, `telephone`,
+#' `capacity`, `client_served_1`, `client_served_2`, `client_served_3`,
+#' `client_served_4`, `client_served_5`, `client_served_6`, `comments`,
+#' `comments_2`, `license_effective_date`, `license_first_date`,
+#' `date_closed`, `last_visit_date`, `visits_total`, `visits_complaints`,
+#' `visits_inspections`, `visits_other`, `cmplt_type_a`, `cmplt_type_b`,
+#' `cmplt_substantiated`, `cmplt_unsubstantiated`, `cmplt_inconclusive`,
+#' `cmplt_unfounded`, `insp_type_a`, `insp_type_b`, `other_type_a`,
+#' `other_type_b`, `visit_date_all`, `visit_date_complaint`,
+#' `visit_date_inspection`, `visit_date_other`, `district_office`,
+#' `district_office_address`, `district_office_city`, `district_office_state`,
+#' `district_office_zip`, `district_office_phone`, `complaint_count`,
+#' `total_complaint_visits`, `total_substantiated_allegations`,
+#' `total_inconclusive_allegations`, `total_unsubstantiated_allegations`,
+#' `total_unfounded_allegations`, `total_type_a`, `total_type_b`, `reports`,
+#' and `complaints`.
+#'
+#' The `reports` list-column contains tibbles with `report_date`,
+#' `report_title`, `report_type`, `report_page`, and `control_number`. The
+#' `complaints` list-column contains tibbles with `complaint_date`,
+#' `allegation`, and `outcome`.
+#'
 #' @inheritParams ccld_facility
 #' @param facnums Character or numeric vector of facility license numbers.
 #'   Accepts 8- or 9-digit forms; padded internally via [ccld_pad()].
