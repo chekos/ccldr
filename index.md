@@ -194,6 +194,8 @@ calls the U.S. Census Geocoder once per distinct address, requests
 - Reference site: <https://chekos.github.io/ccldr/>
 - Capacity audits:
   <https://chekos.github.io/ccldr/articles/capacity-audits.html>
+- Capacity by geography:
+  <https://chekos.github.io/ccldr/articles/capacity-geography-analysis.html>
 - Closure date audits:
   <https://chekos.github.io/ccldr/articles/closure-date-audits.html>
 - Live workflow guide:
