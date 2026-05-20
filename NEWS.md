@@ -1,5 +1,8 @@
 # ccldr 0.3.0
 
+* Added a capacity-by-geography analysis article with city, ZCTA, tract, and
+  closure-date summaries plus `ggplot2` chart examples.
+
 * Added a capacity audit article showing how to compare local licensed-capacity
   records against `ccld_verify()` output.
 

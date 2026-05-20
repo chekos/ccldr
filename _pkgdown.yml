@@ -42,6 +42,7 @@ articles:
   navbar: Workflows
   contents:
   - matches("capacity-audits")
+  - matches("capacity-geography-analysis")
   - matches("closure-date-audits")
   - matches("live-api-workflows")
   - matches("troubleshooting")
